@@ -1,0 +1,68 @@
+@keyframes slide {
+    0% { transform: translateX(0); opacity: 0.8; }
+    100% { transform: translateX(10px); opacity: 1; }
+}
+
+body {
+    background: linear-gradient(180deg, rgb(156, 29, 17) 0%, rgba(113, 41, 4, 0.34) 55%, rgb(87, 16, 10) 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden; /* <--- скрывает прокрутку */
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700; /* 700 — это жирный */
+    color: white;
+    padding-top: 20px;
+}
+
+.logo {
+    margin-top: 40px; /* немного отступ сверху */
+}
+
+.logo img {
+    width: 180px;  /* увеличили ширину логотипа */
+    height: auto;
+}
+
+.content {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.card {
+    background: hsla(0, 0%, 45%, 0.522);
+    padding: 80px 100px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 53px;
+    font-weight: bold;
+    width: 800px;               /* фиксированная ширина */
+    height: 450px;              /* фиксированная высота */
+    box-sizing: border-box;
+}
+
+.card-text {
+    margin-bottom: 10px; /* или меньше, чтобы текст и смайл были ближе */
+    transform: translateY(-30px); /* немного выше */
+}
+
+.card img {
+    margin-top: 7px; /* было 20px, теперь выше */
+    width: 100px;
+}
+
+.arrow {
+    animation: slide 0.5s infinite alternate;
+    margin-top: -70px;
+}
+
+.arrow img {
+    width: 180px;
+    height: auto;
+    margin-left: 180px;
+}
