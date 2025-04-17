@@ -54,6 +54,12 @@
             const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
             passwordInput.setAttribute("type", type);
         }
+
+        // Здесь переход на dashboard
+        document.querySelector('.login-submit').addEventListener('click', function () {
+        // тут может быть проверка логина/пароля
+        window.location.href = "/dashboard";
+        });
     </script>
 </body>
 </html>

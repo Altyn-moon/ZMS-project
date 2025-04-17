@@ -150,3 +150,43 @@ input {
     width: 100%;
     cursor: pointer;
 }
+
+.task-table {
+    width: 100%;
+    margin-top: 30px;
+    border-collapse: collapse;
+    color: white;
+    font-size: 18px;
+    animation: fade 0.3s ease-in-out;
+}
+
+.task-table th, .task-table td {
+    padding: 12px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    text-align: left;
+}
+
+.task-table th {
+    background-color: rgba(255, 255, 255, 0.1);
+    font-size: 20px;
+}
+
+.task-table tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.task-table td button {
+    padding: 8px 18px;
+    border: none;
+    border-radius: 8px;
+    background-color: #a00000;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.task-table td button:hover {
+    background-color: #c80000;
+}
+

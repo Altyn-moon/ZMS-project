@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Рабочая карта</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .header {
+            background-color: #8B0000;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+            color: black;
+        }
+
+        th, td {
+            padding: 15px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .btn-start {
+            background-color: #a00000;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .notification {
+            background: #fff;
+            color: #8B0000;
+            padding: 5px 12px;
+            border-radius: 50%;
+            font-weight: bold;
+        }
+
+        .logout-link {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">ZMS</div>
+        <div class="user-info">
+            <span class="notification">🔔</span>
+            <span>{{ user_name }}</span>
+            <a href="/logout" class="logout-link">Выйти</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2>Рабочие задания</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>№</th>
+                    <th>Наименование работы</th>
+                    <th>Заказчик</th>
+                    <th>Номер работы</th>
+                    <th>Действие</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in work_items %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.client }}</td>
+                    <td>{{ item.job_num }}</td>
+                    <td><button class="btn-start">В работу</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
