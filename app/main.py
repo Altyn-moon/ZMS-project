@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-#арай сказала привет
-=======
-#привет я асека
->>>>>>> 934cd771b746087c703be1f3578394ce5f24caec
-# app/main.py
-
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
