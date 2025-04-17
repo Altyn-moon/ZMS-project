@@ -1,3 +1,4 @@
+#привет я асека
 # app/main.py
 
 from fastapi import FastAPI, Request
@@ -21,3 +22,5 @@ app.include_router(auth.router)
 #from app.models import Base
 
 #Base.metadata.create_all(bind=engine)
+
+
