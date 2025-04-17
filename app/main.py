@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 #арай сказала привет
+=======
+#привет я асека
+>>>>>>> 934cd771b746087c703be1f3578394ce5f24caec
 # app/main.py
 
 from fastapi import FastAPI, Request
@@ -22,3 +26,5 @@ app.include_router(auth.router)
 #from app.models import Base
 
 #Base.metadata.create_all(bind=engine)
+
+
