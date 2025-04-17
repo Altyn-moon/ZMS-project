@@ -1,3 +1,4 @@
+/*
 @keyframes slide {
     0% { transform: translateX(0); opacity: 0.8; }
     100% { transform: translateX(10px); opacity: 1; }
@@ -11,20 +12,20 @@ body {
     justify-content: flex-start;
     height: 100vh;
     margin: 0;
-    overflow: hidden; /* <--- скрывает прокрутку */
-    font-family: 'Manrope', sans-serif;
+    overflow: hidden; /* скрывает прокрутку */
+ /*   font-family: 'Manrope', sans-serif;
     font-weight: 700; /* 700 — это жирный */
-    color: white;
+  /*  color: white;
     padding-top: 20px;
 }
 
 .logo {
     margin-top: 40px; /* немного отступ сверху */
-}
+/*}
 
 .logo img {
     width: 180px;  /* увеличили ширину логотипа */
-    height: auto;
+ /*   height: auto;
 }
 
 .content {
@@ -42,18 +43,18 @@ body {
     font-size: 53px;
     font-weight: bold;
     width: 800px;               /* фиксированная ширина */
-    height: 450px;              /* фиксированная высота */
-    box-sizing: border-box;
+  /*  height: 450px;              /* фиксированная высота */
+ /*   box-sizing: border-box;
 }
 
 .card-text {
     margin-bottom: 10px; /* или меньше, чтобы текст и смайл были ближе */
-    transform: translateY(-30px); /* немного выше */
-}
+ /*   transform: translateY(-30px); /* немного выше */
+/*}
 
 .card img {
     margin-top: 7px; /* было 20px, теперь выше */
-    width: 100px;
+ /*   width: 100px;
 }
 
 .arrow {
@@ -65,4 +66,159 @@ body {
     width: 180px;
     height: auto;
     margin-left: 180px;
+}  */
+
+/* Основной стиль для страницы */
+
+@keyframes slide {
+    0% { transform: translateX(0); opacity: 0.8; }
+    100% { transform: translateX(10px); opacity: 1; }
+}
+
+@keyframes fade {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+body {
+    background: linear-gradient(180deg, rgb(156, 29, 17) 0%, rgba(113, 41, 4, 0.34) 55%, rgb(87, 16, 10) 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    color: white;
+}
+
+.logo {
+    margin-bottom: 20px;
+}
+
+.content,
+.login-container {
+    display: none;
+    animation: fade 0.3s ease-in-out;
+}
+
+.content.active,
+.login-container.active {
+    display: flex;
+}
+
+.content {
+    flex-direction: column;
+    align-items: center;
+}
+
+.card {
+    background: hsla(0, 0%, 45%, 0.522);
+    padding: 60px 80px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 42px;
+    font-weight: bold;
+    width: 800px;
+    height: 400px;
+    box-sizing: border-box;
+}
+
+.card-text {
+    margin-bottom: 10px;
+    transform: translateY(-30px);
+}
+
+.card img {
+    margin-top: 7px;
+    width: 100px;
+}
+
+.arrow {
+    animation: slide 0.5s infinite alternate;
+    margin-top: -40px;
+}
+
+.arrow img {
+    width: 180px;
+    height: auto;
+    margin-left: 180px;
+}
+
+.login-btn,
+.back-btn,
+.login-submit {
+    background-color: #a00000;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-top: 20px;
+    width: 70%;
+}
+
+.back-btn {
+    background-color: transparent;
+    border: 2px solid #fff;
+    margin-top: 10px;
+}
+
+.login-container {
+    flex-direction: column;
+    align-items: center;
+    background: rgba(100, 100, 100, 0.5);
+    padding: 30px;
+    border-radius: 10px;
+    width: 400px;
+    text-align: center;
+}
+
+label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+    text-align: left;
+    width: 100%;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    background: transparent;
+    color: white;
+    box-sizing: border-box;
+}
+
+.password-container {
+    position: relative;
+    width: 100%;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: 16px;
+}
+
+.forgot-password {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #fff;
+    text-align: right;
+    width: 100%;
+    cursor: pointer;
 }
