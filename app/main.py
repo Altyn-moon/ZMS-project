@@ -1,3 +1,4 @@
+#арай сказала привет
 # app/main.py
 
 from fastapi import FastAPI, Request
