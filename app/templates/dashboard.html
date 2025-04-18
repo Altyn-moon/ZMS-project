@@ -6,13 +6,23 @@
     <link rel="stylesheet" href="/static/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        body {
+            margin: 0;
+            font-family: 'Manrope', sans-serif;
+            
+            color: #111;
+            background: #f2f2f2;
+        }
+
         .header {
-            background-color: #8B0000;
+            background: linear-gradient(90deg, rgb(156, 29, 17) 0%, rgba(113, 41, 4, 0.34) 55%, rgb(87, 16, 10) 100%); 
             color: white;
-            padding: 15px 30px;
+            padding: 5px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            width: 1480px;
+            height: 60px;
         }
 
         .header .user-info {
@@ -23,14 +33,19 @@
 
         .container {
             padding: 30px;
+            max-width: 1200px;
+            margin: auto;
         }
 
         table {
-            width: 100%;
+            width: 1500px;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: -15px;
             background-color: white;
             color: black;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-left: -150px;
         }
 
         th, td {
@@ -40,24 +55,28 @@
         }
 
         th {
-            background-color: #f0f0f0;
+            background-color: #f7f7f7;
+            font-weight: 700;
         }
 
         .btn-start {
             background-color: #a00000;
             color: white;
-            padding: 8px 16px;
+            padding: 10px 20px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-start:hover {
+            background-color: #c40000;
         }
 
         .notification {
-            background: #fff;
             color: #8B0000;
             padding: 5px 12px;
-            border-radius: 50%;
-            font-weight: bold;
+            
         }
 
         .logout-link {
@@ -65,20 +84,134 @@
             text-decoration: none;
             font-weight: bold;
         }
+
+        .logo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        } 
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 10px 20px;
+            border-bottom: 2px solid #ddd;
+            position: relative;
+            width: 1498px;
+        }
+
+        .header-left,
+        .header-center,
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-left {
+            flex: 1;
+        }
+
+        .header-center {
+            flex: 1;
+            justify-content: center;
+        }
+
+        .header-right {
+            flex: 1;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .logo {
+            padding-top: 25px;
+            height: 80px;
+        }
+
+        .icon {
+            height: 30px;
+            
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .small-icon {
+            height: 30px;
+            margin-right: 5px;
+        }
+
+        .user-button {
+            background: none;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-size: 20px;
+            color: #fff;
+        }
+
+        .left-button{
+            background: none;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .logout-button {
+            background-color: #a00000;
+            color: #fff;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .logout-button .icon {
+            margin-right: 5px;
+        }
+
+
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="logo">ZMS</div>
-        <div class="user-info">
-            <span class="notification">🔔</span>
-            <span>{{ user_name }}</span>
-            <a href="/logout" class="logout-link">Выйти</a>
+    <div class="header">
+        <div class="header-left">
+            <button class="left-button">
+                <img src="/static/help.png" alt="Инструкция" class="icon clickable"> 
+            </button>
+            <button class="left-button">
+                <img src="/static/notification.png" alt="Уведомления" class="icon clickable">
+            </button>
         </div>
-    </header>
+    
+        <div class="header-center">
+            <img src="/static/logo.png" alt="ZMS Logo" class="logo">
+        </div>
+    
+        <div class="header-right">
+            <button class="user-button">
+                <img src="/static/user-icon.png" alt="User Icon" class="icon small-icon">
+                {{ user_name }}
+            </button>
+            <button class="logout-button">
+                <img src="/static/logout.png" alt="Выход" class="icon small-icon">
+                Выйти
+            </button>
+        </div>
+    </div>
+    
 
     <div class="container">
-        <h2>Рабочие задания</h2>
         <table>
             <thead>
                 <tr>
