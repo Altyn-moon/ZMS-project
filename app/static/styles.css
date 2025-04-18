@@ -8,6 +8,26 @@
     to { opacity: 1; transform: scale(1); }
 }
 
+@keyframes eye-blink {
+  0% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scaleY(0.1);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+.blink-animation {
+  animation: eye-blink 0.25s ease-in-out;
+  transform-origin: center;
+}
+  
 * {
     font-family: 'Manrope', sans-serif;
 }
@@ -136,6 +156,8 @@ input {
 
 .password-container {
     position: relative;
+    display: flex;
+    align-items: center; /* выравнивает по вертикали */
     width: 100%;
 }
 
@@ -147,10 +169,19 @@ input {
     background: none;
     border: none;
     cursor: pointer;
-    color: white;
-    font-size: 16px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+.toggle-password img {
+    width: 24px;
+    display: block;
+    height: 24px; /* или свой размер */
+    margin-top: -8px; /* чуть вверх/вниз подкорректировать */
+    }
+    
 .forgot-password {
     display: block;
     margin-top: 10px;
@@ -199,4 +230,3 @@ input {
 .task-table td button:hover {
     background-color: #c80000;
 }
-
