@@ -30,7 +30,8 @@
         <label for="password">Пароль</label>
         <div class="password-container">
             <input type="password" id="password" placeholder="Введите пароль">
-            <button class="toggle-password" onclick="togglePassword()">👁</button>
+            <button class="toggle-password" onclick="togglePassword()"></button>
+            <img id="togglePassword" src="/static/eye.png" alt="Показать пароль" class="toggle-password" width="31">
         </div>
        
         <button class="login-submit">Войти</button>
@@ -38,6 +39,7 @@
     </div>
 
     <script>
+        
         function showLogin() {
             document.getElementById('cardScreen').classList.remove('active');
             document.getElementById('loginScreen').classList.add('active');
