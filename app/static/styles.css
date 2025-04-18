@@ -59,7 +59,7 @@ body {
     height: 400px;
     box-sizing: border-box;
     position: relative;  /* Убедись, что у карточки есть позиционирование */
-    left: -20px;         /* Подвинь карту влево */
+    left: -85px;         /* Подвинь карту влево */
 }
 
 .card-text {
@@ -74,14 +74,14 @@ body {
 
 .arrow {
     position: absolute;
-    right: 10px; /* вправо — чем меньше, тем правее */
-    top: 10%;    /* вверх — чем меньше %, тем выше */
-    transform: translateY(-50%);
-    z-index: 10;
+    top: 40%;
+    right: -230px;
+    animation: slide 0.5s infinite alternate;
+    will-change: transform;
 }
 
 .arrow img {
-    width: 80px;  /* можно увеличить или уменьшить */
+    width: 180px;
     height: auto;
 }
 
