@@ -31,7 +31,7 @@ async def dashboard(request: Request):
         {"id": 5, "name": "Втулка для шарнира", "client": "ТШО", "job_num": "1139-24"},
         {"id": 6, "name": "Изготовление переводника", "client": "ТОО «СБП» Казмунайгаз-Бурение", "job_num": "1140-24"},
         {"id": 7, "name": "Втулка для шарнира", "client": "ТШО", "job_num": "1141-24"},
-        #{"id": 8, "name": "Гайка шарнира (левая резьба) для бурового оборудования", "client": "ТШО", "job_num": "1142-24"},
+        {"id": 8, "name": "Гайка шарнира (левая резьба) для бурового оборудования", "client": "ТШО", "job_num": "1142-24"},
     ]
     return templates.TemplateResponse("dashboard.html", {
         "request": request,
