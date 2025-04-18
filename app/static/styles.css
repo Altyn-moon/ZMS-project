@@ -1,7 +1,6 @@
-
 @keyframes slide {
-    0% { transform: translateX(0); opacity: 0.8; }
-    100% { transform: translateX(10px); opacity: 1; }
+    0% { transform: translateY(-50%) translateX(0); opacity: 0.8; }
+    100% { transform: translateY(-50%) translateX(10px); opacity: 1; }
 }
 
 @keyframes fade {
@@ -20,6 +19,7 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
+    position: relative;
     margin: 0;
     overflow: hidden;
     font-family: 'Manrope', sans-serif;
@@ -58,6 +58,8 @@ body {
     width: 800px;
     height: 400px;
     box-sizing: border-box;
+    position: relative;  /* Убедись, что у карточки есть позиционирование */
+    left: -20px;         /* Подвинь карту влево */
 }
 
 .card-text {
@@ -71,15 +73,15 @@ body {
 }
 
 .arrow {
-    position: absolute; /* <-- теперь позиционируется относительно родителя */
-    top: 50%; /* вертикально по центру */
-    left: calc(50% + 400px); /* половина экрана + половина карточки */
-    transform: translateY(-60%) translateX(80px); /* вверх и чуть правее */
-    animation: slide 0.5s infinite alternate;
+    position: absolute;
+    right: 10px; /* вправо — чем меньше, тем правее */
+    top: 10%;    /* вверх — чем меньше %, тем выше */
+    transform: translateY(-50%);
+    z-index: 10;
 }
 
 .arrow img {
-    width: 180px; /* можно уменьшить, чтобы красиво смотрелась */
+    width: 80px;  /* можно увеличить или уменьшить */
     height: auto;
 }
 
