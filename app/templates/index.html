@@ -5,6 +5,32 @@
     <title>ZMS | Вход</title>
     <link rel="stylesheet" href="/static/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Анимация моргания для глаза */
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            30% {
+                opacity: 0.1;
+                transform: scale(0.8); /* немного уменьшаем */
+            }
+            50% {
+                opacity: 0; /* полное исчезновение */
+                transform: scale(0.9); /* чуть больше уменьшаем */
+            }
+            70% {
+                opacity: 0.1;
+                transform: scale(0.8);
+            }
+        }
+
+        /* Применяем анимацию только при активном классе */
+        .toggle-password img.blink {
+            animation: blink 1s ease-in-out; /* Увеличили длительность для плавности */
+        }
+    </style>
 </head>
 <body>
 
@@ -30,16 +56,16 @@
         <label for="password">Пароль</label>
         <div class="password-container">
             <input type="password" id="password" placeholder="Введите пароль">
-            <button class="toggle-password" onclick="togglePassword()"></button>
-            <img id="togglePassword" src="/static/eye.png" alt="Показать пароль" class="toggle-password" width="31">
+            <button class="toggle-password" onclick="togglePassword()">
+                <img id="Eye-icon" src="/static/Eye-off.png" alt="eye" />
+            </button>
         </div>
-       
+        
         <button class="login-submit">Войти</button>
         <button class="back-btn" onclick="showCard()">← Назад</button>
     </div>
-
+    
     <script>
-        
         function showLogin() {
             document.getElementById('cardScreen').classList.remove('active');
             document.getElementById('loginScreen').classList.add('active');
@@ -51,15 +77,23 @@
         }
 
         function togglePassword() {
-            const passwordInput = document.getElementById("password");
-            const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
-            passwordInput.setAttribute("type", type);
-        }
+    const passwordInput = document.getElementById("password");
+    const eyeIcon = document.getElementById("Eye-icon");
+    const isPassword = passwordInput.type === "password";
+    
+    passwordInput.type = isPassword ? "text" : "password";
+    eyeIcon.src = isPassword ? "/static/Eye.png" : "/static/Eye-off.png";
 
-        // Здесь переход на dashboard
+    // Анимация моргания
+    eyeIcon.classList.add('blink-animation');
+    setTimeout(() => {
+        eyeIcon.classList.remove('blink-animation');
+    }, 250); // длительность соответствует animation: 0.25s
+}
+        // Переход на dashboard
         document.querySelector('.login-submit').addEventListener('click', function () {
-        // тут может быть проверка логина/пароля
-        window.location.href = "/dashboard";
+            // Тут может быть проверка логина/пароля
+            window.location.href = "/dashboard";
         });
     </script>
 </body>
