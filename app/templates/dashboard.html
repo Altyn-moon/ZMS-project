@@ -38,7 +38,6 @@
         }
 
         table {
-            /*width: 100%;*/
             width: 1500px;
             border-collapse: collapse;
             margin-top: 0px;
@@ -92,23 +91,108 @@
             align-items: center;
         } 
 
-        .user{
-           
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 10px 20px;
+            border-bottom: 2px solid #ddd;
+            position: relative;
+            width: 1498px;
         }
+
+        .header-left,
+        .header-center,
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-left {
+            flex: 1;
+        }
+
+        .header-center {
+            flex: 1;
+            justify-content: center;
+        }
+
+        .header-right {
+            flex: 1;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .logo {
+            padding-top: 20px;
+            height: 80px;
+        }
+
+        .icon {
+            height: 24px;
+            cursor: pointer;
+        }
+
+        .small-icon {
+            height: 20px;
+            margin-right: 5px;
+        }
+
+        .user-button {
+            background: none;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .logout-button {
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .logout-button .icon {
+            margin-right: 5px;
+        }
+
 
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="logo"><img class="logo" src="/static/logo.png" alt="ZMS" width="180"></div>
-        <div class="user-info">
-            <span class="notification"><img class="bell" src="/static/icon.png" alt="Bell" width="30"></span>
-            <a href="/logout" class="logout-link">Выйти</a>
+    <div class="header">
+        <div class="header-left">
+            <img src="/static/notification.png" alt="Уведомления" class="icon clickable">
         </div>
-    </header>
+    
+        <div class="header-center">
+            <img src="/static/logo.png" alt="ZMS Logo" class="logo">
+        </div>
+    
+        <div class="header-right">
+            <button class="user-button">
+                <img src="/static/user-icon.png" alt="User Icon" class="icon small-icon">
+                {{ user_name }}
+            </button>
+            <button class="logout-button">
+                <img src="/static/logout.png" alt="Выход" class="icon small-icon">
+                Выйти
+            </button>
+        </div>
+    </div>
+    
 
     <div class="container">
-        <span class="user">{{ user_name }}</span>
         <table>
             <thead>
                 <tr>
