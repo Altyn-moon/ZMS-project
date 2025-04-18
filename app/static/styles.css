@@ -1,3 +1,4 @@
+
 @keyframes slide {
     0% { transform: translateX(0); opacity: 0.8; }
     100% { transform: translateX(10px); opacity: 1; }
@@ -6,6 +7,10 @@
 @keyframes fade {
     from { opacity: 0; transform: scale(0.98); }
     to { opacity: 1; transform: scale(1); }
+}
+
+* {
+    font-family: 'Manrope', sans-serif;
 }
 
 body {
@@ -38,6 +43,7 @@ body {
 }
 
 .content {
+    position: relative;
     flex-direction: column;
     align-items: center;
 }
@@ -65,14 +71,16 @@ body {
 }
 
 .arrow {
+    position: absolute; /* <-- теперь позиционируется относительно родителя */
+    top: 50%; /* вертикально по центру */
+    left: calc(50% + 400px); /* половина экрана + половина карточки */
+    transform: translateY(-60%) translateX(80px); /* вверх и чуть правее */
     animation: slide 0.5s infinite alternate;
-    margin-top: -40px;
 }
 
 .arrow img {
-    width: 180px;
+    width: 180px; /* можно уменьшить, чтобы красиво смотрелась */
     height: auto;
-    margin-left: 180px;
 }
 
 .login-btn,
