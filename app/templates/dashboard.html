@@ -33,6 +33,40 @@
             overflow-x: auto;
         }
 
+        .search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    position: relative; /* Чтобы иконка была внутри поля */
+}
+
+.search-input {
+    width: 600px;
+    padding: 12px 12px 12px 45px; /* теперь отступ слева под иконку */
+    font-size: 20px;
+    border-radius: 8px;
+    border: 2px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    
+    background-image: url('/static/Search.png');
+    background-repeat: no-repeat;
+    background-position: left 15px center;
+    background-size: 20px 20px;
+    color: #111; /* <-- вот это добавляет тёмный текст */
+}
+
+
+.search-icon {
+    position: absolute;
+    right: 12px; /* Отступ от правой стороны */
+    top: 50%;
+    transform: translateY(-50%); /* Центрируем по вертикали */
+    width: 20px; /* Размер иконки */
+    height: 20px;
+    pointer-events: none; /* Иконка не мешает взаимодействовать с полем */
+}
+
         .table-container {
             width: 100%;
             max-height: 70px;
@@ -73,7 +107,7 @@
         }
 
         .btn-start {
-            background-color: #a00000;
+            background-color: #787A77;
             color: white;
             padding: 10px 30px;
             border: none;
@@ -225,6 +259,11 @@
     </div>
     
     <main class="main-content">
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Поиск">
+        </div>
+              
+        </div>        
         <div class="container" class="table-container">
             <table class="work-table">
                 <thead>
