@@ -7,22 +7,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
+            overflow-x: hidden;
             margin: 0;
             font-family: 'Manrope', sans-serif;
-            
             color: #111;
             background: #f2f2f2;
         }
-
+        
         .header {
             background: linear-gradient(90deg, rgb(156, 29, 17) 0%, rgba(113, 41, 4, 0.34) 55%, rgb(87, 16, 10) 100%); 
-            color: white;
-            padding: 5px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 1480px;
             height: 60px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
         .header .user-info {
@@ -31,27 +28,29 @@
             gap: 20px;
         }
 
-        .container {
-            padding: 30px;
-            max-width: 1200px;
-            margin: auto;
+        .main-content {
+            padding: 2px;
+            overflow-x: auto;
         }
 
-        table {
-            width: 1500px;
+        .table-container {
+            width: 100%;
+            max-height: 70px;
+            overflow-y: auto;
+        }
+
+        .work-table {
+            width: 100%;
+            min-width: 1500px;
             border-collapse: collapse;
-            margin-top: -15px;
-            background-color: white;
-            color: black;
-            box-shadow: 0 0 8px rgba(0,0,0,0.1);
-            overflow: hidden;
-            margin-left: -150px;
+            font-size: 23px;
         }
 
         th, td {
-            padding: 15px;
-            border: 1px solid #ddd;
+            padding: 10px;
+            border: 1px solid #161616;
             text-align: center;
+            
         }
 
         th {
@@ -62,11 +61,13 @@
         .btn-start {
             background-color: #a00000;
             color: white;
-            padding: 10px 20px;
+            padding: 10px 30px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            font-size: 23px;
+            font-weight: bold;
         }
 
         .btn-start:hover {
@@ -148,7 +149,7 @@
             cursor: pointer;
             display: flex;
             align-items: center;
-            font-size: 20px;
+            font-size: 18px;
             color: #fff;
         }
 
@@ -172,14 +173,13 @@
             cursor: pointer;
             display: flex;
             align-items: center;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
         }
 
         .logout-button .icon {
             margin-right: 5px;
         }
-
 
     </style>
 </head>
@@ -210,30 +210,31 @@
         </div>
     </div>
     
-
-    <div class="container">
-        <table>
-            <thead>
-                <tr>
-                    <th>№</th>
-                    <th>Наименование работы</th>
-                    <th>Заказчик</th>
-                    <th>Номер работы</th>
-                    <th>Действие</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in work_items %}
-                <tr>
-                    <td>{{ item.id }}</td>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.client }}</td>
-                    <td>{{ item.job_num }}</td>
-                    <td><button class="btn-start">В работу</button></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+    <main class="main-content">
+        <div class="container" class="table-container">
+            <table class="work-table">
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Наименование работы</th>
+                        <th>Заказчик</th>
+                        <th>Номер работы</th>
+                        <th>Действие</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in work_items %}
+                    <tr>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.client }}</td>
+                        <td>{{ item.job_num }}</td>
+                        <td><button class="btn-start">В работу</button></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
 </body>
 </html>
