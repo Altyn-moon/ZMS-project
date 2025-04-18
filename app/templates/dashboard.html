@@ -11,11 +11,11 @@
             font-family: 'Manrope', sans-serif;
             
             color: #111;
-            background: rgb(191, 148, 144);
+            background: #f2f2f2;
         }
 
         .header {
-            background: linear-gradient(180deg, rgb(156, 29, 17) 0%, rgba(113, 41, 4, 0.34) 55%, rgb(87, 16, 10) 100%);
+            background: linear-gradient(90deg, rgb(156, 29, 17) 0%, rgba(113, 41, 4, 0.34) 55%, rgb(87, 16, 10) 100%); 
             color: white;
             padding: 5px 30px;
             display: flex;
@@ -37,19 +37,16 @@
             margin: auto;
         }
 
-        h2 {
-            margin-bottom: 20px;
-        }
-
         table {
-            width: 100%;
+            /*width: 100%;*/
+            width: 1500px;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 0px;
             background-color: white;
             color: black;
             box-shadow: 0 0 8px rgba(0,0,0,0.1);
-            border-radius: 8px;
             overflow: hidden;
+            margin-left: -150px;
         }
 
         th, td {
@@ -90,9 +87,15 @@
         }
 
         .logo {
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-
         } 
+
+        .user{
+           
+        }
+
     </style>
 </head>
 <body>
@@ -100,13 +103,12 @@
         <div class="logo"><img class="logo" src="/static/logo.png" alt="ZMS" width="180"></div>
         <div class="user-info">
             <span class="notification"><img class="bell" src="/static/icon.png" alt="Bell" width="30"></span>
-            <span>{{ user_name }}</span>
             <a href="/logout" class="logout-link">Выйти</a>
         </div>
     </header>
 
     <div class="container">
-        <h2>Рабочие задания</h2>
+        <span class="user">{{ user_name }}</span>
         <table>
             <thead>
                 <tr>
