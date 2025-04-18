@@ -8,24 +8,42 @@
     to { opacity: 1; transform: scale(1); }
 }
 
+@keyframes button-press {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.95); /* немного уменьшаем */
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Применяем анимацию нажатия к кнопке */
+.login-btn:active, .back-btn:active, .login-submit:active {
+    animation: button-press 0.2s ease-out;
+}
+
+/* Для глазика тоже плавное моргание */
 @keyframes eye-blink {
-  0% {
-    transform: scaleY(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scaleY(0.1);
-    opacity: 0.3;
-  }
-  100% {
-    transform: scaleY(1);
-    opacity: 1;
-  }
+    0% {
+        transform: scaleY(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scaleY(0.1);
+        opacity: 0.3;
+    }
+    100% {
+        transform: scaleY(1);
+        opacity: 1;
+    }
 }
 
 .blink-animation {
-  animation: eye-blink 0.25s ease-in-out;
-  transform-origin: center;
+    animation: eye-blink 0.25s ease-in-out;
+    transform-origin: center;
 }
   
 * {
