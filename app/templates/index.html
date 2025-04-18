@@ -76,7 +76,14 @@
             document.getElementById('cardScreen').classList.add('active');
         }
 
-        function togglePassword() {
+        function animateButton(button) {
+    button.classList.add('button-press'); // Добавляем анимацию кнопке
+    setTimeout(() => {
+        button.classList.remove('button-press'); // Убираем анимацию после завершения
+    }, 200); // Длительность анимации
+}
+
+function togglePassword() {
     const passwordInput = document.getElementById("password");
     const eyeIcon = document.getElementById("Eye-icon");
     const isPassword = passwordInput.type === "password";
@@ -89,7 +96,11 @@
     setTimeout(() => {
         eyeIcon.classList.remove('blink-animation');
     }, 250); // длительность соответствует animation: 0.25s
+
+    // Анимация нажатия на кнопку
+    animateButton(event.currentTarget);
 }
+
         // Переход на dashboard
         document.querySelector('.login-submit').addEventListener('click', function () {
             // Тут может быть проверка логина/пароля
