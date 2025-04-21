@@ -6,13 +6,19 @@
     <link rel="stylesheet" href="/static/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            overflow-x: hidden;
-            margin: 0;
-            font-family: 'Manrope', sans-serif;
-            color: #111;
-            background: #f2f2f2;
-        }
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Manrope', sans-serif;
+    color: #111;
+    background: #f2f2f2;
+    width: 100%;
+    overflow-x: hidden; /* Убираем горизонтальную прокрутку */
+    height: 100%; /* Обеспечиваем 100% высоты для страницы */
+    display: flex;
+    flex-direction: column;
+        
+}
         
         .header {
             background: linear-gradient(90deg, rgb(156, 29, 17) 0%, rgba(113, 41, 4, 0.34) 55%, rgb(87, 16, 10) 100%); 
@@ -29,9 +35,13 @@
         }
 
         .main-content {
-            padding: 2px;
-            overflow-x: auto;
-        }
+    flex: 1;
+    padding: 20px;
+    overflow-x: hidden; /* Убираем горизонтальную прокрутку */
+    width: 100%;
+    height: 100%; /* Растягиваем на 100% высоты */
+    box-sizing: border-box;
+}
 
         .search-container {
     display: flex;
@@ -66,20 +76,41 @@
     height: 20px;
     pointer-events: none; /* Иконка не мешает взаимодействовать с полем */
 }
+.work-table {
+    width: 100%;
+    min-width: 100%; /* Убираем min-width */
+    table-layout: auto;
+    font-size: 23px;
+    border-collapse: collapse;
+}
 
-        .table-container {
-            width: 100%;
-            max-height: 70px;
-            overflow-y: auto;
-        }
+th, td {
+    padding: 10px;
+    border: 1px solid #161616;
+    text-align: center;
+}
 
-        .work-table {
-            width: 100%;
-            min-width: 1500px;
-            border-collapse: collapse;
-            font-size: 23px;
-            table-layout: fixed;
-        }
+th {
+    background-color: #f7f7f7;
+    font-weight: 700;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Убираем все виды прокрутки */
+}
+
+/* Оставляем стиль таблицы с обычным размером шрифтов */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    height: 100%;
+    box-sizing: border-box;
+}
 
         .work-table td:last-child, 
         .work-table th:last-child {
@@ -148,7 +179,7 @@
             padding: 10px 20px;
             border-bottom: 2px solid #ddd;
             position: relative;
-            width: 1498px;
+            width: 100%;
         }
 
         .header-left,
@@ -228,6 +259,40 @@
         .logout-button .icon {
             margin-right: 5px;
         }
+        html, body {
+    height: 100%; /* Устанавливаем высоту на 100% для всего документа */
+    margin: 0; /* Убираем отступы по умолчанию */
+    padding: 0; /* Убираем отступы */
+    display: flex;
+    flex-direction: column; /* Размещение элементов вертикально */
+}
+
+.main-content {
+    flex: 1; /* Позволяет содержимому занимать оставшуюся высоту */
+    padding: 20px;
+    overflow-x: auto;
+    width: 100%;
+    height: 100%; /* Задаем высоту 100% экрана */
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    height: 100%; /* Контейнер также будет растягиваться на 100% высоты */
+}
+
+#second-table {
+    width: 100%; /* Растягиваем на всю ширину */
+    height: 100%; /* Растягиваем на всю высоту */
+    display: block;
+}
+
+#second-table .work-table {
+    width: 100%; /* Растягиваем таблицу на всю ширину */
+    min-width: 1500px; /* Минимальная ширина таблицы */
+    table-layout: auto;
+    font-size: 23px; /* Размер шрифта */
+}
 
     </style>
 </head>
@@ -264,30 +329,82 @@
         </div>
               
         </div>        
-        <div class="container" class="table-container">
-            <table class="work-table">
-                <thead>
+            <!-- первая таблица -->
+            <div class="table-container" id="first-table">
+                <table class="work-table">
                     <tr>
-                        <th class="nomer">№</th>
+                        <th>№</th>
                         <th>Наименование работы</th>
                         <th>Заказчик</th>
-                        <th class="nomer-rabot">Номер работы</th>
+                        <th>Номер работы</th>
                         <th>Действие</th>
                     </tr>
-                </thead>
-                <tbody>
                     {% for item in work_items %}
                     <tr>
                         <td>{{ item.id }}</td>
                         <td>{{ item.name }}</td>
                         <td>{{ item.client }}</td>
                         <td>{{ item.job_num }}</td>
-                        <td><button class="btn-start">В работу</button></td>
+                        <td>
+                            <button
+                                class="btn-start"
+                                onclick="showSecondTable(this)"
+                                data-id="{{ item.id }}"
+                                data-name="{{ item.name }}"
+                                data-client="{{ item.client }}"
+                                data-jobnum="{{ item.job_num }}"
+                            >В работу</button>
+                        </td>
                     </tr>
                     {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </main>
-</body>
-</html>
+                </table>
+            </div>            
+            <div class="table-container" id="second-table" style="display: none;">
+                <table class="work-table">
+                    <tr>
+                        <th colspan="2">Рабочая карта</th>
+                    </tr>
+                    <tr>
+                        <td>Рабочая карта №1</td>
+                        <td>
+                            <button class="btn-start">Начать</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Рабочая карта №2</td>
+                        <td>
+                            <button class="btn-start">Начать</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>                                 
+        </main>
+            <script>
+
+function showSecondTable(button) {
+    // Скрываем первую таблицу
+    document.getElementById('first-table').style.display = 'none';
+
+    // Показываем вторую таблицу
+    document.getElementById('second-table').style.display = 'block';
+
+    // Если ты используешь вставку данных – эти элементы тоже должны существовать!
+    const name = button.dataset.name;
+    const client = button.dataset.client;
+    const jobNum = button.dataset.jobnum;
+
+    // Убедись, что в HTML есть такие ID — job-name, job-client и job-num
+    const nameElem = document.getElementById('job-name');
+    const clientElem = document.getElementById('job-client');
+    const jobNumElem = document.getElementById('job-num');
+
+    if (nameElem && clientElem && jobNumElem) {
+        nameElem.textContent = name;
+        clientElem.textContent = client;
+        jobNumElem.textContent = jobNum;
+    }
+}
+</script>
+        </body>
+        </html>        
+    
