@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход администратора | ZMS</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        @keyframes blink {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            30% { opacity: 0.1; transform: scale(0.8); }
+            50% { opacity: 0; transform: scale(0.9); }
+            70% { opacity: 0.1; transform: scale(0.8); }
+        }
+
+        .toggle-password img.blink {
+            animation: blink 1s ease-in-out;
+        }
+
+        .login-container {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .login-container.show {
+            display: block;
+            opacity: 1;
+        }
+
+        .logo {
+            cursor: pointer;
+            display: block;
+            margin: 50px auto 30px;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+
+        .logo-clicked {
+            transform: scale(1.2);
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <img class="logo" id="admin-logo" src="/static/logo.png" alt="ZMS" width="250" onclick="showLogin()">
+
+    <!-- Экран логина администратора -->
+    <div class="login-container" id="login-container">
+        <h2>Вход администратора</h2>
+
+        <label for="username">Имя пользователя</label>
+        <input type="text" id="username" placeholder="Введите имя">
+
+        <label for="password">Пароль</label>
+        <div class="password-container">
+            <input type="password" id="password" placeholder="Введите пароль">
+            <button class="toggle-password" onclick="togglePassword(event)">
+                <img id="Eye-icon" src="/static/Eye-off.png" alt="eye" />
+            </button>
+        </div>
+
+        <button class="login-submit">Войти</button>
+    </div>
+
+    <script>
+        function animateButton(button) {
+            button.classList.add('button-press');
+            setTimeout(() => {
+                button.classList.remove('button-press');
+            }, 200);
+        }
+
+        function togglePassword(event) {
+            const passwordInput = document.getElementById("password");
+            const eyeIcon = document.getElementById("Eye-icon");
+            const isPassword = passwordInput.type === "password";
+
+            passwordInput.type = isPassword ? "text" : "password";
+            eyeIcon.src = isPassword ? "/static/Eye.png" : "/static/Eye-off.png";
+
+            eyeIcon.classList.add('blink-animation');
+            setTimeout(() => {
+                eyeIcon.classList.remove('blink-animation');
+            }, 250);
+
+            animateButton(event.currentTarget);
+        }
+
+        document.querySelector('.login-submit').addEventListener('click', function () {
+            window.location.href = "/admin/dashboard";
+        });
+
+        function showLogin() {
+            const logo = document.getElementById("admin-logo");
+            const loginContainer = document.getElementById("login-container");
+
+            logo.classList.add("logo-clicked");
+
+            setTimeout(() => {
+                logo.style.display = "none";
+                loginContainer.classList.add("show");
+            }, 400); // чуть позже, чтобы логотип успел анимироваться
+        }
+    </script>
+</body>
+</html>
