@@ -270,16 +270,6 @@ th, td {
     height: 20px; /* уменьшим высоту */
     width: 20px;  /* добавим для консистентности */
 }
- 
-        html, body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Manrope', sans-serif;
-    height: 100%;
-    width: 100%;
-    overflow-x: hidden;
-    background: #f2f2f2;
-}
 
 @media (max-width: 768px) {
     .logout-button {
@@ -347,7 +337,7 @@ th, td {
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
     font-size: 28px;
-    font-weight: 600px;
+    font-weight: 600;
     margin-bottom: 20px;
     display: inline-flex;
     align-items: center;
@@ -382,7 +372,10 @@ th, td {
     }
 }
 
-
+.job-info p {
+    font-size: 20px; /* Увеличьте шрифт, если нужно */
+    margin-top: -10px; /* Поднимет элемент вверх */
+}
 
 </style>
 </head>
@@ -417,38 +410,39 @@ th, td {
         <div class="search-container">
             <input type="text" class="search-input" placeholder="Поиск">
         </div>
-              
-        </div>        
-            <!-- первая таблица -->
-            <div class="table-container" id="first-table">
-                <table class="work-table">
-                    <tr>
-                        <th>№</th>
-                        <th>Наименование работы</th>
-                        <th>Заказчик</th>
-                        <th>Номер работы</th>
-                        <th>Действие</th>
-                    </tr>
-                    {% for item in work_items %}
-                    <tr>
-                        <td>{{ item.id }}</td>
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.client }}</td>
-                        <td>{{ item.job_num }}</td>
-                        <td>
-                            <button
-                                class="btn-start"
-                                onclick="showSecondTable(this)"
-                                data-id="{{ item.id }}"
-                                data-name="{{ item.name }}"
-                                data-client="{{ item.client }}"
-                                data-jobnum="{{ item.job_num }}"
-                            >В работу</button>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </table>
-            </div>            
+
+        <!-- первая таблица -->
+        <div class="table-container" id="first-table">
+            <table class="work-table">
+                <tr>
+                    <th>№</th>
+                    <th>Наименование работы</th>
+                    <th>Заказчик</th>
+                    <th>Номер работы</th>
+                    <th>Действие</th>
+                </tr>
+                {% for item in work_items %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.client }}</td>
+                    <td>{{ item.job_num }}</td>
+                    <td>
+                        <button
+                            class="btn-start"
+                            onclick="showSecondTable(this)"
+                            data-id="{{ item.id }}"
+                            data-name="{{ item.name }}"
+                            data-client="{{ item.client }}"
+                            data-jobnum="{{ item.job_num }}"
+                        >Просмотр</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <!-- вторая таблица -->
         <div class="table-container" id="second-table" style="display: none;">
             <button class="back-btn" onclick="goBack()" style="font-size: 24px; padding: 12px 30px;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 24 24" fill="none" stroke="#c40000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -456,10 +450,13 @@ th, td {
                 </svg>
                 Назад
             </button>
-            
-            
-            </button>
-                        
+
+            <div class="job-info">
+                <p>Наименование: <span id="job-name"></span></p>
+                <p>Заказчик: <span id="job-client"></span></p>
+                <p>Номер работы: <span id="job-num"></span></p>
+            </div>
+
             <table class="work-table">
                 <tr>
                     <th colspan="2">Рабочая карта</th>
@@ -467,74 +464,96 @@ th, td {
                 <tr>
                     <td>Рабочая карта №1</td>
                     <td>
-                        <button class="btn-start">Начать</button>
+                        <button class="btn-start" onclick="showThirdTable(this)">В работу</button>
                     </td>
                 </tr>
                 <tr>
                     <td>Рабочая карта №2</td>
                     <td>
-                        <button class="btn-start">Начать</button>
+                        <button class="btn-start" onclick="showThirdTable(this)">В работу</button>
                     </td>
                 </tr>
             </table>
-        </div>  
-        <div id="page3" class="page" style="display: none;">
-  <h2>Страница 3: Описание операций</h2>
-  <table border="1" cellspacing="0" cellpadding="10">
-    <thead>
-      <tr>
-        <th>№</th>
-        <th>Описание операции работ</th>
-        <th>Инструкция</th>
-        <th>Выполнить</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>1</td>
-        <td>Списать материал</td>
-        <td>ZMS-TH-QP-101</td>
-        <td><button class="btn-start" onclick="alert('Старт операции 1')">Начать</button></td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>Отрезать материал</td>
-        <td>
-          ZMS-TH-QP-101<br>
-          ZMS-PH-DP-001
-        </td>
-        <td><button class="btn-start" onclick="alert('Старт операции 2')">Начать</button></td>
-      </tr>
-    </tbody>
-  </table>
+        </div>
+
+        <!-- третья таблица -->
+<div class="table-container" id="third-table" style="display: none;">
+    <button class="back-btn" onclick="goBackToSecondTable()" style="font-size: 24px; padding: 12px 30px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 24 24" fill="none" stroke="#c40000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        Назад
+    </button>
+
+    <table class="work-table">
+        <tr>
+            <th>№</th>
+            <th>Описание работы</th>
+            <th>Инструкция</th> <!-- Новый столбец -->
+            <th>Действие</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Списать материал</td>
+            <td>ZMS-TH-QP-101</td> <!-- Инструкция 1 -->
+            <td>
+                <button class="btn-start">Начать</button>
+            </td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Отрезать материал</td>
+            <td>ZMS-TH-QP-101 <br> ZMS-PH-DP-001</td> <!-- Инструкция 2 -->
+            <td>
+                <button class="btn-start">Начать</button>
+            </td>
+        </tr>
+    </table>
+
 </div>
-    </main>
-    <script>
-        function showSecondTable(button) {
-            document.getElementById('first-table').style.display = 'none';
-            document.getElementById('second-table').style.display = 'block';
-            document.getElementById('second-table').classList.add('show');
-        
-            const name = button.dataset.name;
-            const client = button.dataset.client;
-            const jobNum = button.dataset.jobnum;
-        
-            const nameElem = document.getElementById('job-name');
-            const clientElem = document.getElementById('job-client');
-            const jobNumElem = document.getElementById('job-num');
-        
-            if (nameElem && clientElem && jobNumElem) {
-                nameElem.textContent = name;
-                clientElem.textContent = client;
-                jobNumElem.textContent = jobNum;
+
+        <!-- СКРИПТЫ -->
+        <script>
+            function showSecondTable(button) {
+                document.getElementById('first-table').style.display = 'none';
+                document.getElementById('second-table').style.display = 'block';
+                document.getElementById('second-table').classList.add('show');
+
+                const name = button.dataset.name;
+                const client = button.dataset.client;
+                const jobNum = button.dataset.jobnum;
+
+                const nameElem = document.getElementById('job-name');
+                const clientElem = document.getElementById('job-client');
+                const jobNumElem = document.getElementById('job-num');
+
+                if (nameElem && clientElem && jobNumElem) {
+                    nameElem.textContent = name;
+                    clientElem.textContent = client;
+                    jobNumElem.textContent = jobNum;
+                }
             }
-        }
-        
-        function goBack() {
-            document.getElementById('second-table').classList.remove('show');
-            document.getElementById('first-table').style.display = 'block';
-            document.getElementById('second-table').style.display = 'none';
-        }
+
+            function goBack() {
+                document.getElementById('second-table').classList.remove('show');
+                document.getElementById('second-table').style.display = 'none';
+                document.getElementById('first-table').style.display = 'block';
+            }
+
+            function showThirdTable(button) {
+                document.getElementById('second-table').style.display = 'none';
+                document.getElementById('second-table').classList.remove('show');
+                document.getElementById('third-table').style.display = 'block';
+                document.getElementById('third-table').classList.add('show');
+            }
+
+            function goBackToSecondTable() {
+                document.getElementById('third-table').style.display = 'none';
+                document.getElementById('third-table').classList.remove('show');
+                document.getElementById('second-table').style.display = 'block';
+                document.getElementById('second-table').classList.add('show');
+            }
         </script>
-        </body>
-        </html>
+    </main>
+</body>
+</html>
