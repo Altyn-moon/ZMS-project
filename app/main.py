@@ -92,4 +92,28 @@ def dashboard(request: Request):
         "work_items": work_items
     })
 
+from fastapi import Form
+from fastapi.responses import RedirectResponse
+
+# === ВХОД ДЛЯ АДМИНА ===
+
+@app.get("/admin/login", response_class=HTMLResponse)
+async def admin_login_page(request: Request):
+    return templates.TemplateResponse("admin_login.html", {"request": request})
+
+@app.post("/admin/login")
+async def admin_login(
+    request: Request,
+    username: str = Form(...),
+    password: str = Form(...)
+):
+    # ВРЕМЕННАЯ ПРОВЕРКА (заменишь потом на проверку из БД)
+    if username == "admin" and password == "1234":
+        response = RedirectResponse(url="/admin/dashboard", status_code=302)
+        return response
+    return templates.TemplateResponse("admin_login.html", {"request": request, "error": "Неверный логин или пароль"})
+
+@app.get("/admin/dashboard", response_class=HTMLResponse)
+async def admin_dashboard(request: Request):
+    return templates.TemplateResponse("admin_dashboard.html", {"request": request})
 

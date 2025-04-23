@@ -6,6 +6,9 @@
     <link rel="stylesheet" href="/static/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        * {
+            box-sizing: border-box;
+        }
 body {
     margin: 0;
     padding: 0;
@@ -17,7 +20,7 @@ body {
     height: 100%; /* Обеспечиваем 100% высоты для страницы */
     display: flex;
     flex-direction: column;
-        
+    box-sizing: border-box;
 }
         
         .header {
@@ -26,6 +29,7 @@ body {
             position: sticky;
             top: 0;
             z-index: 1000;
+            width: 100%;
         }
 
         .header .user-info {
@@ -41,9 +45,10 @@ body {
     width: 100%;
     height: 100%; /* Растягиваем на 100% высоты */
     box-sizing: border-box;
+    transition: opacity 0.3s ease;
 }
-
-        .search-container {
+        
+.search-container {
     display: flex;
     justify-content: center;
     margin-bottom: 5px;
@@ -52,7 +57,8 @@ body {
 }
 
 .search-input {
-    width: 600px;
+    width: 100%;
+    max-width: 600px;
     padding: 12px 12px 12px 45px; /* теперь отступ слева под иконку */
     font-size: 20px;
     border-radius: 8px;
@@ -65,7 +71,6 @@ body {
     background-size: 20px 20px;
     color: #111; /* <-- вот это добавляет тёмный текст */
 }
-
 
 .search-icon {
     position: absolute;
@@ -82,6 +87,22 @@ body {
     table-layout: auto;
     font-size: 23px;
     border-collapse: collapse;
+    transition: opacity 0.5s ease;
+}
+
+.work-table th {
+    background-color: #c8c8c8;  /* Темный фон */
+    color: rgb(36, 36, 36);  /* Белый текст */
+    font-weight: bold;
+}
+
+/* Для всех остальных строк */
+.work-table tr:nth-child(even) {
+    background-color: #ffffff;  /* Белый фон для четных строк */
+}
+
+.work-table tr:nth-child(odd) {
+    background-color: #ffffff;  /* Белый фон для нечетных строк */
 }
 
 th, td {
@@ -90,25 +111,9 @@ th, td {
     text-align: center;
 }
 
-th {
-    background-color: #f7f7f7;
-    font-weight: 700;
-}
-
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden; /* Убираем все виды прокрутки */
-}
-
 /* Оставляем стиль таблицы с обычным размером шрифтов */
 .table-container {
     width: 100%;
-    overflow-x: auto;
-    height: 100%;
     box-sizing: border-box;
 }
 
@@ -199,10 +204,12 @@ html, body {
         }
 
         .header-right {
-            flex: 1;
-            justify-content: flex-end;
-            gap: 10px;
-        }
+    flex: 1;
+    justify-content: flex-end;
+    gap: 10px;
+    overflow: hidden; /* защита от переполнения */
+    flex-wrap: wrap; /* если не влезает, переносит */
+}
 
         .logo {
             padding-top: 25px;
@@ -244,57 +251,146 @@ html, body {
         }
 
         .logout-button {
-            background-color: #a00000;
-            color: #fff;
-            border: none;
-            padding: 6px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .logout-button .icon {
-            margin-right: 5px;
-        }
-        html, body {
-    height: 100%; /* Устанавливаем высоту на 100% для всего документа */
-    margin: 0; /* Убираем отступы по умолчанию */
-    padding: 0; /* Убираем отступы */
+    background-color: #a00000;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
     display: flex;
-    flex-direction: column; /* Размещение элементов вертикально */
+    align-items: center;
+    font-size: 16px; /* чуть меньше шрифт */
+    font-weight: bold;
+    max-height: 40px; /* ограничим высоту */
+    white-space: nowrap;
+}
+
+.logout-button .icon {
+    margin-right: 6px;
+    height: 20px; /* уменьшим высоту */
+    width: 20px;  /* добавим для консистентности */
+}
+ 
+        html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Manrope', sans-serif;
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    background: #f2f2f2;
+}
+
+@media (max-width: 768px) {
+    .logout-button {
+        font-size: 14px;
+        padding: 5px 10px;
+    }
+
+    .logout-button .icon {
+        height: 18px;
+        width: 18px;
+    }
 }
 
 .main-content {
     flex: 1; /* Позволяет содержимому занимать оставшуюся высоту */
     padding: 20px;
-    overflow-x: auto;
     width: 100%;
     height: 100%; /* Задаем высоту 100% экрана */
 }
 
 .table-container {
     width: 100%;
-    overflow-x: auto;
-    height: 100%; /* Контейнер также будет растягиваться на 100% высоты */
+    box-sizing: border-box;
 }
 
 #second-table {
     width: 100%; /* Растягиваем на всю ширину */
     height: 100%; /* Растягиваем на всю высоту */
     display: block;
+    opacity: 0;
+}
+
+#second-table.show {
+    opacity: 1;
 }
 
 #second-table .work-table {
-    width: 100%; /* Растягиваем таблицу на всю ширину */
-    min-width: 1500px; /* Минимальная ширина таблицы */
+    width: 100%;
     table-layout: auto;
-    font-size: 23px; /* Размер шрифта */
+    font-size: 23px;
 }
 
-    </style>
+.btn-start {
+    background-color: #777777;
+    color: white;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.btn-start:hover {
+    background-color: #c40000;
+    transform: scale(1.05);
+}
+
+.back-btn {
+    background-color: #f2f2f2;
+    color: #c40000;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 28px;
+    font-weight: 600px;
+    margin-bottom: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: none; /* Добавил для уверенности, что кнопка не будет с границей */
+}
+
+.back-btn svg {
+    width: 30px;
+    height: 30px;
+}
+
+.back-btn:hover {
+    background-color: #f2f2f2;
+    transform: scale(1.05);
+}
+
+
+@media (max-width: 768px) {
+    .search-input {
+        width: 90%;
+         max-width: none;
+    }
+
+    .work-table {
+        font-size: 18px;
+    }
+
+    .btn-start, .back-btn {
+        font-size: 18px;
+        padding: 8px 20px;
+    }
+}
+
+#third-table .work-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    font-size: 23px;
+    margin: 0 auto;
+}
+
+</style>
 </head>
 <body>
     <div class="header">
@@ -327,84 +423,162 @@ html, body {
         <div class="search-container">
             <input type="text" class="search-input" placeholder="Поиск">
         </div>
-              
-        </div>        
-            <!-- первая таблица -->
-            <div class="table-container" id="first-table">
-                <table class="work-table">
-                    <tr>
-                        <th>№</th>
-                        <th>Наименование работы</th>
-                        <th>Заказчик</th>
-                        <th>Номер работы</th>
-                        <th>Действие</th>
-                    </tr>
-                    {% for item in work_items %}
-                    <tr>
-                        <td>{{ item.id }}</td>
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.client }}</td>
-                        <td>{{ item.job_num }}</td>
-                        <td>
-                            <button
-                                class="btn-start"
-                                onclick="showSecondTable(this)"
-                                data-id="{{ item.id }}"
-                                data-name="{{ item.name }}"
-                                data-client="{{ item.client }}"
-                                data-jobnum="{{ item.job_num }}"
-                            >В работу</button>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </table>
-            </div>            
-            <div class="table-container" id="second-table" style="display: none;">
-                <table class="work-table">
-                    <tr>
-                        <th colspan="2">Рабочая карта</th>
-                    </tr>
-                    <tr>
-                        <td>Рабочая карта №1</td>
-                        <td>
-                            <button class="btn-start">Начать</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Рабочая карта №2</td>
-                        <td>
-                            <button class="btn-start">Начать</button>
-                        </td>
-                    </tr>
-                </table>
-            </div>                                 
-        </main>
-            <script>
+        
+        <!-- первая таблица -->
+        <div class="table-container" id="first-table">
+            <table class="work-table">
+                <tr>
+                    <th>№</th>
+                    <th>Наименование работы</th>
+                    <th>Заказчик</th>
+                    <th>Номер работы</th>
+                    <th>Действие</th>
+                </tr>
+                {% for item in work_items %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.client }}</td>
+                    <td>{{ item.job_num }}</td>
+                    <td>
+                        <button
+                            class="btn-start"
+                            onclick="showSecondTable(this)"
+                            data-id="{{ item.id }}"
+                            data-name="{{ item.name }}"
+                            data-client="{{ item.client }}"
+                            data-jobnum="{{ item.job_num }}"
+                        >В работу</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>            
+    
+        <!-- вторая таблица -->
+        <div class="table-container" id="second-table" style="display: none;">
+            <button class="back-btn" onclick="goBack()" style="font-size: 24px; padding: 12px 30px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c40000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+                Назад
+            </button>       
+            <table class="work-table">
+                <tr>
+                    <th colspan="2">Рабочая карта</th>
+                </tr>
+                <tr>
+                    <td>Рабочая карта №1</td>
+                    <td>
+                        <button class="btn-start" onclick="showThirdTable()">Начать</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Рабочая карта №2</td>
+                    <td>
+                        <button class="btn-start" onclick="showThirdTable()">Начать</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    
+        <!-- третья таблица -->
+        <!-- третья таблица -->
+<div class="table-container" id="third-table" style="display: none; position: relative;">
 
-function showSecondTable(button) {
-    // Скрываем первую таблицу
-    document.getElementById('first-table').style.display = 'none';
+    <button class="back-btn" onclick="goBackToSecond()" style="font-size: 24px; padding: 12px 30px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c40000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        Назад
+    </button>
 
-    // Показываем вторую таблицу
-    document.getElementById('second-table').style.display = 'block';
+    <!-- Чертёж -->
+    <button class="btn-drawing" onclick="window.open('/static/pdfs/6893.00.000.pdf', '_blank')" style="
+    font-size: 24px;
+    padding: 12px 30px;
+    background-color: #D5C6CA;
+    color: #434343;
+    border: 2px solid #787A77;
+    border-radius: 10px;
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    right: 50px;
+">Чертёж</button>
 
-    // Если ты используешь вставку данных – эти элементы тоже должны существовать!
-    const name = button.dataset.name;
-    const client = button.dataset.client;
-    const jobNum = button.dataset.jobnum;
+    <!-- таблица здесь -->
+    <table class="work-table">
+        <!-- содержимое таблицы -->
+    </table>
 
-    // Убедись, что в HTML есть такие ID — job-name, job-client и job-num
-    const nameElem = document.getElementById('job-name');
-    const clientElem = document.getElementById('job-client');
-    const jobNumElem = document.getElementById('job-num');
+</div>   
+            <table class="work-table">
+                <colgroup>
+                    <col style="width: 20px;">     <!-- № -->
+                    <col style="width: 350px;">    <!-- Описание -->
+                    <col style="width: 120px;">    <!-- Инструкция -->
+                    <col style="width: 230px;">    <!-- Выполнить -->
+                </colgroup>
+                <tr>
+                    <th>№</th>
+                    <th>Описание операции работ</th>
+                    <th>Инструкция</th>
+                    <th>Выполнить</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Списать материал</td>
+                    <td>ZMS-TH-QP-101</td>
+                    <td><button class="btn-start">Старт</button></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Отрезать материал</td>
+                    <td>ZMS-TH-QP-101<br>ZMS-PH-DP-001</td>
+                    <td><button class="btn-start">Старт</button></td>
+                </tr>
+            </table>            
+    </main>
+    
+    <script>
+        function showSecondTable(button) {
+            document.getElementById('first-table').style.display = 'none';
+            document.getElementById('second-table').style.display = 'block';
+            document.getElementById('second-table').classList.add('show');
+    
+            const name = button.dataset.name;
+            const client = button.dataset.client;
+            const jobNum = button.dataset.jobnum;
+    
+            const nameElem = document.getElementById('job-name');
+            const clientElem = document.getElementById('job-client');
+            const jobNumElem = document.getElementById('job-num');
+    
+            // Добавить вывод данных в элементы второй таблицы
+            if (nameElem && clientElem && jobNumElem) {
+                nameElem.textContent = name;
+                clientElem.textContent = client;
+                jobNumElem.textContent = jobNum;
+            }
+        }
+    
+        function goBack() {
+            document.getElementById('second-table').classList.remove('show');
+            document.getElementById('first-table').style.display = 'block';
+            document.getElementById('second-table').style.display = 'none';
+        }
+    
+        function showThirdTable() {
+            document.getElementById('second-table').style.display = 'none';
+            document.getElementById('third-table').style.display = 'block';
+        }
+    
+        function goBackToSecond() {
+            document.getElementById('third-table').style.display = 'none';
+            document.getElementById('second-table').style.display = 'block';  
+        }
 
-    if (nameElem && clientElem && jobNumElem) {
-        nameElem.textContent = name;
-        clientElem.textContent = client;
-        jobNumElem.textContent = jobNum;
-    }
-}
 </script>
         </body>
-        </html>        
-    
+        </html>
