@@ -270,6 +270,16 @@ th, td {
     height: 20px; /* уменьшим высоту */
     width: 20px;  /* добавим для консистентности */
 }
+ 
+        html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Manrope', sans-serif;
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    background: #f2f2f2;
+}
 
 @media (max-width: 768px) {
     .logout-button {
@@ -337,7 +347,7 @@ th, td {
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
     font-size: 28px;
-    font-weight: 600;
+    font-weight: 600px;
     margin-bottom: 20px;
     display: inline-flex;
     align-items: center;
@@ -372,9 +382,12 @@ th, td {
     }
 }
 
-.job-info p {
-    font-size: 20px; /* Увеличьте шрифт, если нужно */
-    margin-top: -10px; /* Поднимет элемент вверх */
+#third-table .work-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    font-size: 23px;
+    margin: 0 auto;
 }
 
 </style>
@@ -410,7 +423,7 @@ th, td {
         <div class="search-container">
             <input type="text" class="search-input" placeholder="Поиск">
         </div>
-
+        
         <!-- первая таблица -->
         <div class="table-container" id="first-table">
             <table class="work-table">
@@ -435,28 +448,21 @@ th, td {
                             data-name="{{ item.name }}"
                             data-client="{{ item.client }}"
                             data-jobnum="{{ item.job_num }}"
-                        >Просмотр</button>
+                        >В работу</button>
                     </td>
                 </tr>
                 {% endfor %}
             </table>
-        </div>
-
+        </div>            
+    
         <!-- вторая таблица -->
         <div class="table-container" id="second-table" style="display: none;">
             <button class="back-btn" onclick="goBack()" style="font-size: 24px; padding: 12px 30px;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 24 24" fill="none" stroke="#c40000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c40000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="15 18 9 12 15 6"></polyline>
                 </svg>
                 Назад
-            </button>
-
-            <div class="job-info">
-                <p>Наименование: <span id="job-name"></span></p>
-                <p>Заказчик: <span id="job-client"></span></p>
-                <p>Номер работы: <span id="job-num"></span></p>
-            </div>
-
+            </button>       
             <table class="work-table">
                 <tr>
                     <th colspan="2">Рабочая карта</th>
@@ -464,96 +470,115 @@ th, td {
                 <tr>
                     <td>Рабочая карта №1</td>
                     <td>
-                        <button class="btn-start" onclick="showThirdTable(this)">В работу</button>
+                        <button class="btn-start" onclick="showThirdTable()">Начать</button>
                     </td>
                 </tr>
                 <tr>
                     <td>Рабочая карта №2</td>
                     <td>
-                        <button class="btn-start" onclick="showThirdTable(this)">В работу</button>
+                        <button class="btn-start" onclick="showThirdTable()">Начать</button>
                     </td>
                 </tr>
             </table>
         </div>
-
+    
         <!-- третья таблица -->
-<div class="table-container" id="third-table" style="display: none;">
-    <button class="back-btn" onclick="goBackToSecondTable()" style="font-size: 24px; padding: 12px 30px;">
-        <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 24 24" fill="none" stroke="#c40000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <!-- третья таблица -->
+<div class="table-container" id="third-table" style="display: none; position: relative;">
+
+    <button class="back-btn" onclick="goBackToSecond()" style="font-size: 24px; padding: 12px 30px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c40000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="15 18 9 12 15 6"></polyline>
         </svg>
         Назад
     </button>
 
+    <!-- Чертёж -->
+    <button class="btn-drawing" onclick="window.open('/static/pdfs/6893.00.000.pdf', '_blank')" style="
+    font-size: 24px;
+    padding: 12px 30px;
+    background-color: #D5C6CA;
+    color: #434343;
+    border: 2px solid #787A77;
+    border-radius: 10px;
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    right: 50px;
+">Чертёж</button>
+
+    <!-- таблица здесь -->
     <table class="work-table">
-        <tr>
-            <th>№</th>
-            <th>Описание работы</th>
-            <th>Инструкция</th> <!-- Новый столбец -->
-            <th>Действие</th>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>Списать материал</td>
-            <td>ZMS-TH-QP-101</td> <!-- Инструкция 1 -->
-            <td>
-                <button class="btn-start">Начать</button>
-            </td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Отрезать материал</td>
-            <td>ZMS-TH-QP-101 <br> ZMS-PH-DP-001</td> <!-- Инструкция 2 -->
-            <td>
-                <button class="btn-start">Начать</button>
-            </td>
-        </tr>
+        <!-- содержимое таблицы -->
     </table>
 
-</div>
-
-        <!-- СКРИПТЫ -->
-        <script>
-            function showSecondTable(button) {
-                document.getElementById('first-table').style.display = 'none';
-                document.getElementById('second-table').style.display = 'block';
-                document.getElementById('second-table').classList.add('show');
-
-                const name = button.dataset.name;
-                const client = button.dataset.client;
-                const jobNum = button.dataset.jobnum;
-
-                const nameElem = document.getElementById('job-name');
-                const clientElem = document.getElementById('job-client');
-                const jobNumElem = document.getElementById('job-num');
-
-                if (nameElem && clientElem && jobNumElem) {
-                    nameElem.textContent = name;
-                    clientElem.textContent = client;
-                    jobNumElem.textContent = jobNum;
-                }
-            }
-
-            function goBack() {
-                document.getElementById('second-table').classList.remove('show');
-                document.getElementById('second-table').style.display = 'none';
-                document.getElementById('first-table').style.display = 'block';
-            }
-
-            function showThirdTable(button) {
-                document.getElementById('second-table').style.display = 'none';
-                document.getElementById('second-table').classList.remove('show');
-                document.getElementById('third-table').style.display = 'block';
-                document.getElementById('third-table').classList.add('show');
-            }
-
-            function goBackToSecondTable() {
-                document.getElementById('third-table').style.display = 'none';
-                document.getElementById('third-table').classList.remove('show');
-                document.getElementById('second-table').style.display = 'block';
-                document.getElementById('second-table').classList.add('show');
-            }
-        </script>
+</div>   
+            <table class="work-table">
+                <colgroup>
+                    <col style="width: 20px;">     <!-- № -->
+                    <col style="width: 350px;">    <!-- Описание -->
+                    <col style="width: 120px;">    <!-- Инструкция -->
+                    <col style="width: 230px;">    <!-- Выполнить -->
+                </colgroup>
+                <tr>
+                    <th>№</th>
+                    <th>Описание операции работ</th>
+                    <th>Инструкция</th>
+                    <th>Выполнить</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Списать материал</td>
+                    <td>ZMS-TH-QP-101</td>
+                    <td><button class="btn-start">Старт</button></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Отрезать материал</td>
+                    <td>ZMS-TH-QP-101<br>ZMS-PH-DP-001</td>
+                    <td><button class="btn-start">Старт</button></td>
+                </tr>
+            </table>            
     </main>
-</body>
-</html>
+    
+    <script>
+        function showSecondTable(button) {
+            document.getElementById('first-table').style.display = 'none';
+            document.getElementById('second-table').style.display = 'block';
+            document.getElementById('second-table').classList.add('show');
+    
+            const name = button.dataset.name;
+            const client = button.dataset.client;
+            const jobNum = button.dataset.jobnum;
+    
+            const nameElem = document.getElementById('job-name');
+            const clientElem = document.getElementById('job-client');
+            const jobNumElem = document.getElementById('job-num');
+    
+            // Добавить вывод данных в элементы второй таблицы
+            if (nameElem && clientElem && jobNumElem) {
+                nameElem.textContent = name;
+                clientElem.textContent = client;
+                jobNumElem.textContent = jobNum;
+            }
+        }
+    
+        function goBack() {
+            document.getElementById('second-table').classList.remove('show');
+            document.getElementById('first-table').style.display = 'block';
+            document.getElementById('second-table').style.display = 'none';
+        }
+    
+        function showThirdTable() {
+            document.getElementById('second-table').style.display = 'none';
+            document.getElementById('third-table').style.display = 'block';
+        }
+    
+        function goBackToSecond() {
+            document.getElementById('third-table').style.display = 'none';
+            document.getElementById('second-table').style.display = 'block';  
+        }
+
+</script>
+        </body>
+        </html>
