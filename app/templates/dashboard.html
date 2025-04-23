@@ -481,8 +481,7 @@ th, td {
                 </tr>
             </table>
         </div>
-    
-        <!-- третья таблица -->
+
         <!-- третья таблица -->
 <div class="table-container" id="third-table" style="display: none; position: relative;">
 
@@ -493,8 +492,8 @@ th, td {
         Назад
     </button>
 
-    <!-- Чертёж -->
-    <button class="btn-drawing" onclick="window.open('/static/pdfs/6893.00.000.pdf', '_blank')" style="
+<!-- Чертёж -->
+<button class="btn-drawing" onclick="window.open('pdfs/6893.00.000.pdf#page=1&view=FitH', '_blank')" style="
     font-size: 24px;
     padding: 12px 30px;
     background-color: #D5C6CA;
@@ -507,78 +506,81 @@ th, td {
     right: 50px;
 ">Чертёж</button>
 
-    <!-- таблица здесь -->
+    <!-- ТАБЛИЦА — ВНУТРИ блока -->
     <table class="work-table">
-        <!-- содержимое таблицы -->
+        <colgroup>
+            <col style="width: 20px;">
+            <col style="width: 350px;">
+            <col style="width: 120px;">
+            <col style="width: 230px;">
+        </colgroup>
+        <tr>
+            <th>№</th>
+            <th>Описание операции работ</th>
+            <th>Инструкция</th>
+            <th>Выполнить</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Списать материал</td>
+            <td>ZMS-TH-QP-101</td>
+            <td><button class="btn-start">Старт</button></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Отрезать материал</td>
+            <td>ZMS-TH-QP-101<br>ZMS-PH-DP-001</td>
+            <td><button class="btn-start">Старт</button></td>
+        </tr>
     </table>
 
-</div>   
-            <table class="work-table">
-                <colgroup>
-                    <col style="width: 20px;">     <!-- № -->
-                    <col style="width: 350px;">    <!-- Описание -->
-                    <col style="width: 120px;">    <!-- Инструкция -->
-                    <col style="width: 230px;">    <!-- Выполнить -->
-                </colgroup>
-                <tr>
-                    <th>№</th>
-                    <th>Описание операции работ</th>
-                    <th>Инструкция</th>
-                    <th>Выполнить</th>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Списать материал</td>
-                    <td>ZMS-TH-QP-101</td>
-                    <td><button class="btn-start">Старт</button></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Отрезать материал</td>
-                    <td>ZMS-TH-QP-101<br>ZMS-PH-DP-001</td>
-                    <td><button class="btn-start">Старт</button></td>
-                </tr>
-            </table>            
-    </main>
+</div>
     
-    <script>
-        function showSecondTable(button) {
-            document.getElementById('first-table').style.display = 'none';
-            document.getElementById('second-table').style.display = 'block';
-            document.getElementById('second-table').classList.add('show');
+<script>
+    function showSecondTable(button) {
+        // Скрыть первую таблицу
+        document.getElementById('first-table').style.display = 'none';
+        
+        // Показать вторую таблицу
+        document.getElementById('second-table').style.display = 'block';
+        document.getElementById('second-table').classList.add('show');
     
-            const name = button.dataset.name;
-            const client = button.dataset.client;
-            const jobNum = button.dataset.jobnum;
+        // Извлечь данные из кнопки и добавить их в соответствующие элементы
+        const name = button.dataset.name;
+        const client = button.dataset.client;
+        const jobNum = button.dataset.jobnum;
     
-            const nameElem = document.getElementById('job-name');
-            const clientElem = document.getElementById('job-client');
-            const jobNumElem = document.getElementById('job-num');
+        const nameElem = document.getElementById('job-name');
+        const clientElem = document.getElementById('job-client');
+        const jobNumElem = document.getElementById('job-num');
     
-            // Добавить вывод данных в элементы второй таблицы
-            if (nameElem && clientElem && jobNumElem) {
-                nameElem.textContent = name;
-                clientElem.textContent = client;
-                jobNumElem.textContent = jobNum;
-            }
+        // Добавить вывод данных в элементы второй таблицы
+        if (nameElem && clientElem && jobNumElem) {
+            nameElem.textContent = name;
+            clientElem.textContent = client;
+            jobNumElem.textContent = jobNum;
         }
+    }
     
-        function goBack() {
-            document.getElementById('second-table').classList.remove('show');
-            document.getElementById('first-table').style.display = 'block';
-            document.getElementById('second-table').style.display = 'none';
-        }
+    function goBack() {
+        // Скрыть вторую таблицу и показать первую
+        document.getElementById('second-table').classList.remove('show');
+        document.getElementById('first-table').style.display = 'block';
+        document.getElementById('second-table').style.display = 'none';
+    }
     
-        function showThirdTable() {
-            document.getElementById('second-table').style.display = 'none';
-            document.getElementById('third-table').style.display = 'block';
-        }
+    function showThirdTable() {
+        // Скрыть вторую таблицу и показать третью
+        document.getElementById('second-table').style.display = 'none';
+        document.getElementById('third-table').style.display = 'block';
+    }
     
-        function goBackToSecond() {
-            document.getElementById('third-table').style.display = 'none';
-            document.getElementById('second-table').style.display = 'block';  
-        }
-
+    function goBackToSecond() {
+        // Скрыть третью таблицу и показать вторую
+        document.getElementById('third-table').style.display = 'none';
+        document.getElementById('second-table').style.display = 'block';  
+    }
 </script>
+
         </body>
         </html>
