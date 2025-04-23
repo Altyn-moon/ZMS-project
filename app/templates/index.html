@@ -25,12 +25,26 @@
                 transform: scale(0.8);
             }
         }
+        .error-message {
+            color: red;
+            margin-top: 15px;
+            text-align: center;
+        }
 
         /* Применяем анимацию только при активном классе */
         .toggle-password img.blink {
             animation: blink 1s ease-in-out; /* Увеличили длительность для плавности */
         }
     </style>
+    <script>
+        // Показываем экран логина, если передан флаг force_login_screen
+        {% if force_login_screen %}
+            window.addEventListener('DOMContentLoaded', function () {
+                showLogin();
+            });
+        {% endif %}
+    </script>    
+    
 </head>
 <body>
 
@@ -48,22 +62,31 @@
         <button class="login-btn" onclick="showLogin()">Вход через логин/пароль</button>
     </div>
 
-    <!-- Экран логина -->
+        <!-- Экран логина -->
     <div id="loginScreen" class="login-container">
-        <label for="username">Имя пользователя</label>
-        <input type="text" id="username" placeholder="Введите имя">
-       
-        <label for="password">Пароль</label>
-        <div class="password-container">
-            <input type="password" id="password" placeholder="Введите пароль">
-            <button class="toggle-password" onclick="togglePassword()">
-                <img id="Eye-icon" src="/static/Eye-off.png" alt="eye" />
-            </button>
-        </div>
-        
-        <button class="login-submit">Войти</button>
+
+        {% if message %}
+            <div class="error-message">{{ message }}</div>
+        {% endif %}
+
+        <form method="post" action="/login">
+            <label for="username">Логин</label>
+            <input type="text" id="username" name="username" placeholder="Введите логин" required>
+
+            <label for="password">Пароль</label>
+            <div class="password-container">
+                <input type="password" id="password" name="password" placeholder="Введите пароль" required>
+                <button class="toggle-password" type="button" onclick="togglePassword()">
+                    <img id="Eye-icon" src="/static/Eye-off.png" alt="eye" />
+                </button>
+            </div>
+
+            <button class="login-submit" type="submit">Войти</button>
+        </form>
         <button class="back-btn" onclick="showCard()">← Назад</button>
     </div>
+
+
     
     <script>
         function showLogin() {
@@ -81,7 +104,7 @@
     setTimeout(() => {
         button.classList.remove('button-press'); // Убираем анимацию после завершения
     }, 200); // Длительность анимации
-}
+    }
 
 function togglePassword() {
     const passwordInput = document.getElementById("password");
@@ -100,12 +123,6 @@ function togglePassword() {
     // Анимация нажатия на кнопку
     animateButton(event.currentTarget);
 }
-
-        // Переход на dashboard
-        document.querySelector('.login-submit').addEventListener('click', function () {
-            // Тут может быть проверка логина/пароля
-            window.location.href = "/dashboard";
-        });
     </script>
 </body>
 </html>
