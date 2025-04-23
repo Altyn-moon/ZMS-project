@@ -143,7 +143,7 @@ th, td {
         }
 
         .btn-start {
-            background-color: #787A77;
+            background-color: #787a77;
             color: white;
             padding: 10px 30px;
             border: none;
@@ -514,27 +514,46 @@ th, td {
             <col style="width: 120px;">
             <col style="width: 230px;">
         </colgroup>
-        <tr>
-            <th>№</th>
-            <th>Описание операции работ</th>
-            <th>Инструкция</th>
-            <th>Выполнить</th>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>Списать материал</td>
-            <td>ZMS-TH-QP-101</td>
-            <td><button class="btn-start">Старт</button></td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Отрезать материал</td>
-            <td>ZMS-TH-QP-101<br>ZMS-PH-DP-001</td>
-            <td><button class="btn-start">Старт</button></td>
-        </tr>
+        <thead>
+            <tr>
+                <th>№</th>
+                <th>Описание операции работ</th>
+                <th>Инструкция</th>
+                <th>Выполнить</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Списать материал</td>
+                <td>ZMS-TH-QP-101</td>
+                <td>
+                    <div class="timer-block">
+                      <div class="timer-display">00:00:00</div>
+                      <button class="btn-start start-btn">Старт</button>
+                      <button class="btn-start stop-btn" style="display: none;">Стоп</button>
+                      <button class="btn-start submit-btn" style="display: none;">Отправить на проверку</button>
+                      <p class="status-message" style="color: #787a77;"></p>
+                    </div>
+                  </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Отрезать материал</td>
+                <td>ZMS-TH-QP-101<br>ZMS-PH-DP-001</td>
+                <td>
+                    <div class="timer-block">
+                      <div class="timer-display">00:00:00</div>
+                      <button class="btn-start start-btn">Старт</button>
+                      <button class="btn-start stop-btn" style="display: none;">Стоп</button>
+                      <button class="btn-start submit-btn" style="display: none;">Отправить на проверку</button>
+                      <p class="status-message" style="color: #787a77;"></p>
+                    </div>
+                  </td>
+                  
+            </tr>
+        </tbody>
     </table>
-
-</div>
     
 <script>
     function showSecondTable(button) {
@@ -580,7 +599,54 @@ th, td {
         document.getElementById('third-table').style.display = 'none';
         document.getElementById('second-table').style.display = 'block';  
     }
-</script>
 
+    //ТАЙМЕР
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.timer-block').forEach(block => {
+    const timerDisplay = block.querySelector('.timer-display');
+    const startBtn = block.querySelector('.start-btn');
+    const stopBtn = block.querySelector('.stop-btn');
+    const submitBtn = block.querySelector('.submit-btn');
+    const statusMessage = block.querySelector('.status-message');
+
+    let seconds = 0;
+    let interval = null;
+
+    const formatTime = (s) => {
+      const h = String(Math.floor(s / 3600)).padStart(2, '0');
+      const m = String(Math.floor((s % 3600) / 60)).padStart(2, '0');
+      const sec = String(s % 60).padStart(2, '0');
+      return `${h}:${m}:${sec}`;
+    };
+
+    startBtn.addEventListener('click', () => {
+      if (!interval) {
+        interval = setInterval(() => {
+          seconds++;
+          timerDisplay.textContent = formatTime(seconds);
+        }, 1000);
+      }
+      startBtn.style.display = 'none';
+      stopBtn.style.display = 'inline-block';
+      submitBtn.style.display = 'inline-block';
+    });
+
+    stopBtn.addEventListener('click', () => {
+      clearInterval(interval);
+      interval = null;
+      startBtn.style.display = 'inline-block';
+      stopBtn.style.display = 'none';
+    });
+
+    submitBtn.addEventListener('click', () => {
+      clearInterval(interval);
+      startBtn.style.display = 'none';
+      stopBtn.style.display = 'none';
+      submitBtn.style.display = 'none';
+      statusMessage.textContent = 'Отправлено на проверку ✅';
+    });
+  });
+});
+</script>
         </body>
         </html>
