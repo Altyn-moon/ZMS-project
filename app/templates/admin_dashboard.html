@@ -198,13 +198,106 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       z-index: 999;
     }
+    .table-container {
+      max-width: 800px;
+      margin: auto;
+    }
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .pagination button {
+      padding: 8px 16px;
+      border: 2px solid #B09493;
+      background-color: white;
+      color: black;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .pagination button.active {
+      background-color: #B09493;
+      color: white;
+      font-weight: bold;
+      transform: scale(1.05);
+    }
+    
 
+    .page-btn {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 8px;
+      background-color: transparent;
+      cursor: pointer;
+      font-size: 16px;
+      color: #000;
+      transition: 0.3s ease;
+      margin-right: 5px;
+    }
+
+    .page-btn:hover {
+      background-color: #f0f0f0;
+    }
+
+    .page-btn.active {
+      background-color: #8B1F1F;
+      color: white;
+      font-weight: bold;
+    }
+
+    .arrow-btn {
+      font-size: 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #333;
+      transition: 0.3s ease;
+      margin-right: 5px;
+    }
+
+    .arrow-btn:disabled {
+      color: #ccc;
+      cursor: default;
+    }
+
+    #pagination-container {
+    /* регулируй это */
+    margin-top: 90px;
+    margin-left: 250px;
+  }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      margin-bottom: 20px;
+    }
+
+    .table th, .table td {
+      padding: 8px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .table th {
+      text-align: left;
+    }
+    table, th, td {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
 
     /* Таблица */
     .data-table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 140px;
       background-color: white;
       border-radius: 12px;
       overflow: hidden;
@@ -234,7 +327,6 @@
       background-color: #f9f9f9;
     }
 
-
   </style>
 
   <!-- Подключение библиотеки Remix Icon -->
@@ -242,15 +334,32 @@
 
   <!-- Подключение Lordicon (если нужно позже для анимаций) -->
   <script src="https://cdn.lordicon.com/lord-icon-2.1.0.js"></script>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { overflow-x: hidden; }
+  
+    #app {
+      position: fixed;
+      inset: 0; /* top, right, bottom, left = 0 */
+      overflow-y: auto;
+      background: #f5f5f5;
+    }
+  
+    .fixed { position: fixed; z-index: 1000; }
+    .content { padding: 150px 40px 40px 250px; } /* отступы под меню и шапку */
+  </style>
+  
 </head>
 <body>
+  <div id="app">
 
-<div class="header">
-  <div class="header-left"></div>
+    <div class="header">
+      <div class="header-left"></div>
 
-  <div class="header-center">
-    <img src="/static/logo.png" alt="ZMS Logo" class="logo">
-  </div>
+      <div class="header-center">
+        <img src="/static/logo.png" alt="ZMS Logo" class="logo">
+      </div>
 
   <div class="header-right">
     <div class="user-info">
@@ -283,9 +392,32 @@
   </div>
 </div>
 
-<div class="content">
+<div class="right-panel">
+  <span style="font-size: 19px; font-weight: bold; display: flex; align-items: center; gap: 10px;">
+    <i class="ri-map-line"></i>
+    Рабочая карта
+  </span>
+  <button class="create-button">Создать</button>
+</div>
 
-  <table class="data-table">
+<div class="right-panel-users">
+  <span style="font-size: 20px; font-weight: bold; display: flex; align-items: center; gap: 10px;">
+    <i class="ri-user-3-line"></i>
+    Пользователи
+  </span>
+  <button class="create-button">Создать</button>
+</div>
+
+
+<div style="position: absolute; top: 150px; left: 20px;" id="pagination-container">
+    <button class="arrow-btn" id="prevBtn">&#8592;</button>
+    <button class="page-btn active">1</button>
+    <button class="page-btn">2</button>
+    <button class="arrow-btn" id="nextBtn">&#8594;</button>
+</div>
+
+<div style="margin-left: 260px; margin-top: 300px; background-color: white; border-radius: 20px; padding: 15px;">
+  <table id="myTable" style="width: 100%; border-collapse: collapse; border: 1px solid #ccc;">
     <thead>
       <tr>
         <th>Код</th>
@@ -313,26 +445,159 @@
         <td>Ремонтно-механический цех</td>
         <td>02.04.2025 15:02:06</td>
       </tr>
+      <tr>
+        <td>№1345-25 (1)</td>
+        <td>Изготовить Переходник 165,1 мм (6.500") по чертежу №7196.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
+        <td>29.03.2025</td>
+        <td>Фамилия Имя Отчество</td>
+        <td>Ремонтно-механический цех</td>
+        <td>02.04.2025 15:02:06</td>
+      </tr>
+      <tr>
+        <td>№1345-25 (2)</td>
+        <td>Изготовить Переходник 196,1 мм (7.200") по чертежу №6996.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
+        <td>29.03.2025</td>
+        <td>Фамилия Имя Отчество</td>
+        <td>Ремонтно-механический цех</td>
+        <td>02.04.2025 15:02:06</td>
+      </tr>
+      <tr>
+        <td>№1345-25 (1)</td>
+        <td>Изготовить Переходник 165,1 мм (6.500") по чертежу №7196.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
+        <td>29.03.2025</td>
+        <td>Фамилия Имя Отчество</td>
+        <td>Ремонтно-механический цех</td>
+        <td>02.04.2025 15:02:06</td>
+      </tr>
+      <tr>
+        <td>№1345-25 (2)</td>
+        <td>Изготовить Переходник 196,1 мм (7.200") по чертежу №6996.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
+        <td>29.03.2025</td>
+        <td>Фамилия Имя Отчество</td>
+        <td>Ремонтно-механический цех</td>
+        <td>02.04.2025 15:02:06</td>
+      </tr>
+      <tr>
+        <td>№1345-25 (1)</td>
+        <td>Изготовить Переходник 165,1 мм (6.500") по чертежу №7196.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
+        <td>29.03.2025</td>
+        <td>Фамилия Имя Отчество</td>
+        <td>Ремонтно-механический цех</td>
+        <td>02.04.2025 15:02:06</td>
+      </tr>
+      <tr>
+        <td>№1345-25 (2)</td>
+        <td>Изготовить Переходник 196,1 мм (7.200") по чертежу №6996.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
+        <td>29.03.2025</td>
+        <td>Фамилия Имя Отчество</td>
+        <td>Ремонтно-механический цех</td>
+        <td>02.04.2025 15:02:06</td>
+      </tr>
+      <tr>
+        <td>№1345-25 (1)</td>
+        <td>Изготовить Переходник 165,1 мм (6.500") по чертежу №7196.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
+        <td>29.03.2025</td>
+        <td>Фамилия Имя Отчество</td>
+        <td>Ремонтно-механический цех</td>
+        <td>02.04.2025 15:02:06</td>
+      </tr>
+      <tr>
+        <td>№1345-25 (2)</td>
+        <td>Изготовить Переходник 196,1 мм (7.200") по чертежу №6996.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
+        <td>29.03.2025</td>
+        <td>Фамилия Имя Отчество</td>
+        <td>Ремонтно-механический цех</td>
+        <td>02.04.2025 15:02:06</td>
+      </tr>
+      <tr>
+        <td>№1345-25 (1)</td>
+        <td>Изготовить Переходник 165,1 мм (6.500") по чертежу №7196.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
+        <td>29.03.2025</td>
+        <td>Фамилия Имя Отчество</td>
+        <td>Ремонтно-механический цех</td>
+        <td>02.04.2025 15:02:06</td>
+      </tr>
+      <tr>
+        <td>№1345-25 (2)</td>
+        <td>Изготовить Переходник 196,1 мм (7.200") по чертежу №6996.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
+        <td>29.03.2025</td>
+        <td>Фамилия Имя Отчество</td>
+        <td>Ремонтно-механический цех</td>
+        <td>02.04.2025 15:02:06</td>
+      </tr>
     </tbody>
   </table>
 </div>
 
-<div class="right-panel">
-  <span style="font-size: 20px; font-weight: bold; display: flex; align-items: center; gap: 10px;">
-    <i class="ri-map-line"></i>
-    Рабочая карта
-  </span>
-  <button class="create-button">Создать</button>
+  <div id="pagination" style="margin-top: 20px; display: flex; gap: 10px;"></div>
+
+  
 </div>
 
-<div class="right-panel-users">
-  <span style="font-size: 20px; font-weight: bold; display: flex; align-items: center; gap: 10px;">
-    <i class="ri-user-3-line"></i>
-    Пользователи
-  </span>
-  <button class="create-button">Создать</button>
-</div>
+<script>
+  const table = document.getElementById('myTable');
+  const rows = Array.from(table.querySelectorAll('tbody tr'));
+  const rowsPerPage = 10;
+  let currentPage = 1;
 
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const paginationContainer = document.getElementById('pagination-container');
+
+  function renderTable(page) {
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    rows.forEach((row, index) => {
+      row.style.display = index >= start && index < end ? '' : 'none';
+    });
+
+    // Update buttons
+    renderPagination();
+  }
+
+  function renderPagination() {
+    const totalPages = Math.ceil(rows.length / rowsPerPage);
+
+    // Очистка старых кнопок
+    const oldBtns = paginationContainer.querySelectorAll('.page-btn');
+    oldBtns.forEach(btn => btn.remove());
+
+    // Создание новых кнопок
+    for (let i = 1; i <= totalPages; i++) {
+      const btn = document.createElement('button');
+      btn.className = 'page-btn';
+      btn.textContent = i;
+      if (i === currentPage) btn.classList.add('active');
+      btn.onclick = () => {
+        currentPage = i;
+        renderTable(currentPage);
+      };
+      paginationContainer.insertBefore(btn, nextBtn);
+    }
+
+    // Обновляем состояние стрелок
+    prevBtn.disabled = currentPage === 1;
+    nextBtn.disabled = currentPage === totalPages;
+  }
+
+  prevBtn.onclick = () => {
+    if (currentPage > 1) {
+      currentPage--;
+      renderTable(currentPage);
+    }
+  };
+
+  nextBtn.onclick = () => {
+    const totalPages = Math.ceil(rows.length / rowsPerPage);
+    if (currentPage < totalPages) {
+      currentPage++;
+      renderTable(currentPage);
+    }
+  };
+
+  // Первоначальный рендер
+  renderTable(currentPage);
+</script>
 
 </body>
 </html>
