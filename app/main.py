@@ -58,7 +58,7 @@ def login(
         print(f"✅ Пользователь найден: {user.login}, роль: {user.role}")  # 👈 Лог
         response = RedirectResponse(url="/dashboard", status_code=status.HTTP_302_FOUND)
         response.set_cookie(key="user_role", value=user.role)
-        response.set_cookie(key="username", value=user.login)
+        response.set_cookie(key="username", value=user.name)
         return response
     else:
         print("❌ Неверные данные")  # 👈 Лог
@@ -70,7 +70,7 @@ def login(
 
 
 
-@app.get("/dashboard", response_class=HTMLResponse)
+"""@app.get("/dashboard", response_class=HTMLResponse)
 def dashboard(request: Request):
     user_name = request.cookies.get("username", "Гость")
     print(f"👤 Имя пользователя из cookie: {user_name}")  # Добавила
@@ -90,7 +90,30 @@ def dashboard(request: Request):
         "request": request,
         "user_name": user_name,
         "work_items": work_items
+    })"""
+
+@app.get("/dashboard", response_class=HTMLResponse)
+def dashboard(request: Request):
+    user_name = request.cookies.get("username", "Гость")  # cookie уже содержит ФИО
+    print(f"👤 Имя пользователя из cookie: {user_name}")  # Лог для проверки
+    work_items = [
+        {"id": 1, "name": "Изготовление переводника", "client": "ТОО «СБП» Казмунайгаз-Бурение", "job_num": "1135-24"},
+        {"id": 2, "name": "Втулка для шарнира", "client": "ТШО", "job_num": "1136-24"},
+        {"id": 3, "name": "Гайка шарнира (левая резьба) для бурового оборудования", "client": "ТШО", "job_num": "1137-24"},
+        {"id": 4, "name": "Изготовление переводника", "client": "ТОО «СБП» Казмунайгаз-Бурение", "job_num": "1138-24"},
+        {"id": 5, "name": "Втулка для шарнира", "client": "ТШО", "job_num": "1139-24"},
+        {"id": 6, "name": "Изготовление переводника", "client": "ТОО «СБП» Казмунайгаз-Бурение", "job_num": "1140-24"},
+        {"id": 7, "name": "Втулка для шарнира", "client": "ТШО", "job_num": "1141-24"},
+        {"id": 8, "name": "Гайка шарнира (левая резьба) для бурового оборудования", "client": "ТШО", "job_num": "1142-24"},
+        {"id": 9, "name": "Гайка шарнира (левая резьба) для бурового оборудования", "client": "ТШО", "job_num": "1143-24"},
+        {"id": 10, "name": "Втулка для шарнира", "client": "ТШО", "job_num": "1144-24"},
+    ]
+    return templates.TemplateResponse("dashboard.html", {
+        "request": request,
+        "user_name": user_name,
+        "work_items": work_items
     })
+
 
 from fastapi import Form
 from fastapi.responses import RedirectResponse
