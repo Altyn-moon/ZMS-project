@@ -1,18 +1,26 @@
-from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
+from fastapi import FastAPI, Form, Request, Depends
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
-from app.routes import auth  # <-- вот здесь без точки!
-from fastapi.responses import FileResponse
-import os
+from fastapi.staticfiles import StaticFiles
+from sqlalchemy.orm import Session
+from fastapi import status
+
+from app.database import SessionLocal
+from app.models import User
 
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 templates = Jinja2Templates(directory="app/templates")
 
-@app.get("/", response_class=HTMLResponse)
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
+@app.get("/", response_class=HTMLResponse)
 def login_form(request: Request):
     return templates.TemplateResponse("index.html", {"request": request, "message": ""})
     
@@ -38,11 +46,6 @@ def login(
             "message": "Неверный логин или пароль",
             "force_login_screen": True
         })
-=======
-async def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
-
-app.include_router(auth.router)
 
 @app.get("/dashboard", response_class=HTMLResponse)
 def dashboard(request: Request):
@@ -65,7 +68,6 @@ def dashboard(request: Request):
         "user_name": user_name,
         "work_items": work_items
     })
-
 
 from fastapi import Form
 from fastapi.responses import RedirectResponse
@@ -92,9 +94,3 @@ async def admin_login(
 async def admin_dashboard(request: Request):
     return templates.TemplateResponse("admin_dashboard.html", {"request": request})
 
-@app.get("/pdfs/{pdf_name}", response_class=FileResponse)
-async def get_pdf(pdf_name: str):
-    pdf_path = os.path.join("app/static/pdfs", pdf_name)
-    if os.path.exists(pdf_path):
-        return FileResponse(pdf_path, media_type='application/pdf')
-    return {"error": "PDF не найден"}
