@@ -124,23 +124,34 @@ body {
 }
 
 .login-btn,
-.back-btn,
 .login-submit {
     background-color: #a00000;
     color: white;
-    padding: 12px 24px;
+    padding: 20px 40px;  /* Увеличиваем внутренние отступы */
     border: none;
     border-radius: 12px;
-    font-size: 18px;
+    font-size: 20px; /* Увеличиваем размер шрифта */
     cursor: pointer;
     margin-top: 20px;
-    width: 70%;
+    width: 80%;  /* Увеличиваем ширину кнопки */
 }
 
 .back-btn {
     background-color: transparent;
     border: 2px solid #fff;
     margin-top: 10px;
+    padding: 20px 40px;  /* Увеличиваем внутренние отступы */
+    font-size: 18px; /* Увеличиваем размер шрифта */
+}
+
+.forgot-password {
+    display: block;
+    margin-top: 15px;
+    font-size: 16px;  /* Увеличиваем размер шрифта */
+    color: #fff;
+    text-align: right;
+    width: 100%;
+    cursor: pointer;
 }
 
 .login-container {
@@ -163,19 +174,20 @@ label {
 
 input {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
+    padding: 15px;  /* Увеличиваем внутренний отступ */
+    margin-bottom: 15px;  /* Увеличиваем отступ снизу */
     border: 1px solid #fff;
     border-radius: 5px;
     background: transparent;
     color: white;
     box-sizing: border-box;
+    font-size: 16px; /* Увеличиваем размер шрифта */
 }
 
 .password-container {
     position: relative;
     display: flex;
-    align-items: center; /* выравнивает по вертикали */
+    align-items: center; 
     width: 100%;
 }
 

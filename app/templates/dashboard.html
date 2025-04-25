@@ -24,13 +24,20 @@ body {
 }
         
         .header {
-            background: linear-gradient(90deg, rgb(156, 29, 17) 0%, rgba(113, 41, 4, 0.34) 55%, rgb(87, 16, 10) 100%); 
-            height: 60px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            width: 100%;
-        }
+    background: linear-gradient(90deg, rgb(156, 29, 17) 0%, rgba(113, 41, 4, 0.34) 55%, rgb(87, 16, 10) 100%);
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 10px 20px;
+    border-bottom: 2px solid #ddd;
+    box-sizing: border-box;
+}
 
         .header .user-info {
             display: flex;
@@ -143,7 +150,7 @@ th, td {
         }
 
         .btn-start {
-            background-color: #787A77;
+            background-color: #787a77;
             color: white;
             padding: 10px 30px;
             border: none;
@@ -263,6 +270,7 @@ th, td {
     font-weight: bold;
     max-height: 40px; /* ограничим высоту */
     white-space: nowrap;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .logout-button .icon {
@@ -270,7 +278,16 @@ th, td {
     height: 20px; /* уменьшим высоту */
     width: 20px;  /* добавим для консистентности */
 }
- 
+
+.logout-button:active {
+    transform: scale(0.95); /* Сжимаем кнопку на 5% */
+    background-color: #8b0000; /* Темнее при нажатии */
+}
+
+.logout-button:hover {
+    background-color: #8b0000; /* Темнее при наведении */
+    transform: scale(1.05); /* Лёгкое увеличение при наведении */
+}
         html, body {
     margin: 0;
     padding: 0;
@@ -365,7 +382,6 @@ th, td {
     transform: scale(1.05);
 }
 
-
 @media (max-width: 768px) {
     .search-input {
         width: 90%;
@@ -434,16 +450,67 @@ a:visited {
   animation: pulse 1.2s infinite;
 }
 
+/* Анимация для логотипа (прыжок или махание) */
+@keyframes logoAnimation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 
+.logo {
+  cursor: pointer; /* Устанавливаем курсор в виде руки при наведении */
+}
+
+/* Когда логотип кликнут */
+.logo.animate {
+  animation: logoAnimation 0.5s ease;
+}
+
+.fade-out {
+    animation: fadeOut 0.5s forwards;
+  }
+@keyframes fadeOut {
+  
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+
+  .fade-out {
+  animation: fadeOut 0.5s forwards;
+}
+.fade-in {
+  animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; visibility: hidden; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.hidden {
+  display: none;
+}
 
 </style>
 </head>
 <body>
     <div class="header">
         <div class="header-left">
-            <button class="left-button">
-                <img src="/static/help.png" alt="Инструкция" class="icon clickable"> 
-            </button>
+          <button class="left-button" onclick="showVideoPage()">
+            <img src="/static/help.png" alt="Инструкция" class="icon clickable">
+        </button>        
+                
             <button class="left-button">
                 <img src="/static/notification.png" alt="Уведомления" class="icon clickable">
             </button>
@@ -457,7 +524,7 @@ a:visited {
             <button class="user-button">
                 <img src="/static/user-icon.png" alt="User Icon" class="icon small-icon">
                 {{ user_name }}
-            </button>                       
+            </button>
             <button class="logout-button">
                 <img src="/static/logout.png" alt="Выход" class="icon small-icon">
                 Выйти
@@ -527,8 +594,7 @@ a:visited {
                 </tr>
             </table>
         </div>
-    
-        <!-- третья таблица -->
+
         <!-- третья таблица -->
 <div class="table-container" id="third-table" style="display: none; position: relative;">
 
@@ -539,8 +605,8 @@ a:visited {
         <span>Назад</span>
     </button>    
 
-    <!-- Чертёж -->
-    <button class="btn-drawing" onclick="window.open('/static/pdfs/6893.00.000.pdf', '_blank')" style="
+<!-- Чертёж -->
+<button class="btn-drawing" onclick="window.open('pdfs/6893.00.000.pdf#page=1&view=FitH', '_blank')" style="
     font-size: 24px;
     padding: 12px 30px;
     background-color: #D5C6CA;
@@ -556,144 +622,280 @@ a:visited {
     <!-- ТАБЛИЦА — ВНУТРИ блока -->
     <table class="work-table">
         <colgroup>
-            <col style="width: 20px;">
-            <col style="width: 350px;">
-            <col style="width: 120px;">
-            <col style="width: 230px;">
+          <col style="width: 20px;">
+          <col style="width: 350px;">
+          <col style="width: 120px;">
+          <col style="width: 230px;">
         </colgroup>
         <thead>
             <tr>
-                <th>№</th>
-                <th>Описание операции работ</th>
-                <th>Инструкция</th>
-                <th>Выполнить</th>
+              <th>№</th>
+              <th>Описание операции работ</th>
+              <th>Инструкция</th>
+              <th>Выполнить</th>
             </tr>
-        </thead>
+          </thead>          
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>Списать материал</td>
-                <td>ZMS-TH-QP-101</td>
+          <tr>
+            <td>1</td>
+            <td>Списать материал</td>
+            <td>
+                <a href="pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101</a>
+            </td>
+            <td>
+              <div class="timer-block">
+                <div class="timer-display" id="timer-1">00:00:00</div>
+                <div class="button-row">
+                  <button class="btn-start start-btn" id="start-btn-1">Старт</button>
+                  <button class="btn-start stop-btn" id="stop-btn-1" style="display: none;">Стоп</button>
+                </div>
+                <button class="btn-start submit-btn" id="submit-btn-1" style="display: none;">Отправить на проверку</button>
+                <p class="status-message" id="status-msg-1"></p>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Отрезать материал</td>
                 <td>
-                    <div class="timer-block">
-                      <div class="timer-display">00:00:00</div>
-                      <button class="btn-start start-btn">Старт</button>
-                      <button class="btn-start stop-btn" style="display: none;">Стоп</button>
-                      <button class="btn-start submit-btn" style="display: none;">Отправить на проверку</button>
-                      <p class="status-message" style="color: #787a77;"></p>
-                    </div>
-                  </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Отрезать материал</td>
-                <td>ZMS-TH-QP-101<br>ZMS-PH-DP-001</td>
-                <td>
-                    <div class="timer-block">
-                      <div class="timer-display">00:00:00</div>
-                      <button class="btn-start start-btn">Старт</button>
-                      <button class="btn-start stop-btn" style="display: none;">Стоп</button>
-                      <button class="btn-start submit-btn" style="display: none;">Отправить на проверку</button>
-                      <p class="status-message" style="color: #787a77;"></p>
-                    </div>
-                  </td>
-                  
-            </tr>
+                    <a href="pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101</a><br>
+                    <a href="pdfs/инструкция2.pdf" target="_blank">ZMS-PH-DP-001</a>
+                </td>
+            <td>
+              <div class="timer-block">
+                <div class="timer-display" id="timer-2">00:00:00</div>
+                <div class="button-row">
+                  <button class="btn-start start-btn" id="start-btn-2">Старт</button>
+                  <button class="btn-start stop-btn" id="stop-btn-2" style="display: none;">Стоп</button>
+                </div>
+                <button class="btn-start submit-btn" id="submit-btn-2" style="display: none;">Отправить на проверку</button>
+                <p class="status-message" id="status-msg-2"></p>
+              </div>
+            </td>
+          </tr>
         </tbody>
-    </table>
-    
-<script>
-    function showSecondTable(button) {
-        // Скрыть первую таблицу
-        document.getElementById('first-table').style.display = 'none';
+      </table>      
+<!-- Страница с видеоинструкциями -->
+<div id="video-page" style="display: none; padding: 20px;">
+  <button class="back-btn" onclick="hideVideoPage()" style="font-size: 24px; padding: 12px 30px;">
+      Назад
+  </button>
+  <h2>Инструкции</h2>
+  <div class="video-container">
+      <h3>Инструкция 1</h3>
+      <video width="320" height="240" controls>
+          <source src="path/to/your/video1.mp4" type="video/mp4">
+          Ваш браузер не поддерживает видео.
+      </video>
+  </div>
+  <div class="video-container">
+      <h3>Инструкция 2</h3>
+      <video width="320" height="240" controls>
+          <source src="path/to/your/video2.mp4" type="video/mp4">
+          Ваш браузер не поддерживает видео.
+      </video>
+  </div>
+  <!-- Добавьте больше видео по необходимости -->
+</div>
+
+      <script>
         
-        // Показать вторую таблицу
-        document.getElementById('second-table').style.display = 'block';
-        document.getElementById('second-table').classList.add('show');
-    
-        // Извлечь данные из кнопки и добавить их в соответствующие элементы
-        const name = button.dataset.name;
-        const client = button.dataset.client;
-        const jobNum = button.dataset.jobnum;
-    
-        const nameElem = document.getElementById('job-name');
-        const clientElem = document.getElementById('job-client');
-        const jobNumElem = document.getElementById('job-num');
-    
-        // Добавить вывод данных в элементы второй таблицы
-        if (nameElem && clientElem && jobNumElem) {
-            nameElem.textContent = name;
-            clientElem.textContent = client;
-            jobNumElem.textContent = jobNum;
-        }
-    }
-    
-    function goBack() {
-        // Скрыть вторую таблицу и показать первую
-        document.getElementById('second-table').classList.remove('show');
-        document.getElementById('first-table').style.display = 'block';
-        document.getElementById('second-table').style.display = 'none';
-    }
-    
-    function showThirdTable() {
-        // Скрыть вторую таблицу и показать третью
-        document.getElementById('second-table').style.display = 'none';
-        document.getElementById('third-table').style.display = 'block';
-    }
-    
-    function goBackToSecond() {
-        // Скрыть третью таблицу и показать вторую
-        document.getElementById('third-table').style.display = 'none';
-        document.getElementById('second-table').style.display = 'block';  
-    }
+ // === Функции переключения таблиц ===
+function showSecondTable(button) {
+  resetSearch(); // <=== ДОБАВЬ ЭТО
+  document.getElementById('first-table').style.display = 'none';
+  document.getElementById('second-table').style.display = 'block';
+  document.getElementById('second-table').classList.add('show');
+  
+  const name = button.dataset.name;
+  const client = button.dataset.client;
+  const jobNum = button.dataset.jobnum;
 
-    //ТАЙМЕР
-document.addEventListener('DOMContentLoaded', function () {
-  document.querySelectorAll('.timer-block').forEach(block => {
-    const timerDisplay = block.querySelector('.timer-display');
-    const startBtn = block.querySelector('.start-btn');
-    const stopBtn = block.querySelector('.stop-btn');
-    const submitBtn = block.querySelector('.submit-btn');
-    const statusMessage = block.querySelector('.status-message');
+  const nameElem = document.getElementById('job-name');
+  const clientElem = document.getElementById('job-client');
+  const jobNumElem = document.getElementById('job-num');
 
-    let seconds = 0;
-    let interval = null;
+  if (nameElem && clientElem && jobNumElem) {
+    nameElem.textContent = name;
+    clientElem.textContent = client;
+    jobNumElem.textContent = jobNum;
+  }
+}
 
-    const formatTime = (s) => {
-      const h = String(Math.floor(s / 3600)).padStart(2, '0');
-      const m = String(Math.floor((s % 3600) / 60)).padStart(2, '0');
-      const sec = String(s % 60).padStart(2, '0');
-      return `${h}:${m}:${sec}`;
-    };
+function goBack() {
+  resetSearch(); // <=== ДОБАВЬ ЭТО
+  // Проверяем, на какой таблице мы находимся и возвращаемся на предыдущую
+  if (document.getElementById('second-table').style.display === 'block') {
+    document.getElementById('second-table').classList.remove('show');
+    document.getElementById('first-table').style.display = 'block';
+    document.getElementById('second-table').style.display = 'none';
+  } else if (document.getElementById('third-table').style.display === 'block') {
+    document.getElementById('third-table').style.display = 'none';
+    document.getElementById('second-table').style.display = 'block';
+  }
+}
 
-    startBtn.addEventListener('click', () => {
-      if (!interval) {
-        interval = setInterval(() => {
-          seconds++;
-          timerDisplay.textContent = formatTime(seconds);
-        }, 1000);
-      }
-      startBtn.style.display = 'none';
-      stopBtn.style.display = 'inline-block';
-      submitBtn.style.display = 'inline-block';
+function showThirdTable() {
+  resetSearch(); // <===
+  document.getElementById('second-table').style.display = 'none';
+  document.getElementById('third-table').style.display = 'block';
+}
+
+function goBackToSecond() {
+  resetSearch(); // <===
+  document.getElementById('third-table').style.display = 'none';
+  document.getElementById('second-table').style.display = 'block';
+}
+      
+        // === Поиск — ВНЕ других функций и обработчиков ===
+        document.querySelector('.search-input').addEventListener('input', function () {
+          const searchText = this.value.toLowerCase();
+      
+          const visibleTableContainer = Array.from(document.querySelectorAll('.table-container'))
+            .find(container => getComputedStyle(container).display !== 'none');
+      
+          if (!visibleTableContainer) return;
+      
+          const rows = visibleTableContainer.querySelectorAll('tbody tr');
+      
+          rows.forEach(row => {
+            const rowText = row.innerText.toLowerCase();
+            row.style.display = rowText.includes(searchText) ? '' : 'none';
+          });
+        });
+      
+        // === Таймеры ===
+        document.querySelectorAll('.start-btn').forEach((button, index) => {
+          let timer = document.querySelector(`#timer-${index + 1}`);
+          let startButton = document.querySelector(`#start-btn-${index + 1}`);
+          let stopButton = document.querySelector(`#stop-btn-${index + 1}`);
+          let submitButton = document.querySelector(`#submit-btn-${index + 1}`);
+          let statusMessage = document.querySelector(`#status-msg-${index + 1}`);
+      
+          let interval;
+          let seconds = 0, minutes = 0, hours = 0;
+      
+          function updateTimer() {
+            seconds++;
+            if (seconds >= 60) {
+              seconds = 0;
+              minutes++;
+            }
+            if (minutes >= 60) {
+              minutes = 0;
+              hours++;
+            }
+            timer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+          }
+      
+          startButton.addEventListener('click', () => {
+            startButton.style.display = 'none';
+            stopButton.style.display = 'inline-block';
+            submitButton.style.display = 'inline-block';
+            statusMessage.textContent = '';
+      
+            interval = setInterval(updateTimer, 1000);
+          });
+      
+          stopButton.addEventListener('click', () => {
+            clearInterval(interval);
+            startButton.style.display = 'inline-block';
+            stopButton.style.display = 'none';
+            statusMessage.innerHTML = `Время остановлено <img src="static/pause.png" alt="pause" class="pause-icon" style="width: 20px; vertical-align: middle; margin-left: 8px; margin-top: -4px;">`;
+          });
+      
+          submitButton.addEventListener('click', () => {
+            clearInterval(interval);
+            startButton.style.display = 'none';
+            stopButton.style.display = 'none';
+            submitButton.style.display = 'none';
+            statusMessage.innerHTML = `
+              Отправлено на проверку 
+              <img src="static/done.gif" alt="done" class="done-icon" style="width: 40px; vertical-align: middle; margin-left: 7px; margin-top: 2px;">
+            `;
+      
+            setTimeout(() => {
+              const doneIcon = statusMessage.querySelector('.done-icon');
+              if (doneIcon) {
+                doneIcon.src = 'static/done.png';
+              }
+            }, 1200);
+          });
+        });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    // === Клик по логотипу для возврата на первую таблицу ===
+    document.querySelector('.logo').addEventListener('click', function () {
+      // Добавляем анимацию к логотипу
+      this.classList.add('animate');
+
+      const firstTable = document.getElementById('first-table');
+      const secondTable = document.getElementById('second-table');
+      const thirdTable = document.getElementById('third-table');
+
+      // Добавляем анимацию скрытия для всех таблиц
+      secondTable.classList.add('fade-out');
+      thirdTable.classList.add('fade-out');
+
+      // Скрываем вторую и третью таблицы после анимации
+      setTimeout(function () {
+        secondTable.style.display = 'none';
+        thirdTable.style.display = 'none';
+
+        // Показываем первую таблицу с анимацией
+        firstTable.style.display = 'block';
+        firstTable.classList.add('fade-in');
+
+        // Удаляем временные классы анимаций
+        setTimeout(function () {
+          firstTable.classList.remove('fade-in');
+          secondTable.classList.remove('fade-out');
+          thirdTable.classList.remove('fade-out');
+        }, 500);
+      }, 500);
+
+      // Убираем анимацию с логотипа
+      setTimeout(function () {
+        document.querySelector('.logo').classList.remove('animate');
+      }, 500);
     });
 
-    stopBtn.addEventListener('click', () => {
-      clearInterval(interval);
-      interval = null;
-      startBtn.style.display = 'inline-block';
-      stopBtn.style.display = 'none';
-    });
-
-    submitBtn.addEventListener('click', () => {
-      clearInterval(interval);
-      startBtn.style.display = 'none';
-      stopBtn.style.display = 'none';
-      submitBtn.style.display = 'none';
-      statusMessage.textContent = 'Отправлено на проверку ✅';
+    // === Logout обработчик ===
+    document.querySelector('.logout-button').addEventListener('click', function () {
+      document.body.classList.add('fade-out');
+      setTimeout(function () {
+        window.location.href = 'http://127.0.0.1:8000';
+      }, 500);
     });
   });
-});
+
+  function resetSearch() {
+  const searchInput = document.querySelector('.search-input');
+  searchInput.value = ''; // Очищаем поле поиска
+
+  // Показываем все строки в текущей таблице
+  const allRows = document.querySelectorAll('.table-container tbody tr');
+  allRows.forEach(row => row.style.display = '');
+}
+// Функция для показа страницы с видеоинструкциями
+function showVideoPage() {
+    document.getElementById('third-table').style.display = 'none';  // Скрыть третью таблицу
+    document.getElementById('video-page').style.display = 'block';  // Показать страницу с видеоинструкциями
+}
+
+// Функция для скрытия страницы с видеоинструкциями
+function hideVideoPage() {
+    document.getElementById('video-page').style.display = 'none';  // Скрыть страницу с видеоинструкциями
+    document.getElementById('third-table').style.display = 'block'; // Показать третью таблицу
+}
+function hideVideoPage() {
+    document.getElementById('video-page').style.display = 'none';  // Скрыть страницу с видеоинструкциями
+    document.getElementById('third-table').style.display = 'block'; // Показать третью таблицу
+}
+
 </script>
-        </body>
-        </html>
+
+
+
+
+

@@ -25,6 +25,7 @@
                 transform: scale(0.8);
             }
         }
+
         .error-message {
             color: red;
             margin-top: 15px;
@@ -36,18 +37,8 @@
             animation: blink 1s ease-in-out; /* Увеличили длительность для плавности */
         }
     </style>
-    <script>
-        // Показываем экран логина, если передан флаг force_login_screen
-        {% if force_login_screen %}
-            window.addEventListener('DOMContentLoaded', function () {
-                showLogin();
-            });
-        {% endif %}
-    </script>    
-    
 </head>
 <body>
-
     <img class="logo" src="/static/logo.png" alt="ZMS" width="250">
 
     <!-- Экран с карточкой -->
@@ -62,9 +53,8 @@
         <button class="login-btn" onclick="showLogin()">Вход через логин/пароль</button>
     </div>
 
-        <!-- Экран логина -->
+    <!-- Экран логина -->
     <div id="loginScreen" class="login-container">
-
         {% if message %}
             <div class="error-message">{{ message }}</div>
         {% endif %}
@@ -76,7 +66,7 @@
             <label for="password">Пароль</label>
             <div class="password-container">
                 <input type="password" id="password" name="password" placeholder="Введите пароль" required>
-                <button class="toggle-password" type="button" onclick="togglePassword()">
+                <button class="toggle-password" type="button" onclick="togglePassword(event)">
                     <img id="Eye-icon" src="/static/Eye-off.png" alt="eye" />
                 </button>
             </div>
@@ -86,42 +76,45 @@
         <button class="back-btn" onclick="showCard()">← Назад</button>
     </div>
 
-    
     <script>
+        // Показать экран с логином
         function showLogin() {
             document.getElementById('cardScreen').classList.remove('active');
             document.getElementById('loginScreen').classList.add('active');
         }
 
+        // Показать экран карточки
         function showCard() {
             document.getElementById('loginScreen').classList.remove('active');
             document.getElementById('cardScreen').classList.add('active');
         }
 
+        // Анимация нажатия на кнопку
         function animateButton(button) {
-    button.classList.add('button-press'); // Добавляем анимацию кнопке
-    setTimeout(() => {
-        button.classList.remove('button-press'); // Убираем анимацию после завершения
-    }, 200); // Длительность анимации
-    }
+            button.classList.add('button-press'); // Добавляем анимацию кнопке
+            setTimeout(() => {
+                button.classList.remove('button-press'); // Убираем анимацию после завершения
+            }, 200); // Длительность анимации
+        }
 
-function togglePassword() {
-    const passwordInput = document.getElementById("password");
-    const eyeIcon = document.getElementById("Eye-icon");
-    const isPassword = passwordInput.type === "password";
-    
-    passwordInput.type = isPassword ? "text" : "password";
-    eyeIcon.src = isPassword ? "/static/Eye.png" : "/static/Eye-off.png";
+        // Переключение видимости пароля
+        function togglePassword(event) {
+            const passwordInput = document.getElementById("password");
+            const eyeIcon = document.getElementById("Eye-icon");
+            const isPassword = passwordInput.type === "password";
 
-    // Анимация моргания
-    eyeIcon.classList.add('blink-animation');
-    setTimeout(() => {
-        eyeIcon.classList.remove('blink-animation');
-    }, 250); // длительность соответствует animation: 0.25s
+            passwordInput.type = isPassword ? "text" : "password";
+            eyeIcon.src = isPassword ? "/static/Eye.png" : "/static/Eye-off.png";
 
-    // Анимация нажатия на кнопку
-    animateButton(event.currentTarget);
-}
+            // Анимация моргания
+            eyeIcon.classList.add('blink');
+            setTimeout(() => {
+                eyeIcon.classList.remove('blink');
+            }, 1000); // длительность анимации
+
+            // Анимация нажатия на кнопку
+            animateButton(event.currentTarget);
+        }
     </script>
 </body>
 </html>
