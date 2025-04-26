@@ -9,45 +9,32 @@
 }
 
 @keyframes button-press {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(0.95); /* немного уменьшаем */
-    }
-    100% {
-        transform: scale(1);
-    }
+    0% { transform: scale(1); }
+    50% { transform: scale(0.95); }
+    100% { transform: scale(1); }
 }
 
-/* Применяем анимацию нажатия к кнопке */
 .login-btn:active, .back-btn:active, .login-submit:active {
     animation: button-press 0.2s ease-out;
 }
 
-/* Для глазика тоже плавное моргание */
-@keyframes eye-blink {
-    0% {
-        transform: scaleY(1);
-        opacity: 1;
+@keyframes blink {
+    0%, 100% {
+        opacity: 1; /* Глаз видим */
     }
     50% {
-        transform: scaleY(0.1);
-        opacity: 0.3;
-    }
-    100% {
-        transform: scaleY(1);
-        opacity: 1;
+        opacity: 0; /* Глаз скрывается */
     }
 }
 
 .blink-animation {
-    animation: eye-blink 0.25s ease-in-out;
-    transform-origin: center;
+    animation: blink 1.5s infinite;
+    transform-origin: center center;
 }
-  
+
 * {
     font-family: 'Manrope', sans-serif;
+    box-sizing: border-box; /* <--- добавил здесь для всех! */
 }
 
 body {
@@ -57,10 +44,8 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    position: relative;
     margin: 0;
     overflow: hidden;
-    font-family: 'Manrope', sans-serif;
     font-weight: 700;
     color: white;
 }
@@ -95,9 +80,8 @@ body {
     font-weight: bold;
     width: 800px;
     height: 400px;
-    box-sizing: border-box;
-    position: relative;  /* Убедись, что у карточки есть позиционирование */
-    left: -85px;         /* Подвинь карту влево */
+    position: relative;
+    left: -85px;
 }
 
 .card-text {
@@ -123,35 +107,79 @@ body {
     height: auto;
 }
 
-.login-btn,
-.login-submit {
-    background-color: #a00000;
+.login-btn {
+    padding: 16px 36px; /* было меньше — теперь чуть больше */
+    font-size: 20px; /* увеличим текст */
+    width: 85%; /* была 80% — увеличиваем */
+    max-width: 420px; /* было 400px — чуть шире */
+    background-color: #c40000;
     color: white;
-    padding: 20px 40px;  /* Увеличиваем внутренние отступы */
     border: none;
-    border-radius: 12px;
-    font-size: 20px; /* Увеличиваем размер шрифта */
+    border-radius: 8px;
     cursor: pointer;
-    margin-top: 20px;
-    width: 80%;  /* Увеличиваем ширину кнопки */
+    margin-top: 30px;
+    text-align: center;
+    transition: transform 0.1s ease, background-color 0.2s ease;
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.25); /* чуть больше тень */
 }
 
+.login-btn:hover {
+    background-color: #a10202;
+}
+
+.login-btn:active {
+    transform: scale(0.95);
+}
+
+.login-submit, .back-btn {
+    margin-top: 15px;
+    padding: 14px 28px;
+    font-size: 18px;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 260px; /* БОЛЬШЕ ширина */
+    text-align: center;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Кнопка Войти */
+.login-submit {
+    background-color: #a10202;
+}
+
+/* Кнопка Назад */
 .back-btn {
     background-color: transparent;
-    border: 2px solid #fff;
-    margin-top: 10px;
-    padding: 20px 40px;  /* Увеличиваем внутренние отступы */
-    font-size: 18px; /* Увеличиваем размер шрифта */
+    border: 2px solid white;
 }
 
-.forgot-password {
-    display: block;
-    margin-top: 15px;
-    font-size: 16px;  /* Увеличиваем размер шрифта */
-    color: #fff;
-    text-align: right;
-    width: 100%;
-    cursor: pointer;
+/* Наведение на Войти */
+.login-submit:hover {
+    background-color: #770000;
+}
+
+/* Наведение на Назад */
+.back-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Нажатие на обе */
+.login-submit:active, .back-btn:active {
+    animation: button-press 0.2s ease-out;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.back-btn svg {
+    stroke: white;
 }
 
 .login-container {
@@ -160,58 +188,66 @@ body {
     background: rgba(100, 100, 100, 0.5);
     padding: 30px;
     border-radius: 10px;
-    width: 400px;
+    width: 90%;
+    max-width: 480px;  /* Максимальная ширина для всего контейнера */
     text-align: center;
+    margin: 0 auto; /* Центрируем контейнер на экране */
 }
 
-label {
-    display: block;
-    font-size: 16px;
+/* 2. Растягиваем форму внутри */
+form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+form label {
     margin-bottom: 5px;
-    text-align: left;
-    width: 100%;
+    font-size: 16px;
+    color: white;
 }
 
-input {
+input[type="text"],
+input[type="password"] {
+    padding-right: 35px;
     width: 100%;
-    padding: 15px;  /* Увеличиваем внутренний отступ */
-    margin-bottom: 15px;  /* Увеличиваем отступ снизу */
-    border: 1px solid #fff;
-    border-radius: 5px;
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 1px solid white;
     background: transparent;
     color: white;
-    box-sizing: border-box;
-    font-size: 16px; /* Увеличиваем размер шрифта */
+    font-size: 16px;
 }
 
+/* 4. Правим контейнер для пароля и глазика */
 .password-container {
-    position: relative;
-    display: flex;
-    align-items: center; 
     width: 100%;
+    position: relative;
+}
+
+.password-container input {
+    width: 100%;
+    padding-right: 40px; /* Место для иконки */
+    padding-left: 10px;  /* Чуть-чуть для симметрии */
 }
 
 .toggle-password {
     position: absolute;
-    right: 10px;
     top: 50%;
-    transform: translateY(-50%);
+    right: 35px;
+    transform: translateY(-70%); /* Центрируем по вертикали */
     background: none;
     border: none;
     cursor: pointer;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .toggle-password img {
     width: 24px;
-    display: block;
-    height: 24px; /* или свой размер */
-    margin-top: -8px; /* чуть вверх/вниз подкорректировать */
-    }
-    
+    height: 24px;
+}
+
 .forgot-password {
     display: block;
     margin-top: 10px;
