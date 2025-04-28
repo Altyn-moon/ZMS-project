@@ -295,6 +295,13 @@ th, td {
 }
 
     /* Таблица */
+    #myTable thead tr:first-child {
+  background-color: #c8c8c8;
+}
+#myTable, #myTable th, #myTable td {
+  border: 1px solid #898787; /* Тёмные линии */
+  border-collapse: collapse;
+}
     .data-table {
       width: 100%;
       border-collapse: collapse;
@@ -326,6 +333,288 @@ th, td {
     .data-table tr:nth-child(even) {
       background-color: #f9f9f9;
     }
+    .column-search {
+  width: 100%;
+  padding: 6px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  background-color: #e4e1e1;
+}
+.create-button {
+      background-color: #8B0000;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    /* Задний фон (пока модалка активна) */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.4);
+      z-index: 1000;
+    }
+
+    /* Модальное окно */
+  .modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.95);
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    z-index: 1001;
+    width: 600px;
+    max-width: 90%;
+    display: none;
+    opacity: 0;
+    animation: fadeScaleIn 0.3s ease-out forwards;
+  }
+
+  @keyframes fadeScaleIn {
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+
+  .modal input,
+  .modal textarea,
+  .modal select {
+    width: 100%;
+    margin-bottom: 12px;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+
+  .modal form button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    border: none;
+    background-color: #8B0000;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .success-message {
+  display: none;
+  background-color: #4CAF50;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  border-radius: 5px;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  opacity: 0;
+  animation: fadeInOut 3s forwards;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    top: 0;
+  }
+  50% {
+    opacity: 1;
+    top: 20px;
+  }
+  100% {
+    opacity: 0;
+    top: 0;
+  }
+}
+.error-message {
+  display: none;
+  background-color: #FFC107; /* жёлтый */
+  color: black;
+  text-align: center;
+  padding: 15px;
+  border-radius: 5px;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  opacity: 0;
+  animation: fadeInOut 3s forwards;
+}
+
+.close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+
+  /* Стиль как у кнопки «Сохранить» */
+  background-color: #8B0000;
+  color: white;
+
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+
+  /* Слегка увеличиваем при наведении */
+  transition: transform 0.1s ease-in-out;
+}
+.close-button:hover {
+  transform: scale(1.05);
+}
+/* Контейнер формы: белый фон, скругления, тень и анимация появления */
+#createPage {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  max-width: 1260px;
+  margin-left: 250px;
+  margin-top: 0px;
+  padding: 15px 25px;
+  position: relative;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* когда форма показывается, добавляем класс .visible */
+#createPage.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Заголовки */
+#createPage h1 {
+  font-size: 18px; /* Сделать текст меньше */
+  margin-top: 0px; /* Прижать ближе к верху */
+  margin-bottom: 0px; /* Отступ снизу от заголовка */
+  text-align: left; /* Выравнивание влево */
+  color: #000000; /* Бордовый цвет текста, если нужно красиво */
+}
+#createPage .section-header h2 {
+  font-size: 15px;
+  color: #555;
+  margin: 0;
+}
+/* Контейнер кнопки Назад */
+.back-button-container {
+  margin-left: 240px; /* Сдвиг вправо, если меню слева */
+  margin-top: 65px;
+  padding: 20px;
+  background: #f5f5f5; /* Цвет фона над формой */
+}
+/* Стили для кнопки Назад */
+.back-button {
+  background-color: #800000; /* Бордовый цвет */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: #a00000; /* Темнее при наведении */
+}
+
+/* Кнопка «+» круглой формы и бордового цвета */
+.add-btn {
+  background: #800000;
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 1;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  transition: transform 0.2s ease;
+  border: none;
+}
+.add-btn:hover {
+  transform: scale(1.1);
+}
+
+#createPage input[type="text"],
+#createPage textarea {
+  width: 20%; /* Растягиваем на всю ширину блока */
+  padding: 10px; /* Увеличиваем внутренние отступы */
+  margin-bottom: 10px; /* Отступ снизу между полями */
+  font-size: 10px; /* Увеличиваем текст */
+  border: 1px solid #ccc;
+  border-radius: 8px; /* Скругляем углы */
+  box-sizing: border-box; /* Чтобы padding не ломал ширину */
+}
+
+/* Кнопка «Сохранить рабочую карту» */
+.submit-btn {
+  background: #800000;
+  color: #fff;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  transition: background 0.2s ease;
+}
+.submit-btn:hover {
+  background: #a00000;
+}
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px 0 10px 0;
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #555;
+}
+#jobCardForm label {
+  font-weight: bold;
+  font-size: 12px;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  display: block;
+  color: #333;
+}
+.form-container {
+      display: flex;
+      gap: 20px;  /* Расстояние между полями */
+    }
+.form-item {
+      display: flex;
+      flex-direction: column;  /* Заголовок сверху, а поле снизу */
+      align-items: flex-start;
+    }
+
+    .form-item label {
+      margin-bottom: 5px;  /* Расстояние между заголовком и полем */
+    }
+
+
+
+
 
   </style>
 
@@ -334,6 +623,8 @@ th, td {
 
   <!-- Подключение Lordicon (если нужно позже для анимаций) -->
   <script src="https://cdn.lordicon.com/lord-icon-2.1.0.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
 
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -382,7 +673,7 @@ th, td {
     </div>
     <button class="menu-item"><i class="ri-notification-3-line"></i>Уведомления</button>
     <button class="menu-item"><i class="ri-map-line"></i>Рабочие карты</button>
-    <button class="menu-item"><i class="ri-user-3-line"></i>Пользователи</button>
+    <button class="menu-item"><i class="ri-user-3-line"></i>Сотрудники</button>
   </div>
 
   <!-- Нижняя часть меню -->
@@ -392,21 +683,40 @@ th, td {
   </div>
 </div>
 
-<div class="right-panel">
-  <span style="font-size: 19px; font-weight: bold; display: flex; align-items: center; gap: 10px;">
-    <i class="ri-map-line"></i>
-    Рабочая карта
-  </span>
-  <button class="create-button">Создать</button>
-</div>
 
+
+
+<div id="dashboardContent">
 <div class="right-panel-users">
   <span style="font-size: 20px; font-weight: bold; display: flex; align-items: center; gap: 10px;">
     <i class="ri-user-3-line"></i>
-    Пользователи
+    Сотрудник
   </span>
   <button class="create-button">Создать</button>
 </div>
+<!-- Задний затемнённый фон -->
+<div id="overlay" class="modal-overlay" onclick="closeModal()"></div>
+
+<!-- Модальное окно -->
+<div id="modalForm" class="modal">
+  <button type="button" class="close-button" onclick="closeModal()">×</button>
+  <form id="employeeForm">
+  <div id="errorMessage" class="error-message">Заполните все поля!</div>
+  <div id="successMessage" class="success-message">Сотрудник создан!</div>
+
+    <h3 style="margin-top: 0; margin-bottom: 15px;">Создание сотрудника</h3>
+    <input type="text" placeholder="Логин">
+    <input type="password" placeholder="Пароль">
+    <input type="text" placeholder="Фамилия">
+    <input type="text" placeholder="Имя">
+    <input type="text" placeholder="Отчество">
+    <input type="text" placeholder="Должность">
+    <input type="tel" id="phone" placeholder="+7 (___) ___-__-__" maxlength="18">
+    <input type="email" id="email" placeholder="Электронная почта">
+    <button id="saveButton">Сохранить</button>
+  </form>
+</div>
+
 
 
 <div style="position: absolute; top: 150px; left: 20px;" id="pagination-container">
@@ -427,7 +737,16 @@ th, td {
         <th>Подразделение</th>
         <th>Дата изменения</th>
       </tr>
+      <tr>
+        <th><input type="text" class="column-search" placeholder="Поиск"></th>
+        <th><input type="text" class="column-search" placeholder="Поиск"></th>
+        <th><input type="text" class="column-search" placeholder="Поиск"></th>
+        <th><input type="text" class="column-search" placeholder="Поиск"></th>
+        <th><input type="text" class="column-search" placeholder="Поиск"></th>
+        <th><input type="text" class="column-search" placeholder="Поиск"></th>
+      </tr>
     </thead>
+  
     <tbody>
       <tr>
         <td>№1345-25 (1)</td>
@@ -446,81 +765,161 @@ th, td {
         <td>02.04.2025 15:02:06</td>
       </tr>
       <tr>
-        <td>№1345-25 (1)</td>
+        <td>№1344-25 (1)</td>
         <td>Изготовить Переходник 165,1 мм (6.500") по чертежу №7196.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>29.03.2025</td>
+        <td>28.03.2025</td>
         <td>Фамилия Имя Отчество</td>
         <td>Ремонтно-механический цех</td>
         <td>02.04.2025 15:02:06</td>
       </tr>
       <tr>
-        <td>№1345-25 (2)</td>
+        <td>№1344-25 (2)</td>
         <td>Изготовить Переходник 196,1 мм (7.200") по чертежу №6996.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>29.03.2025</td>
+        <td>28.03.2025</td>
         <td>Фамилия Имя Отчество</td>
         <td>Ремонтно-механический цех</td>
         <td>02.04.2025 15:02:06</td>
       </tr>
       <tr>
-        <td>№1345-25 (1)</td>
+        <td>№1343-25 (1)</td>
         <td>Изготовить Переходник 165,1 мм (6.500") по чертежу №7196.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>29.03.2025</td>
+        <td>27.03.2025</td>
         <td>Фамилия Имя Отчество</td>
         <td>Ремонтно-механический цех</td>
         <td>02.04.2025 15:02:06</td>
       </tr>
       <tr>
-        <td>№1345-25 (2)</td>
+        <td>№1343-25 (2)</td>
         <td>Изготовить Переходник 196,1 мм (7.200") по чертежу №6996.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>29.03.2025</td>
+        <td>27.03.2025</td>
         <td>Фамилия Имя Отчество</td>
         <td>Ремонтно-механический цех</td>
         <td>02.04.2025 15:02:06</td>
       </tr>
       <tr>
-        <td>№1345-25 (1)</td>
+        <td>№1342-25 (1)</td>
         <td>Изготовить Переходник 165,1 мм (6.500") по чертежу №7196.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>29.03.2025</td>
+        <td>26.03.2025</td>
         <td>Фамилия Имя Отчество</td>
         <td>Ремонтно-механический цех</td>
         <td>02.04.2025 15:02:06</td>
       </tr>
       <tr>
-        <td>№1345-25 (2)</td>
+        <td>№1342-25 (2)</td>
         <td>Изготовить Переходник 196,1 мм (7.200") по чертежу №6996.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>29.03.2025</td>
+        <td>26.03.2025</td>
         <td>Фамилия Имя Отчество</td>
         <td>Ремонтно-механический цех</td>
         <td>02.04.2025 15:02:06</td>
       </tr>
       <tr>
-        <td>№1345-25 (1)</td>
+        <td>№1341-25 (1)</td>
         <td>Изготовить Переходник 165,1 мм (6.500") по чертежу №7196.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>29.03.2025</td>
+        <td>25.03.2025</td>
         <td>Фамилия Имя Отчество</td>
         <td>Ремонтно-механический цех</td>
         <td>02.04.2025 15:02:06</td>
       </tr>
       <tr>
-        <td>№1345-25 (2)</td>
+        <td>№1341-25 (2)</td>
         <td>Изготовить Переходник 196,1 мм (7.200") по чертежу №6996.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>29.03.2025</td>
+        <td>25.03.2025</td>
         <td>Фамилия Имя Отчество</td>
         <td>Ремонтно-механический цех</td>
         <td>02.04.2025 15:02:06</td>
       </tr>
       <tr>
-        <td>№1345-25 (1)</td>
+        <td>№1340-25 (1)</td>
         <td>Изготовить Переходник 165,1 мм (6.500") по чертежу №7196.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>29.03.2025</td>
+        <td>24.03.2025</td>
         <td>Фамилия Имя Отчество</td>
         <td>Ремонтно-механический цех</td>
         <td>02.04.2025 15:02:06</td>
       </tr>
       <tr>
-        <td>№1345-25 (2)</td>
+        <td>№1340-25 (2)</td>
         <td>Изготовить Переходник 196,1 мм (7.200") по чертежу №6996.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>29.03.2025</td>
+        <td>24.03.2025</td>
+        <td>Фамилия Имя Отчество</td>
+        <td>Ремонтно-механический цех</td>
+        <td>02.04.2025 15:02:06</td>
+      </tr>
+      <tr>
+        <td>№1339-25 (1)</td>
+        <td>Изготовить Переходник 165,1 мм (6.500") по чертежу №7196.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
+        <td>24.03.2025</td>
+        <td>Фамилия Имя Отчество</td>
+        <td>Ремонтно-механический цех</td>
+        <td>02.04.2025 15:02:06</td>
+      </tr>
+      <tr>
+        <td>№1339-25 (2)</td>
+        <td>Изготовить Переходник 196,1 мм (7.200") по чертежу №6996.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
+        <td>24.03.2025</td>
+        <td>Фамилия Имя Отчество</td>
+        <td>Ремонтно-механический цех</td>
+        <td>02.04.2025 15:02:06</td>
+      </tr>
+      <tr>
+        <td>№1338-25 (1)</td>
+        <td>Изготовить Переходник 165,1 мм (6.500") по чертежу №7196.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
+        <td>24.03.2025</td>
+        <td>Фамилия Имя Отчество</td>
+        <td>Ремонтно-механический цех</td>
+        <td>02.04.2025 15:02:06</td>
+      </tr>
+      <tr>
+        <td>№1338-25 (2)</td>
+        <td>Изготовить Переходник 196,1 мм (7.200") по чертежу №6996.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
+        <td>24.03.2025</td>
+        <td>Фамилия Имя Отчество</td>
+        <td>Ремонтно-механический цех</td>
+        <td>02.04.2025 15:02:06</td>
+      </tr>
+      <tr>
+        <td>№1337-25 (1)</td>
+        <td>Изготовить Переходник 165,1 мм (6.500") по чертежу №7196.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
+        <td>24.03.2025</td>
+        <td>Фамилия Имя Отчество</td>
+        <td>Ремонтно-механический цех</td>
+        <td>02.04.2025 15:02:06</td>
+      </tr>
+      <tr>
+        <td>№1337-25 (2)</td>
+        <td>Изготовить Переходник 196,1 мм (7.200") по чертежу №6996.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
+        <td>24.03.2025</td>
+        <td>Фамилия Имя Отчество</td>
+        <td>Ремонтно-механический цех</td>
+        <td>02.04.2025 15:02:06</td>
+      </tr>
+      <tr>
+        <td>№1336-25 (1)</td>
+        <td>Изготовить Переходник 165,1 мм (6.500") по чертежу №7196.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
+        <td>24.03.2025</td>
+        <td>Фамилия Имя Отчество</td>
+        <td>Ремонтно-механический цех</td>
+        <td>02.04.2025 15:02:06</td>
+      </tr>
+      <tr>
+        <td>№1336-25 (2)</td>
+        <td>Изготовить Переходник 196,1 мм (7.200") по чертежу №6996.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
+        <td>24.03.2025</td>
+        <td>Фамилия Имя Отчество</td>
+        <td>Ремонтно-механический цех</td>
+        <td>02.04.2025 15:02:06</td>
+      </tr>
+      <tr>
+        <td>№1335-25 (1)</td>
+        <td>Изготовить Переходник 165,1 мм (6.500") по чертежу №7196.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
+        <td>24.03.2025</td>
+        <td>Фамилия Имя Отчество</td>
+        <td>Ремонтно-механический цех</td>
+        <td>02.04.2025 15:02:06</td>
+      </tr>
+      <tr>
+        <td>№1335-25 (2)</td>
+        <td>Изготовить Переходник 196,1 мм (7.200") по чертежу №6996.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
+        <td>24.03.2025</td>
         <td>Фамилия Имя Отчество</td>
         <td>Ремонтно-механический цех</td>
         <td>02.04.2025 15:02:06</td>
@@ -529,8 +928,113 @@ th, td {
   </table>
 </div>
 
-  <div id="pagination" style="margin-top: 20px; display: flex; gap: 10px;"></div>
+  
+  <!-- ОБЕРНУТЬ ВСЮ ПАНЕЛЬ ДАШБОРДА -->
+    <div class="right-panel">
+      <span style="font-size: 19px; font-weight: bold; display: flex; align-items: center; gap: 10px;">
+        <i class="ri-map-line"></i>
+        Рабочая карта
+      </span>
+      <button class="create-button" onclick="showCreatePage()">Создать</button>
+    </div>
+  </div>
 
+  <!-- Кнопка Назад -->
+<div class="back-button-container">
+  <button class="back-button" onclick="showDashboard()">← Назад</button>
+</div>
+  <!-- Белый блок с формой -->
+  <div id="createPage" style="display: none;">
+  <h1>Создание рабочей карты</h1>
+  <form id="jobCardForm">
+      <input type="text" style="width: 560px"; placeholder="JOB CARD 1 (Manufacturing of subs №1)/ РАБОЧАЯ КАРТА 1 (Изготовление переводников №1)" required>
+      <input type="text" style="width: 220px;" placeholder="ZMS-TH-QP-101-QCP-002-F-001" required>
+      <input type="text" id="datepicker" style="width: 100px;" placeholder="13.02.2023" required>
+      <input type="text" id="datepicker" style="width: 100px;" placeholder="Рев.00" required>
+
+      <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script>
+    flatpickr("#datepicker", {
+      dateFormat: "Y-m-d",  // Формат даты
+    });
+  </script>
+      <div class="form-container">
+        <div class="form-item">
+          <label for="datepicker">Date/Дата</label>
+          <input type="text" id="datepicker" style="width: 90px; padding: 10px;" placeholder="" required>
+        </div>
+    
+        <div class="form-item">
+          <label for="workOrder">Work Order №/ Заказ наряд №</label>
+          <input type="text" id="workOrder" style="width: 180px; padding: 10px;" placeholder="" required>
+        </div>
+      
+      <div class="form-item">
+          <label for="workOrder">P.O. №Grease/ P.O. № смазки</label>
+          <input type="text" id="workOrder" style="width: 170px; padding: 10px;" placeholder="" required>
+        </div>
+        <div class="form-item">
+          <label for="workOrder">P.O. protector/ P.O. № протектора</label>
+          <input type="text" id="workOrder" style="width: 190px; padding: 10px;" placeholder="" required>
+        </div>
+        <div class="form-item">
+          <label for="workOrder">Request №/ Заявка №</label>
+          <input type="text" id="workOrder" style="width: 140px; padding: 10px;" placeholder="" required>
+        </div>
+        <div class="form-item">
+          <label for="workOrder">Cast Nomber (s)/ Номер плавки:</label>
+          <input type="text" id="workOrder" style="width: 180px; padding: 10px;" placeholder="" required>
+        </div>
+        <div class="form-item">
+          <label for="workOrder">DRW №/ Чертеж №</label>
+          <input type="text" id="workOrder" style="width: 110px; padding: 10px;" placeholder="" required>
+        </div>
+      </div>
+    
+      <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+      <script>
+        flatpickr("#datepicker", {
+          dateFormat: "Y-m-d",  // Формат даты
+        });
+      </script>
+      
+      <div class="form-container">
+        <div class="form-item">
+          <label for="workOrder">Customer/ Заказчик</label>
+          <input type="text" id="workOrder" style="width: 400px; padding: 10px;" placeholder="" required>
+        </div>
+        <div class="form-item">
+          <label for="workOrder">Mill Certificate №/ Сертификат материала №</label>
+          <input type="text" id="workOrder" style="width: 270px; padding: 10px;" placeholder="" required>
+        </div>
+        <div class="form-item">
+          <label for="workOrder">Material/ Материал</label>
+          <input type="text" id="workOrder" style="width: 200px; padding: 10px;" placeholder="" required>
+        </div>
+      </div>
+      <div class="form-container">
+        <div class="form-item">
+          <label for="workOrder">Job description/ Описание работы</label>
+          <textarea style="width: 1190px; height: 100px; resize: none;" placeholder="" required></textarea>
+        </div>
+      </div>
+  
+      
+      <textarea placeholder="Описание работы"></textarea>
+  
+      <div class="section-header">
+        <h2>Операции</h2>
+        <button type="button" id="addOperation" class="add-btn">+</button>
+      </div>
+      <div id="operationsList" class="list-container"></div>
+  
+      <div class="section-header">
+        <h2>Операторы</h2>
+        <button type="button" id="addOperator" class="add-btn">+</button>
+      </div>
+      <div id="operatorsList" class="list-container"></div>
+  
+      <button type="submit" class="submit-btn">Сохранить</button>
   
 </div>
 
@@ -598,6 +1102,190 @@ th, td {
   // Первоначальный рендер
   renderTable(currentPage);
 </script>
+
+<script>
+  window.onload = function () {
+  const inputs = document.querySelectorAll('.column-search');
+  const table = document.getElementById('myTable');
+  const rows = table.querySelectorAll('tbody tr');
+
+  inputs.forEach((input, columnIndex) => {
+    input.addEventListener('input', () => {
+      const searchValues = Array.from(inputs).map(i => i.value.toLowerCase());
+
+      rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        let visible = true;
+
+        searchValues.forEach((value, i) => {
+          if (value && !cells[i].textContent.toLowerCase().includes(value)) {
+            visible = false;
+          }
+        });
+
+        row.style.display = visible ? '' : 'none';
+      });
+    });
+  });
+};
+</script>
+
+<script>
+const createBtn = document.querySelector('.right-panel-users .create-button');
+const modal     = document.getElementById('modalForm');
+const overlay   = document.getElementById('overlay');
+const form      = document.querySelector('#modalForm form');
+const successMessage = document.getElementById('successMessage');
+const errorMessage   = document.getElementById('errorMessage');
+
+// Открытие модалки
+createBtn.addEventListener('click', () => {
+  successMessage.classList.remove('show');
+  errorMessage.classList.remove('show');
+  modal.style.display   = 'block';
+  overlay.style.display = 'block';
+  modal.classList.remove('fadeOut');
+  void modal.offsetWidth;
+  modal.classList.add('fadeIn');
+});
+
+// Закрытие
+function closeModal() {
+  modal.classList.remove('fadeIn');
+  modal.classList.add('fadeOut');
+  setTimeout(() => {
+    modal.style.display   = 'none';
+    overlay.style.display = 'none';
+    form.reset();
+    successMessage.classList.remove('show');
+    errorMessage.classList.remove('show');
+  }, 300);
+}
+document.querySelector('.close-button').addEventListener('click', closeModal);
+overlay.addEventListener('click', closeModal);
+
+// Функции сообщений
+function showSuccessMessage() {
+  successMessage.textContent = 'Сотрудник создан!';
+  successMessage.style.display = 'block';
+  setTimeout(() => successMessage.style.display = 'none', 3000);
+}
+
+function showErrorMessage() {
+  errorMessage.textContent = 'Заполните все поля!';
+  errorMessage.style.display = 'block';
+  setTimeout(() => errorMessage.style.display = 'none', 3000);
+}
+
+// Отправка формы
+form.addEventListener('submit', event => {
+  event.preventDefault();
+
+  const fields = Array.from(form.querySelectorAll('input, select'));
+  const allFilled = fields.every(f => {
+    if (f.type === 'button' || f.type === 'hidden') return true;
+    return f.value.trim() !== '';
+  });
+  const phone = document.getElementById('phone').value.trim();
+  const email = document.getElementById('email').value.trim();
+
+// Проверка телефона (ровно 11 цифр)
+  if (!/^\d{11}$/.test(phone)) {
+  showErrorMessage("Номер телефона должен содержать ровно 11 цифр");
+  return;
+  }
+
+  // Проверка почты
+  if (!/^[\w.-]+@zms\.kz$/.test(email)) {
+  showErrorMessage("Эл. почта должна быть в формате @zms.kz");
+  return;
+  }
+  if (!allFilled) {
+    showErrorMessage();
+    return;
+  }
+
+  showSuccessMessage();
+
+  // Тут можно добавить сохранение в базу
+});
+
+</script>
+<script>
+  document.getElementById('phone').addEventListener('input', function(e) {
+    let input = e.target.value.replace(/\D/g, ''); // Убираем всё кроме цифр
+    
+    if (input.startsWith('8')) {
+      input = '7' + input.slice(1); // если человек начал с 8 — меняем на 7
+    }
+  
+    if (input.length > 11) {
+      input = input.slice(0, 11); // ограничение 11 цифр
+    }
+  
+    let formatted = '+7';
+    if (input.length > 1) formatted += ' (' + input.substring(1, 4);
+    if (input.length >= 4) formatted += ') ' + input.substring(4, 7);
+    if (input.length >= 7) formatted += '-' + input.substring(7, 9);
+    if (input.length >= 9) formatted += '-' + input.substring(9, 11);
+  
+    e.target.value = formatted;
+  });
+  </script>
+  
+  <script>
+    // Показать форму создания
+    function showCreatePage() {
+      document.getElementById('dashboardContent').style.display = 'none';
+      const cp = document.getElementById('createPage');
+    cp.style.display = 'block';
+    // небольшая задержка, чтобы сработал transition
+    requestAnimationFrame(() => cp.classList.add('visible'));
+    }
+    
+    // Вернуться на дашборд
+    function showDashboard() {
+      const cp = document.getElementById('createPage');
+    cp.classList.remove('visible');
+    // дождаться конца анимации и скрыть
+    setTimeout(() => {
+      cp.style.display = 'none';
+      document.getElementById('dashboardContent').style.display = 'block';
+    }, 300);
+  
+    }
+    
+    // Добавление операции
+    document.getElementById('addOperation').addEventListener('click', () => {
+      const div = document.createElement('div');
+      div.className = 'item';
+      div.innerHTML = '<input type="text" placeholder="Описание операции работы">';
+      document.getElementById('operationsList').appendChild(div);
+    });
+    
+    // Добавление оператора
+    document.getElementById('addOperator').addEventListener('click', () => {
+      const div = document.createElement('div');
+      div.className = 'item';
+      div.innerHTML = `
+        <input type="text" placeholder="Дата">
+        <input type="text" placeholder="ФИО оператора">
+        <input type="text" placeholder="Идентификация">
+        <input type="text" placeholder="Подпись инспектора ОТК">
+      `;
+      document.getElementById('operatorsList').appendChild(div);
+    });
+    
+    // Отправка формы
+    document.getElementById('jobCardForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Рабочая карта сохранена!');
+    });
+    </script>
+    
+    
+  
+
 
 </body>
 </html>
