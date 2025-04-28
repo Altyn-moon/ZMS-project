@@ -8,23 +8,24 @@
     <style>
         /* Анимация моргания для глаза */
         @keyframes blink {
-            0%, 100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            30% {
-                opacity: 0.1;
-                transform: scale(0.8); /* немного уменьшаем */
-            }
-            50% {
-                opacity: 0; /* полное исчезновение */
-                transform: scale(0.9); /* чуть больше уменьшаем */
-            }
-            70% {
-                opacity: 0.1;
-                transform: scale(0.8);
-            }
-        }
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    30% {
+        opacity: 0.1;
+        transform: scale(0.8);
+    }
+    50% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+    70% {
+        opacity: 0.1;
+        transform: scale(0.8);
+    }
+}
+
         .error-message {
             color: red;
             margin-top: 15px;
@@ -36,18 +37,8 @@
             animation: blink 1s ease-in-out; /* Увеличили длительность для плавности */
         }
     </style>
-    <script>
-        // Показываем экран логина, если передан флаг force_login_screen
-        {% if force_login_screen %}
-            window.addEventListener('DOMContentLoaded', function () {
-                showLogin();
-            });
-        {% endif %}
-    </script>    
-    
 </head>
 <body>
-
     <img class="logo" src="/static/logo.png" alt="ZMS" width="250">
 
     <!-- Экран с карточкой -->
@@ -62,9 +53,8 @@
         <button class="login-btn" onclick="showLogin()">Вход через логин/пароль</button>
     </div>
 
-        <!-- Экран логина -->
+    <!-- Экран логина -->
     <div id="loginScreen" class="login-container">
-
         {% if message %}
             <div class="error-message">{{ message }}</div>
         {% endif %}
@@ -76,52 +66,61 @@
             <label for="password">Пароль</label>
             <div class="password-container">
                 <input type="password" id="password" name="password" placeholder="Введите пароль" required>
-                <button class="toggle-password" type="button" onclick="togglePassword()">
+                <button class="toggle-password" type="button" onclick="togglePassword(event)">
                     <img id="Eye-icon" src="/static/Eye-off.png" alt="eye" />
                 </button>
             </div>
 
             <button class="login-submit" type="submit">Войти</button>
         </form>
-        <button class="back-btn" onclick="showCard()">← Назад</button>
+        <button class="back-btn" onclick="showCard()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            Назад
+        </button>
+        
     </div>
 
-    
     <script>
+        // Показать экран с логином
         function showLogin() {
             document.getElementById('cardScreen').classList.remove('active');
             document.getElementById('loginScreen').classList.add('active');
         }
 
+        // Показать экран карточки
         function showCard() {
             document.getElementById('loginScreen').classList.remove('active');
             document.getElementById('cardScreen').classList.add('active');
         }
 
+        // Анимация нажатия на кнопку
         function animateButton(button) {
-    button.classList.add('button-press'); // Добавляем анимацию кнопке
-    setTimeout(() => {
-        button.classList.remove('button-press'); // Убираем анимацию после завершения
-    }, 200); // Длительность анимации
-    }
+            button.classList.add('button-press'); // Добавляем анимацию кнопке
+            setTimeout(() => {
+                button.classList.remove('button-press'); // Убираем анимацию после завершения
+            }, 200); // Длительность анимации
+        }
 
-function togglePassword() {
-    const passwordInput = document.getElementById("password");
-    const eyeIcon = document.getElementById("Eye-icon");
-    const isPassword = passwordInput.type === "password";
-    
-    passwordInput.type = isPassword ? "text" : "password";
-    eyeIcon.src = isPassword ? "/static/Eye.png" : "/static/Eye-off.png";
+        // Переключение видимости пароля
+        function togglePassword(event) {
+            const passwordInput = document.getElementById("password");
+            const eyeIcon = document.getElementById("Eye-icon");
+            const isPassword = passwordInput.type === "password";
 
-    // Анимация моргания
-    eyeIcon.classList.add('blink-animation');
-    setTimeout(() => {
-        eyeIcon.classList.remove('blink-animation');
-    }, 250); // длительность соответствует animation: 0.25s
+            passwordInput.type = isPassword ? "text" : "password";
+            eyeIcon.src = isPassword ? "/static/Eye.png" : "/static/Eye-off.png";
 
-    // Анимация нажатия на кнопку
-    animateButton(event.currentTarget);
-}
+            // Анимация моргания
+            eyeIcon.classList.add('blink');
+            setTimeout(() => {
+                eyeIcon.classList.remove('blink');
+            }, 1000); // длительность анимации
+
+            // Анимация нажатия на кнопку
+            animateButton(event.currentTarget);
+        }
     </script>
 </body>
 </html>
