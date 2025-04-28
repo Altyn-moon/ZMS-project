@@ -17,7 +17,10 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
+# Настроим сервер для обслуживания статических файлов, включая PDF
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
+app.mount("/pdfs", StaticFiles(directory="app/static/pdfs"), name="pdfs")
+
 templates = Jinja2Templates(directory="app/templates")
 
 def get_db():
@@ -55,7 +58,8 @@ def create_user(user: UserCreate):
 @app.get("/", response_class=HTMLResponse)
 def login_form(request: Request):
     return templates.TemplateResponse("index.html", {"request": request, "message": ""})
-    
+
+# При нажатии на кнопку "Вход" редиректим на дэшборд
 @app.post("/login", response_class=HTMLResponse)
 def login(
     request: Request,
@@ -95,6 +99,7 @@ def dashboard(request: Request):
         {"id": 9, "name": "Гайка шарнира (левая резьба) для бурового оборудования", "client": "ТШО", "job_num": "1143-24"},
         {"id": 10, "name": "Втулка для шарнира", "client": "ТШО", "job_num": "1144-24"},
     ]
+    
     return templates.TemplateResponse("dashboard.html", {
         "request": request,
         "user_name": user_name,
