@@ -2,6 +2,10 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
+from typing import List
+from starlette.requests import Request
+import sqlite3
 
 app = FastAPI()
 
@@ -47,7 +51,7 @@ def dashboard(request: Request):
 
 @app.get("/logout")
 def logout():
-    # Тут можно очистить сессии или куки, если требуется
+    # Очистка сессий или куков, если требуется
     return RedirectResponse(url="/", status_code=303)
 
 # Страница с видеоинструкциями
