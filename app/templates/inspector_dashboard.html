@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Рабочая карта</title>
+    <title>Work Orders</title>
     <link rel="stylesheet" href="/static/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -518,6 +518,34 @@ a:visited {
         </div>
     </div>
     
+    <div class="sidebar">
+      <!-- Заголовок "Меню" с гамбургером -->
+      <div class="menu-title">
+        <img src="/static/hambur.png" alt="меню" class="hamburger menu-icon">
+        <span>Меню</span>
+      </div>
+  
+        <!-- Меню внутри блока -->
+        <div class="menu-content">
+          <!-- Верхняя часть меню -->
+          <div class="menu-top">
+              <div class="menu-block">
+                  <div class="menu-item">Уведомления</div>
+                  <div class="menu-item">Рабочие карты</div>
+                  <div class="menu-item">Завершенные</div>
+              </div>
+          </div>
+  
+          <!-- Нижняя часть меню -->
+          <div class="menu-bottom">
+              <div class="menu-block">
+                  <div class="menu-item">Инструкция</div>
+                  <div class="menu-item">Настройка</div>
+              </div>
+          </div>
+      </div>
+  </div>
+  
     <main class="main-content">
         <div class="search-container">
           <input type="text" class="search-input" placeholder="Поиск" style="padding-left: 40px; background: url('static/Search.png') no-repeat 10px center; background-size: 20px 20px;">
@@ -569,13 +597,13 @@ a:visited {
                 <tr>
                     <td>Рабочая карта №1</td>
                     <td>
-                        <button class="btn-start" onclick="showThirdTable()">В работу</button>
+                        <button class="btn-start" onclick="showThirdTable()">К проверке</button>
                     </td>
                 </tr>
                 <tr>
                     <td>Рабочая карта №2</td>
                     <td>
-                        <button class="btn-start" onclick="showThirdTable()">В работу</button>
+                        <button class="btn-start" onclick="showThirdTable()">К проверке</button>
                     </td>
                 </tr>
             </table>
@@ -943,6 +971,11 @@ document.addEventListener('DOMContentLoaded', function () {
       third.style.display  = 'none';
       second.style.display = 'block';
     }
+
+    hamburger.addEventListener('click', () => {
+    sidebar.classList.toggle('collapsed'); // Переключаем класс для скрытия/показа меню
+});
+
   };
 });
       </script>
