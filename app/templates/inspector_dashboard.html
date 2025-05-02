@@ -2,9 +2,10 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Work Orders</title>
+    <title>Рабочая карта</title>
     <link rel="stylesheet" href="/static/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
@@ -489,6 +490,123 @@ a:visited {
     from { opacity: 1; }
     to { opacity: 0; }
   }
+
+  .menu-button-wrapper {
+  position: absolute;
+  top: 88px;
+  left: 30px;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.menu-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.menu-icon {
+  width: 30px;
+  height: auto; /* <-- сохраняет оригинальные пропорции */
+  display: block;
+}
+
+.menu-label {
+  font-family: 'Manrope', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #9C1D11;
+}
+
+.dropdown-menu {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.menu-block {
+  background-color: #ccb3b2;
+  border-radius: 25px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.menu-item {
+  background-color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 16px;
+  color: #111;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.menu-item:hover {
+  background-color: #e6e6e6;
+}
+
+.menu-header {
+  background-color: #ccb3b2;
+  border-radius: 36px;
+  padding: 8px 16px; /* слегка больше, было 6px 14px */
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.menu-header:hover {
+  transform: scale(1.04);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+}
+
+.menu-header:active {
+  transform: scale(0.96);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Начальное состояние (скрытое меню) */
+.dropdown-menu {
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Показанное меню */
+.dropdown-menu.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.menu-item,
+.menu-toggle,
+.menu-label {
+  user-select: none;
+}
+
 </style>
 </head>
 <body>
@@ -518,33 +636,26 @@ a:visited {
         </div>
     </div>
     
-    <div class="sidebar">
-      <!-- Заголовок "Меню" с гамбургером -->
-      <div class="menu-title">
-        <img src="/static/hambur.png" alt="меню" class="hamburger menu-icon">
-        <span>Меню</span>
+    <div class="menu-button-wrapper">
+      <!-- Шапка с фоном -->
+      <div class="menu-toggle menu-header" onclick="toggleDropdownMenu()">
+        <img src="/static/hambur.png" alt="меню" class="menu-icon">
+        <span class="menu-label">Меню</span>
       </div>
-  
-        <!-- Меню внутри блока -->
-        <div class="menu-content">
-          <!-- Верхняя часть меню -->
-          <div class="menu-top">
-              <div class="menu-block">
-                  <div class="menu-item">Уведомления</div>
-                  <div class="menu-item">Рабочие карты</div>
-                  <div class="menu-item">Завершенные</div>
-              </div>
-          </div>
-  
-          <!-- Нижняя часть меню -->
-          <div class="menu-bottom">
-              <div class="menu-block">
-                  <div class="menu-item">Инструкция</div>
-                  <div class="menu-item">Настройка</div>
-              </div>
-          </div>
+    
+      <!-- Выпадающее меню -->
+      <div id="dropdown-menu" class="dropdown-menu">
+        <div class="menu-block">
+          <button class="menu-item"><i class="ri-notification-3-line"></i> Уведомления</button>
+          <button class="menu-item"><i class="ri-map-line"></i> Work Orders</button>
+          <button class="menu-item"><i class="ri-user-3-line"></i> Сотрудники</button>
+        </div>
+        <div class="menu-block">
+          <button class="menu-item"><i class="ri-book-open-line"></i> Инструкция</button>
+          <button class="menu-item"><i class="ri-settings-3-line"></i> Настройки</button>
+        </div>
       </div>
-  </div>
+    </div>
   
     <main class="main-content">
         <div class="search-container">
@@ -861,7 +972,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.querySelector('.logout-button').addEventListener('click', function() {
     // Перенаправление на страницу входа по URL
-    window.location.href = 'http://127.0.0.1:8000'; // Или укажите путь к странице входа, например '/login'
+    window.location.href = 'http://127.0.0.1:8000/inspector/login'; // Или укажите путь к странице входа, например '/login'
 });
 
 document.querySelector('.logout-button').addEventListener('click', function () {
@@ -870,7 +981,7 @@ document.querySelector('.logout-button').addEventListener('click', function () {
 
   // Ждём завершения анимации и делаем переход
   setTimeout(function () {
-    window.location.href = 'http://127.0.0.1:8000'; // или '/login'
+    window.location.href = 'http://127.0.0.1:8000/inspector/login'; // или '/login'
   }, 500); // Время должно совпадать с длительностью анимации
 });
 document.addEventListener('DOMContentLoaded', function () {
@@ -971,13 +1082,23 @@ document.addEventListener('DOMContentLoaded', function () {
       third.style.display  = 'none';
       second.style.display = 'block';
     }
-
-    hamburger.addEventListener('click', () => {
-    sidebar.classList.toggle('collapsed'); // Переключаем класс для скрытия/показа меню
-});
-
   };
 });
+
+function toggleDropdownMenu() {
+  const menu = document.getElementById('dropdown-menu');
+  menu.classList.toggle('show');
+}
+
+document.addEventListener('click', function (event) {
+  const menu = document.getElementById('dropdown-menu');
+  const toggle = document.querySelector('.menu-button-wrapper');
+  if (!menu.contains(event.target) && !toggle.contains(event.target)) {
+    menu.classList.add('hidden');
+  }
+
+});
+
       </script>
       
 
