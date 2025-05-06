@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Form, Request, Depends
+from fastapi import FastAPI, Form, Request, status
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
@@ -40,8 +40,6 @@ router = APIRouter()
 # 2) «Статика» и шаблоны
 # Настроим сервер для обслуживания статических файлов, включая PDF
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
-app.mount("/pdfs", StaticFiles(directory="app/static/pdfs"), name="pdfs")
-
 templates = Jinja2Templates(directory="app/templates")
 
 # 3) Депенденси для работы с БД

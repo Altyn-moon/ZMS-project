@@ -65,11 +65,11 @@ body {
   padding: 8px 10px 8px 40px !important;
 
   background: url('/static/Search.png') no-repeat 10px center !important;
-  background-size: 16px 16px !important;
+  background-size: 20px 20px !important;
 
   box-sizing: border-box !important;
   border: 2px solid #a2a2a2 !important;
-  border-radius: 6px !important;
+  border-radius: 10px !important;
   color: #111 !important;
 }
 
@@ -153,7 +153,7 @@ th, td {
             color: white;
             padding: 10px 30px;
             border: none;
-            border-radius: 6px;
+            border-radius: 10px;
             cursor: pointer;
             transition: background-color 0.3s ease;
             font-size: 23px;
@@ -333,7 +333,7 @@ th, td {
     color: white;
     padding: 10px 30px;
     border: none;
-    border-radius: 6px;
+    border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
     font-size: 23px;
@@ -547,7 +547,7 @@ a:visited {
                             data-name="{{ item.name }}"
                             data-client="{{ item.client }}"
                             data-jobnum="{{ item.job_num }}"
-                        >В работу</button>
+                        >Просмотр</button>
                     </td>
                 </tr>
                 {% endfor %}
@@ -569,13 +569,13 @@ a:visited {
                 <tr>
                     <td>Рабочая карта №1</td>
                     <td>
-                        <button class="btn-start" onclick="showThirdTable()">Начать</button>
+                        <button class="btn-start" onclick="showThirdTable()">В работу</button>
                     </td>
                 </tr>
                 <tr>
                     <td>Рабочая карта №2</td>
                     <td>
-                        <button class="btn-start" onclick="showThirdTable()">Начать</button>
+                        <button class="btn-start" onclick="showThirdTable()">В работу</button>
                     </td>
                 </tr>
             </table>
@@ -592,7 +592,7 @@ a:visited {
 </button>    
 
 <!-- Чертёж -->
-<button class="btn-drawing" onclick="window.open('pdfs/6893.00.000.pdf#page=1&view=FitH', '_blank')" style="
+<button class="btn-drawing" onclick="window.open('/static/pdfs/6893.00.000.pdf#page=1&view=FitH', '_blank')" style="
     font-size: 24px;
     padding: 12px 30px;
     background-color: #D5C6CA;
@@ -626,7 +626,7 @@ a:visited {
             <td>1</td>
             <td>Списать материал</td>
             <td>
-                <a href="pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101</a>
+              <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101</a>
             </td>
             <td>
               <div class="timer-block">
@@ -644,8 +644,8 @@ a:visited {
             <td>2</td>
             <td>Отрезать материал</td>
                 <td>
-                    <a href="pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101</a><br>
-                    <a href="pdfs/инструкция2.pdf" target="_blank">ZMS-PH-DP-001</a>
+                  <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101</a><br>
+                  <a href="/static/pdfs/инструкция2.pdf" target="_blank">ZMS-PH-DP-001</a>
                 </td>
             <td>
               <div class="timer-block">
@@ -770,7 +770,7 @@ function goBackToSecond() {
             submitButton.style.display = 'none';
             statusMessage.innerHTML = `
               Отправлено на проверку 
-              <img src="static/done.gif" alt="done" class="done-icon" style="width: 40px; vertical-align: middle; margin-left: 10px; margin-top: 4px;">
+              <img src="static/done.gif" alt="done" class="done-icon" style="width: 40px; vertical-align: middle; margin-left: 5px; margin-top: 2px;">
             `;
       
             setTimeout(() => {
