@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/static/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
     <style>
         * {
             box-sizing: border-box;
@@ -70,7 +71,7 @@ body {
 
   box-sizing: border-box !important;
   border: 2px solid #a2a2a2 !important;
-  border-radius: 6px !important;
+  border-radius: 10px !important;
   color: #111 !important;
 }
 
@@ -154,7 +155,7 @@ th, td {
             color: white;
             padding: 10px 30px;
             border: none;
-            border-radius: 6px;
+            border-radius: 10px;
             cursor: pointer;
             transition: background-color 0.3s ease;
             font-size: 23px;
@@ -316,7 +317,6 @@ th, td {
     width: 100%; /* Растягиваем на всю ширину */
     height: 100%; /* Растягиваем на всю высоту */
     display: block;
-    opacity: 0;
 }
 
 #second-table.show {
@@ -334,7 +334,7 @@ th, td {
     color: white;
     padding: 10px 30px;
     border: none;
-    border-radius: 6px;
+    border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
     font-size: 23px;
@@ -351,7 +351,7 @@ th, td {
     background-color: #f2f2f2;
     color: #c40000;
     padding: 6px 14px;
-    border-radius: 6px;
+    border-radius: 10px;
     cursor: pointer;
     font-size: 28px;
     font-weight: 600;
@@ -601,10 +601,131 @@ a:visited {
   pointer-events: auto;
 }
 
-.menu-item,
 .menu-toggle,
 .menu-label {
   user-select: none;
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.2s forwards;
+}
+.fade-out {
+  animation: fadeOut 0.2s forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+.action-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+.btn {
+  font-size: 23px;
+  padding: 10px 28px;
+  border-radius: 10px;
+  font-family: Manrope, sans-serif;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  min-width: 120px;
+  font-weight: bold;
+}
+
+.edit-btn {
+  background-color: #777777;
+  color: white;
+}
+
+.edit-btn:hover {
+    background-color: #c40000;
+    transform: scale(1.05);
+}
+
+.edit-btn:hover {
+  background-color: #cc0000;
+  transform: scale(1.05);
+}
+
+.done-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+.done-btn:hover {
+  background-color: #2e7d32;
+  transform: scale(1.05);
+}
+
+.redo-message {
+  color: #c40000;
+  font-weight: bold;
+  font-size: 23px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.done-message {
+  color: #2e7d32;
+  font-weight: bold;
+  font-size: 23px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.done-icon {
+  width: 40px;
+  vertical-align: middle;
+  margin-left: 5px;
+  margin-top: 2px;
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.video-box {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  color: #b30000;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.video-box:hover {
+  transform: scale(1.05);
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.fade-in.show {
+  opacity: 1;
+  transform: translateY(0);
+  display: block;
 }
 
 </style>
@@ -651,17 +772,30 @@ a:visited {
           <button class="menu-item"><i class="ri-user-3-line"></i> Сотрудники</button>
         </div>
         <div class="menu-block">
-          <button class="menu-item"><i class="ri-book-open-line"></i> Инструкция</button>
+          <button class="menu-item" id="btn-instruction">
+            <i class="ri-book-open-line"></i> Инструкция
+          </button>          
           <button class="menu-item"><i class="ri-settings-3-line"></i> Настройки</button>
         </div>
       </div>
     </div>
-  
+
     <main class="main-content">
         <div class="search-container">
-          <input type="text" class="search-input" placeholder="Поиск" style="padding-left: 40px; background: url('static/Search.png') no-repeat 10px center; background-size: 20px 20px;">
+          <input type="text" class="search-input" placeholder="Поиск" style="padding-left: 40px; background: url('/static/Search.png') no-repeat 10px center; background-size: 20px 20px;">
         </div>     
         
+        <!-- Инструкция — вставить ПОД таблицами или перед ними -->
+        <div id="instructions-section" class="content-section fade-in" style="display: none;">
+          <h2>Инструкция</h2>
+          <div class="video-grid">
+            <div class="video-box"><i class="ri-play-circle-line"></i></div>
+            <div class="video-box"><i class="ri-play-circle-line"></i></div>
+            <div class="video-box"><i class="ri-play-circle-line"></i></div>
+            <div class="video-box"><i class="ri-play-circle-line"></i></div>
+          </div>
+        </div>
+
         <!-- первая таблица -->
         <div class="table-container" id="first-table">
             <table class="work-table">
@@ -706,16 +840,19 @@ a:visited {
                     <th colspan="2">Рабочая карта</th>
                 </tr>
                 <tr>
+                  <tr>
                     <td>Рабочая карта №1</td>
-                    <td>
-                        <button class="btn-start" onclick="showThirdTable()">К проверке</button>
+                    <td style="width: 220px;">
+                      <button class="btn-start" onclick="showThirdTable()">К проверке</button>
                     </td>
-                </tr>
-                <tr>
+                  </tr>
+                  <tr>
                     <td>Рабочая карта №2</td>
-                    <td>
-                        <button class="btn-start" onclick="showThirdTable()">К проверке</button>
+                    <td style="width: 220px;">
+                      <button class="btn-start" onclick="showThirdTable()">К проверке</button>
                     </td>
+                  </tr>
+                  
                 </tr>
             </table>
         </div>
@@ -745,361 +882,362 @@ a:visited {
 ">Чертёж</button>
 
     <!-- ТАБЛИЦА — ВНУТРИ блока -->
-    <table class="work-table">
-        <colgroup>
-          <col style="width: 20px;">
-          <col style="width: 350px;">
-          <col style="width: 120px;">
-          <col style="width: 230px;">
-        </colgroup>
-        <thead>
-            <tr>
-              <th>№</th>
-              <th>Описание операции работ</th>
-              <th>Инструкция</th>
-              <th>Выполнить</th>
-            </tr>
-          </thead>          
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Списать материал</td>
-            <td>
-                <a href="pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101</a>
-            </td>
-            <td>
-              <div class="timer-block">
-                <div class="timer-display" id="timer-1">00:00:00</div>
-                <div class="button-row">
-                  <button class="btn-start start-btn" id="start-btn-1">Старт</button>
-                  <button class="btn-start stop-btn" id="stop-btn-1" style="display: none;">Стоп</button>
-                </div>
-                <button class="btn-start submit-btn" id="submit-btn-1" style="display: none;">Отправить на проверку</button>
-                <p class="status-message" id="status-msg-1"></p>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Отрезать материал</td>
-                <td>
-                    <a href="pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101</a><br>
-                    <a href="pdfs/инструкция2.pdf" target="_blank">ZMS-PH-DP-001</a>
-                </td>
-            <td>
-              <div class="timer-block">
-                <div class="timer-display" id="timer-2">00:00:00</div>
-                <div class="button-row">
-                  <button class="btn-start start-btn" id="start-btn-2">Старт</button>
-                  <button class="btn-start stop-btn" id="stop-btn-2" style="display: none;">Стоп</button>
-                </div>
-                <button class="btn-start submit-btn" id="submit-btn-2" style="display: none;">Отправить на проверку</button>
-                <p class="status-message" id="status-msg-2"></p>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>      
+    <!-- ТАБЛИЦА — ВНУТРИ блока -->
+<table class="work-table">
+  <colgroup>
+    <col style="width: 20px;">
+    <col style="width: 400px;">
+    <col style="width: 180px;">
+  </colgroup>
+  <thead>
+    <tr>
+      <th>№</th>
+      <th>Описание операции работ</th>
+      <th>Выполнить</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Списать материал</td>
+      <td>
+        <div class="action-buttons">
+          <button class="btn edit-btn">Доработка</button>
+          <button class="btn done-btn">Готово</button>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Отрезать материал</td>
+      <td>
+        <div class="action-buttons">
+          <button class="btn edit-btn">Доработка</button>
+          <button class="btn done-btn">Готово</button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
     
       <script>
- // === Функции переключения таблиц ===
+// === Функции переключения таблиц ===
 function showSecondTable(button) {
-  document.getElementById('first-table').style.display = 'none';
-  document.getElementById('second-table').style.display = 'block';
-  document.getElementById('second-table').classList.add('show');
-  
+  resetSearch(); // Очистить фильтр
+
+  const first = document.getElementById('first-table');
+  const second = document.getElementById('second-table');
+
+  first.classList.add('fade-out');
+  setTimeout(() => {
+    first.style.display = 'none';
+    first.classList.remove('fade-out');
+    second.style.display = 'block';
+    second.classList.add('fade-in');
+    setTimeout(() => second.classList.remove('fade-in'), 200);
+  }, 200);
+
   const name = button.dataset.name;
   const client = button.dataset.client;
   const jobNum = button.dataset.jobnum;
 
-  const nameElem = document.getElementById('job-name');
-  const clientElem = document.getElementById('job-client');
-  const jobNumElem = document.getElementById('job-num');
-
-  if (nameElem && clientElem && jobNumElem) {
-    nameElem.textContent = name;
-    clientElem.textContent = client;
-    jobNumElem.textContent = jobNum;
-  }
+  document.getElementById('job-name').textContent = name;
+  document.getElementById('job-client').textContent = client;
+  document.getElementById('job-num').textContent = jobNum;
 }
 
 function goBack() {
-  // Проверяем, на какой таблице мы находимся и возвращаемся на предыдущую
-  if (document.getElementById('second-table').style.display === 'block') {
-    document.getElementById('second-table').classList.remove('show');
-    document.getElementById('first-table').style.display = 'block';
-    document.getElementById('second-table').style.display = 'none';
-  } else if (document.getElementById('third-table').style.display === 'block') {
-    document.getElementById('third-table').style.display = 'none';
-    document.getElementById('second-table').style.display = 'block';
+  resetSearch();
+  const first = document.getElementById('first-table');
+  const second = document.getElementById('second-table');
+  const third = document.getElementById('third-table');
+
+  if (third.style.display === 'block') {
+    third.classList.add('fade-out');
+    setTimeout(() => {
+      third.style.display = 'none';
+      third.classList.remove('fade-out');
+      second.style.display = 'block';
+      second.classList.add('fade-in');
+      setTimeout(() => second.classList.remove('fade-in'), 200);
+    }, 200);
+  } else if (second.style.display === 'block') {
+    second.classList.add('fade-out');
+    setTimeout(() => {
+      second.style.display = 'none';
+      second.classList.remove('fade-out');
+      first.style.display = 'block';
+      first.classList.add('fade-in');
+      setTimeout(() => first.classList.remove('fade-in'), 200);
+    }, 200);
   }
 }
 
 function showThirdTable() {
-  document.getElementById('second-table').style.display = 'none';
-  document.getElementById('third-table').style.display = 'block';
+  resetSearch();
+  const second = document.getElementById('second-table');
+  const third = document.getElementById('third-table');
+
+  second.classList.add('fade-out');
+  setTimeout(() => {
+    second.style.display = 'none';
+    second.classList.remove('fade-out');
+    third.style.display = 'block';
+    third.classList.add('fade-in');
+    setTimeout(() => third.classList.remove('fade-in'), 200);
+  }, 200);
 }
 
 function goBackToSecond() {
-  document.getElementById('third-table').style.display = 'none';
-  document.getElementById('second-table').style.display = 'block';
+  resetSearch();
+  const second = document.getElementById('second-table');
+  const third = document.getElementById('third-table');
+
+  third.classList.add('fade-out');
+  setTimeout(() => {
+    third.style.display = 'none';
+    third.classList.remove('fade-out');
+    second.style.display = 'block';
+    second.classList.add('fade-in');
+    setTimeout(() => second.classList.remove('fade-in'), 200);
+  }, 200);
 }
-      
-        // === Поиск — ВНЕ других функций и обработчиков ===
-        document.querySelector('.search-input').addEventListener('input', function () {
-          const searchText = this.value.toLowerCase();
-      
-          const visibleTableContainer = Array.from(document.querySelectorAll('.table-container'))
-            .find(container => getComputedStyle(container).display !== 'none');
-      
-          if (!visibleTableContainer) return;
-      
-          const rows = visibleTableContainer.querySelectorAll('tbody tr');
-      
-          rows.forEach(row => {
-            const rowText = row.innerText.toLowerCase();
-            row.style.display = rowText.includes(searchText) ? '' : 'none';
-          });
-        });
-      
-        // === Таймеры ===
-        document.querySelectorAll('.start-btn').forEach((button, index) => {
-          let timer = document.querySelector(`#timer-${index + 1}`);
-          let startButton = document.querySelector(`#start-btn-${index + 1}`);
-          let stopButton = document.querySelector(`#stop-btn-${index + 1}`);
-          let submitButton = document.querySelector(`#submit-btn-${index + 1}`);
-          let statusMessage = document.querySelector(`#status-msg-${index + 1}`);
-      
-          let interval;
-          let seconds = 0, minutes = 0, hours = 0;
-      
-          function updateTimer() {
-            seconds++;
-            if (seconds >= 60) {
-              seconds = 0;
-              minutes++;
-            }
-            if (minutes >= 60) {
-              minutes = 0;
-              hours++;
-            }
-            timer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-          }
-      
-          startButton.addEventListener('click', () => {
-            startButton.style.display = 'none';
-            stopButton.style.display = 'inline-block';
-            submitButton.style.display = 'inline-block';
-            statusMessage.textContent = '';
-      
-            interval = setInterval(updateTimer, 1000);
-          });
-      
-          stopButton.addEventListener('click', () => {
-            clearInterval(interval);
-            startButton.style.display = 'inline-block';
-            stopButton.style.display = 'none';
-            statusMessage.innerHTML = `Время остановлено <img src="static/pause.png" alt="pause" class="pause-icon" style="width: 20px; vertical-align: middle; margin-left: 8px; margin-top: -4px;">`;
-          });
-      
-          submitButton.addEventListener('click', () => {
-            clearInterval(interval);
-            startButton.style.display = 'none';
-            stopButton.style.display = 'none';
-            submitButton.style.display = 'none';
-            statusMessage.innerHTML = `
-              Отправлено на проверку 
-              <img src="static/done.gif" alt="done" class="done-icon" style="width: 40px; vertical-align: middle; margin-left: 10px; margin-top: 4px;">
-            `;
-      
-            setTimeout(() => {
-              const doneIcon = statusMessage.querySelector('.done-icon');
-              if (doneIcon) {
-                doneIcon.src = 'static/done.png';
-              }
-            }, 1400);
-          });
-        });
 
-    document.addEventListener('DOMContentLoaded', function() {
-  // === Клик по логотипу для возврата на первую таблицу ===
-  document.querySelector('.logo').addEventListener('click', function () {
-    // Скрыть все таблицы
-    document.getElementById('second-table').style.display = 'none';
-    document.getElementById('third-table').style.display = 'none';
-    
-    // Показать первую таблицу
-    document.getElementById('first-table').style.display = 'block';
+
+// === Поиск ===
+function filterVisibleTable() {
+  const searchInput = document.querySelector('.search-input');
+  if (!searchInput) return;
+
+  const query = searchInput.value.toLowerCase();
+  const container = Array.from(document.querySelectorAll('.table-container'))
+    .find(c => getComputedStyle(c).display !== 'none');
+  if (!container) return;
+
+  container.querySelectorAll('tbody tr').forEach(row => {
+    row.style.display = row.innerText.toLowerCase().includes(query) ? '' : 'none';
   });
-});
+}
 
-document.addEventListener('DOMContentLoaded', function() {
-  // === Клик по логотипу для возврата на первую таблицу ===
-  document.querySelector('.logo').addEventListener('click', function () {
-    // Добавляем анимацию к логотипу
-    this.classList.add('animate');
-    
-    // Получаем элементы таблиц
-    const firstTable = document.getElementById('first-table');
-    const secondTable = document.getElementById('second-table');
-    const thirdTable = document.getElementById('third-table');
-    
-    // Добавляем анимацию скрытия для всех таблиц
-    secondTable.classList.add('fade-out');
-    thirdTable.classList.add('fade-out');
-
-    // Даем время анимации на скрытие (500ms) перед тем, как показать первую таблицу
-    setTimeout(function() {
-      secondTable.style.display = 'none';
-      thirdTable.style.display = 'none';
-      
-      // Показать первую таблицу с анимацией
-      firstTable.style.display = 'block';
-      firstTable.classList.add('fade-in');
-      
-      // Убираем анимацию через время, чтобы она не оставалась при переключении
-      setTimeout(function() {
-        firstTable.classList.remove('fade-in');
-      }, 500); // 500ms — время анимации
-    }, 500); // 500ms — время анимации для скрытия
-    
-    // Убираем анимацию с логотипа после завершения анимации
-    setTimeout(function() {
-      document.querySelector('.logo').classList.remove('animate');
-    }, 500); // После 500ms анимация логотипа завершена
-  });
-});
-
-document.querySelector('.logout-button').addEventListener('click', function() {
-    // Перенаправление на страницу входа по URL
-    window.location.href = 'http://127.0.0.1:8000/inspector/login'; // Или укажите путь к странице входа, например '/login'
-});
-
-document.querySelector('.logout-button').addEventListener('click', function () {
-  // Добавляем анимацию исчезновения ко всему body
-  document.body.classList.add('fade-out');
-
-  // Ждём завершения анимации и делаем переход
-  setTimeout(function () {
-    window.location.href = 'http://127.0.0.1:8000/inspector/login'; // или '/login'
-  }, 500); // Время должно совпадать с длительностью анимации
-});
-document.addEventListener('DOMContentLoaded', function () {
-    // === Клик по логотипу для возврата на первую таблицу ===
-    document.querySelector('.logo').addEventListener('click', function () {
-      // Добавляем анимацию к логотипу
-      this.classList.add('animate');
-
-      const firstTable = document.getElementById('first-table');
-      const secondTable = document.getElementById('second-table');
-      const thirdTable = document.getElementById('third-table');
-
-      // Добавляем анимацию скрытия для всех таблиц
-      secondTable.classList.add('fade-out');
-      thirdTable.classList.add('fade-out');
-
-      // Скрываем вторую и третью таблицы после анимации
-      setTimeout(function () {
-        secondTable.style.display = 'none';
-        thirdTable.style.display = 'none';
-
-        // Показываем первую таблицу с анимацией
-        firstTable.style.display = 'block';
-        firstTable.classList.add('fade-in');
-
-        // Удаляем временные классы анимаций
-        setTimeout(function () {
-          firstTable.classList.remove('fade-in');
-          secondTable.classList.remove('fade-out');
-          thirdTable.classList.remove('fade-out');
-        }, 500);
-      }, 500);
-
-      // Убираем анимацию с логотипа
-      setTimeout(function () {
-        document.querySelector('.logo').classList.remove('animate');
-      }, 500);
-    });
-
-    // === Logout обработчик ===
-    document.querySelector('.logout-button').addEventListener('click', function () {
-      document.body.classList.add('fade-out');
-      setTimeout(function () {
-        window.location.href = 'http://127.0.0.1:8000';
-      }, 500);
-    });
-  });
-
-  document.addEventListener('DOMContentLoaded', () => {
-  // 1. Фильтрация видимой таблицы
-  function filterVisibleTable() {
-    const q = document.querySelector('.search-input').value.toLowerCase();
-    const container = Array.from(document.querySelectorAll('.table-container'))
-      .find(c => getComputedStyle(c).display !== 'none');
-    if (!container) return;
-    container.querySelectorAll('tbody tr').forEach(r => {
-      r.style.display = r.innerText.toLowerCase().includes(q) ? '' : 'none';
-    });
-  }
-
-  // 2. Сброс поиска
-  function resetSearch() {
-    const inp = document.querySelector('.search-input');
+function resetSearch() {
+  const inp = document.querySelector('.search-input');
+  if (inp) {
     inp.value = '';
     filterVisibleTable();
   }
+}
 
-  // 3. Подключаем фильтрацию к полю
+// === Переключение таблиц ===
+function showSecondTable(button) {
+  resetSearch();
+
+  const first = document.getElementById('first-table');
+  const second = document.getElementById('second-table');
+
+  first.classList.add('fade-out');
+  setTimeout(() => {
+    first.style.display = 'none';
+    first.classList.remove('fade-out');
+    second.style.display = 'block';
+    second.classList.add('fade-in');
+    setTimeout(() => second.classList.remove('fade-in'), 200);
+  }, 200);
+
+  document.getElementById('job-name').textContent = button.dataset.name;
+  document.getElementById('job-client').textContent = button.dataset.client;
+  document.getElementById('job-num').textContent = button.dataset.jobnum;
+}
+
+function goBack() {
+  resetSearch();
+  const first = document.getElementById('first-table');
+  const second = document.getElementById('second-table');
+  const third = document.getElementById('third-table');
+
+  if (third.style.display === 'block') {
+    third.classList.add('fade-out');
+    setTimeout(() => {
+      third.style.display = 'none';
+      third.classList.remove('fade-out');
+      second.style.display = 'block';
+      second.classList.add('fade-in');
+      setTimeout(() => second.classList.remove('fade-in'), 200);
+    }, 200);
+  } else if (second.style.display === 'block') {
+    second.classList.add('fade-out');
+    setTimeout(() => {
+      second.style.display = 'none';
+      second.classList.remove('fade-out');
+      first.style.display = 'block';
+      first.classList.add('fade-in');
+      setTimeout(() => first.classList.remove('fade-in'), 200);
+    }, 200);
+  }
+}
+
+function showThirdTable() {
+  resetSearch();
+  const second = document.getElementById('second-table');
+  const third = document.getElementById('third-table');
+
+  second.classList.add('fade-out');
+  setTimeout(() => {
+    second.style.display = 'none';
+    second.classList.remove('fade-out');
+    third.style.display = 'block';
+    third.classList.add('fade-in');
+    setTimeout(() => third.classList.remove('fade-in'), 200);
+  }, 200);
+}
+
+function goBackToSecond() {
+  resetSearch();
+  const second = document.getElementById('second-table');
+  const third = document.getElementById('third-table');
+
+  third.classList.add('fade-out');
+  setTimeout(() => {
+    third.style.display = 'none';
+    third.classList.remove('fade-out');
+    second.style.display = 'block';
+    second.classList.add('fade-in');
+    setTimeout(() => second.classList.remove('fade-in'), 200);
+  }, 200);
+}
+
+// === Общая инициализация ===
+document.addEventListener('DOMContentLoaded', () => {
+  // Поиск
   const searchInput = document.querySelector('.search-input');
   if (searchInput) {
     searchInput.addEventListener('input', filterVisibleTable);
   }
 
-  // 4. Переключение таблиц (твой старый код плюс resetSearch в начале)
-  window.showSecondTable = function(button) {
-    resetSearch();
-    document.getElementById('first-table').style.display  = 'none';
-    document.getElementById('second-table').style.display = 'block';
-    document.getElementById('second-table').classList.add('show');
-  };
+  // Логотип
+  const logo = document.querySelector('.logo');
+  if (logo) {
+    logo.addEventListener('click', function () {
+      this.classList.add('animate');
+      const first = document.getElementById('first-table');
+      const second = document.getElementById('second-table');
+      const third = document.getElementById('third-table');
 
-  window.showThirdTable = function() {
-    resetSearch();
-    document.getElementById('second-table').style.display = 'none';
-    document.getElementById('third-table').style.display  = 'block';
-  };
+      [second, third].forEach(table => {
+        if (table.style.display === 'block') {
+          table.classList.add('fade-out');
+          setTimeout(() => {
+            table.style.display = 'none';
+            table.classList.remove('fade-out');
+          }, 200);
+        }
+      });
 
-  window.goBack = function() {
-    resetSearch();
-    const second = document.getElementById('second-table');
-    const third  = document.getElementById('third-table');
+      setTimeout(() => {
+        first.style.display = 'block';
+        first.classList.add('fade-in');
+        setTimeout(() => first.classList.remove('fade-in'), 200);
+      }, 200);
 
-    if (second.style.display === 'block') {
-      second.classList.remove('show');
-      second.style.display = 'none';
-      document.getElementById('first-table').style.display = 'block';
-    } else if (third.style.display === 'block') {
-      third.style.display  = 'none';
-      second.style.display = 'block';
-    }
-  };
-});
-
-function toggleDropdownMenu() {
-  const menu = document.getElementById('dropdown-menu');
-  menu.classList.toggle('show');
-}
-
-document.addEventListener('click', function (event) {
-  const menu = document.getElementById('dropdown-menu');
-  const toggle = document.querySelector('.menu-button-wrapper');
-  if (!menu.contains(event.target) && !toggle.contains(event.target)) {
-    menu.classList.add('hidden');
+      setTimeout(() => this.classList.remove('animate'), 300);
+    });
   }
 
+  // Логаут
+  const logout = document.querySelector('.logout-button');
+  if (logout) {
+    logout.addEventListener('click', () => {
+      document.body.classList.add('fade-out');
+      setTimeout(() => {
+        window.location.href = 'http://127.0.0.1:8000/inspector/login';
+      }, 300);
+    });
+  }
+
+  // Меню
+  const toggle = document.querySelector('.menu-button-wrapper');
+  if (toggle) {
+    toggle.addEventListener('click', () => {
+      const menu = document.getElementById('dropdown-menu');
+      if (menu) {
+        menu.classList.toggle('show');
+        menu.classList.remove('hidden');
+      }
+    });
+  }
+
+  document.addEventListener('click', function (event) {
+    const menu = document.getElementById('dropdown-menu');
+    const toggle = document.querySelector('.menu-button-wrapper');
+    if (menu && !menu.contains(event.target) && !toggle.contains(event.target)) {
+      menu.classList.add('hidden');
+      menu.classList.remove('show');
+    }
+  });
+
+  // Кнопки "Готово"
+  document.querySelectorAll('.done-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      const parent = button.closest('.action-buttons');
+      parent.innerHTML = `
+        <span class="done-message">
+          Проверка пройдена! 
+          <img src="/static/done.gif" alt="done" class="done-icon" 
+               style="width: 40px; vertical-align: middle; margin-left: 5px; margin-top: 2px;">
+        </span>`;
+      setTimeout(() => {
+        const doneIcon = parent.querySelector('.done-icon');
+        if (doneIcon) {
+          doneIcon.src = '/static/done.png';
+        }
+      }, 1400);
+    });
+  });
+
+  // Кнопки "Доработка"
+  document.querySelectorAll('.edit-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      const parent = button.closest('.action-buttons');
+      parent.innerHTML = `
+        <span class="redo-message">
+          Отправлено на доработку! 
+          <img src="/static/done_inc.gif" alt="redo" class="done-icon" 
+               style="width: 40px; vertical-align: middle; margin-left: 5px; margin-top: 2px;">
+        </span>`;
+      setTimeout(() => {
+        const doneIcon = parent.querySelector('.done-icon');
+        if (doneIcon) {
+          doneIcon.src = '/static/done_inc.png';
+        }
+      }, 1400);
+    });
+  });
 });
 
-      </script>
+document.getElementById('btn-instruction').addEventListener('click', function () {
+    // Скрыть таблицы
+    document.getElementById('first-table').style.display = 'none';
+    document.getElementById('second-table').style.display = 'none';
+    document.getElementById('third-table').style.display = 'none';
+
+    // Показать с анимацией
+    const section = document.getElementById('instructions-section');
+    section.style.display = 'block';
+    setTimeout(() => {
+      section.classList.add('show');
+    }, 10); // чуть-чуть подождать, чтобы сработал transition
+  });
+
+  section.classList.remove('show');
+setTimeout(() => {
+  section.style.display = 'none';
+}, 400); // подождать пока исчезнет
+
+</script>
+
+
+
+
+
       
 
 
