@@ -8,3 +8,6 @@ def get_db():
         yield db
     finally:
         db.close()
+
+def get_current_user():
+    return user

@@ -2,6 +2,10 @@ from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
 
+class AdminLogin(BaseModel):
+    name: str
+    password: str
+
 class UserBase(BaseModel):
     name: str
     role: str
@@ -25,5 +29,6 @@ class UserOut(UserBase):
     id: int
     created_time: datetime
 
-    class Config:
-        orm_mode = True
+class Config:
+    from_attributes = True
+
