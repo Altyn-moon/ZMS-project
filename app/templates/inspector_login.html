@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Вход администратора | ZMS</title>
+    <title>Вход инспектора | ZMS</title>
     <link rel="stylesheet" href="/static/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -43,25 +43,27 @@
 </head>
 <body>
 
-    <img class="logo" id="admin-logo" src="/static/logo.png" alt="ZMS" width="250" onclick="showLogin()">
+    <img class="logo" id="inspector-logo" src="/static/logo.png" alt="ZMS" width="250" onclick="showLogin()">
 
-    <!-- Экран логина администратора -->
-    <div class="login-container" id="login-container">
-        <h2>Вход администратора</h2>
+<!-- Экран логина инспектора -->
+<div class="login-container" id="login-container">
+    <h2>Вход инспектора</h2>
 
+    <form method="post" action="/inspector/login">
         <label for="username">Имя пользователя</label>
-        <input type="text" id="username" placeholder="Введите имя">
+        <input type="text" id="username" name="username" placeholder="Введите имя">
 
         <label for="password">Пароль</label>
         <div class="password-container">
-            <input type="password" id="password" placeholder="Введите пароль">
-            <button class="toggle-password" onclick="togglePassword(event)">
+            <input type="password" id="password" name="password" placeholder="Введите пароль">
+            <button type="button" class="toggle-password" onclick="togglePassword(event)">
                 <img id="Eye-icon" src="/static/Eye-off.png" alt="eye" />
             </button>
         </div>
 
-        <button class="login-submit">Войти</button>
-    </div>
+        <button type="submit" class="login-submit">Войти</button>
+    </form>
+</div>
 
     <script>
         function animateButton(button) {
@@ -87,12 +89,8 @@
             animateButton(event.currentTarget);
         }
 
-        document.querySelector('.login-submit').addEventListener('click', function () {
-            window.location.href = "/admin/dashboard";
-        });
-
         function showLogin() {
-            const logo = document.getElementById("admin-logo");
+            const logo = document.getElementById("inspector-logo");
             const loginContainer = document.getElementById("login-container");
 
             logo.classList.add("logo-clicked");
@@ -100,7 +98,7 @@
             setTimeout(() => {
                 logo.style.display = "none";
                 loginContainer.classList.add("show");
-            }, 400); // чуть позже, чтобы логотип успел анимироваться
+            }, 400);
         }
     </script>
 </body>

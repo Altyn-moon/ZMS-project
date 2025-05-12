@@ -160,6 +160,11 @@ body {
 .back-btn {
     background-color: transparent;
     border: 2px solid white;
+    box-shadow: none;
+    }
+
+.first-page-back-btn {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Пример тени */
 }
 
 /* Наведение на Войти */

@@ -60,8 +60,8 @@
         {% endif %}
 
         <form method="post" action="/login">
-            <label for="username">Логин</label>
-            <input type="text" id="username" name="username" placeholder="Введите логин" required>
+            <label for="login">Логин</label>
+            <input type="text" id="login" name="login" placeholder="Введите логин" required>
 
             <label for="password">Пароль</label>
             <div class="password-container">
@@ -73,13 +73,14 @@
 
             <button class="login-submit" type="submit">Войти</button>
         </form>
-        <button class="back-btn" onclick="showCard()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-            Назад
-        </button>
-        
+        <!-- Кнопка "Назад" на первой странице -->
+<!-- Кнопка "Назад" на первой странице -->
+<button class="back-btn first-page-back-btn" onclick="showCard()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+    </svg>
+    <span>Назад</span> <!-- Добавляем текст после SVG -->
+</button>
     </div>
 
     <script>

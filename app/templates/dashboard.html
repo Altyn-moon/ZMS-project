@@ -24,20 +24,13 @@ body {
 }
         
         .header {
-    background: linear-gradient(90deg, rgb(156, 29, 17) 0%, rgba(113, 41, 4, 0.34) 55%, rgb(87, 16, 10) 100%);
-    height: 60px;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #fff;
-    padding: 10px 20px;
-    border-bottom: 2px solid #ddd;
-    box-sizing: border-box;
-}
+            background: linear-gradient(90deg, rgb(156, 29, 17) 0%, rgba(113, 41, 4, 0.34) 55%, rgb(87, 16, 10) 100%); 
+            height: 60px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+        }
 
         .header .user-info {
             display: flex;
@@ -54,29 +47,35 @@ body {
     box-sizing: border-box;
     transition: opacity 0.3s ease;
 }
-        
+
+/* контейнер остаётся по центру, но не влияет на ширину поля */
 .search-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 5px;
-    margin-top: 5px;
-    position: relative; /* Чтобы иконка была внутри поля */
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
 }
 
+/* полностью перебиваем ширину и размер шрифта */
 .search-input {
-    width: 100%;
-    max-width: 600px;
-    padding: 12px 12px 12px 45px; /* теперь отступ слева под иконку */
-    font-size: 20px;
-    border-radius: 8px;
-    border: 2px solid #ccc;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    
-    background-image: url('/static/Search.png');
-    background-repeat: no-repeat;
-    background-position: left 15px center;
-    background-size: 20px 20px;
-    color: #111; /* <-- вот это добавляет тёмный текст */
+  width: 40% !important;       /* чуть длиннее */
+  min-width: 200px !important;
+  max-width: 500px !important;
+
+  font-size: 20px !important;
+  padding: 8px 10px 8px 40px !important;
+
+  background: url('/static/Search.png') no-repeat 10px center !important;
+  background-size: 20px 20px !important;
+
+  box-sizing: border-box !important;
+  border: 2px solid #a2a2a2 !important;
+  border-radius: 10px !important;
+  color: #111 !important;
+}
+
+/* если хотите, чтобы и placeholder был тёмным */
+.search-input::placeholder {
+  color: #666 !important;
 }
 
 .search-icon {
@@ -154,7 +153,7 @@ th, td {
             color: white;
             padding: 10px 30px;
             border: none;
-            border-radius: 6px;
+            border-radius: 10px;
             cursor: pointer;
             transition: background-color 0.3s ease;
             font-size: 23px;
@@ -270,7 +269,6 @@ th, td {
     font-weight: bold;
     max-height: 40px; /* ограничим высоту */
     white-space: nowrap;
-    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .logout-button .icon {
@@ -278,16 +276,7 @@ th, td {
     height: 20px; /* уменьшим высоту */
     width: 20px;  /* добавим для консистентности */
 }
-
-.logout-button:active {
-    transform: scale(0.95); /* Сжимаем кнопку на 5% */
-    background-color: #8b0000; /* Темнее при нажатии */
-}
-
-.logout-button:hover {
-    background-color: #8b0000; /* Темнее при наведении */
-    transform: scale(1.05); /* Лёгкое увеличение при наведении */
-}
+ 
         html, body {
     margin: 0;
     padding: 0;
@@ -344,7 +333,7 @@ th, td {
     color: white;
     padding: 10px 30px;
     border: none;
-    border-radius: 6px;
+    border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
     font-size: 23px;
@@ -356,46 +345,66 @@ th, td {
     transform: scale(1.05);
 }
 
+/* Стиль для кнопки Назад */
 .back-btn {
     background-color: #f2f2f2;
     color: #c40000;
     padding: 6px 14px;
     border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
     font-size: 28px;
-    font-weight: 600px;
+    font-weight: 600;
     margin-bottom: 20px;
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    border: none; /* Добавил для уверенности, что кнопка не будет с границей */
+    border: none; /* Убираем границу */
+    box-shadow: none; /* Убираем тень */
+    outline: none; /* Убираем рамку при клике */
+    transition: transform 0.4s ease; /* Плавное перемещение */
+    margin-left: -50px; /* Для сдвига влево */
 }
 
+/* Стиль для иконки в кнопке */
 .back-btn svg {
     width: 30px;
     height: 30px;
 }
 
-.back-btn:hover {
-    background-color: #f2f2f2;
-    transform: scale(1.05);
+/* Обновляем цвет обводки (стрелки) */
+.back-btn svg polyline {
+    stroke: #c40000;  /* Устанавливаем цвет обводки стрелки */
+    stroke-width: 2;   /* Убедитесь, что линия достаточно толстая */
 }
 
-@media (max-width: 768px) {
-    .search-input {
-        width: 90%;
-         max-width: none;
-    }
+/* Увеличиваем размер кнопки при наведении */
+.back-btn:hover {
+    transform: scale(1.05) translateX(-10px);  /* Двигаем кнопку влево при наведении */
+}
 
-    .work-table {
-        font-size: 18px;
-    }
+/* Убираем анимацию и изменение фона при зажатии */
+.back-btn:active {
+    transform: none;
+    background-color: #f2f2f2;
+    box-shadow: none;
+}
 
-    .btn-start, .back-btn {
-        font-size: 18px;
-        padding: 8px 20px;
+/* Анимация для кнопки — движение влево при первоначальной загрузке */
+@keyframes moveLeft {
+    0% {
+        transform: translateX(0);  /* Исходное положение */
     }
+    50% {
+        transform: translateX(-10px); /* Сдвигаем влево */
+    }
+    100% {
+        transform: translateX(0); /* Возвращаем в исходное положение */
+    }
+}
+
+/* Применяем анимацию для кнопки */
+.back-btn {
+    animation: moveLeft 0.5s ease-out; /* Анимация с эффектом движения влево */
 }
 
 #third-table .work-table {
@@ -475,42 +484,19 @@ a:visited {
 .fade-out {
     animation: fadeOut 0.5s forwards;
   }
-@keyframes fadeOut {
-  
+
+  @keyframes fadeOut {
     from { opacity: 1; }
     to { opacity: 0; }
   }
-
-  .fade-out {
-  animation: fadeOut 0.5s forwards;
-}
-.fade-in {
-  animation: fadeIn 0.5s forwards;
-}
-
-@keyframes fadeOut {
-  from { opacity: 1; }
-  to { opacity: 0; visibility: hidden; }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.hidden {
-  display: none;
-}
-
 </style>
 </head>
 <body>
     <div class="header">
         <div class="header-left">
-          <button class="left-button" onclick="showVideoPage()">
-            <img src="/static/help.png" alt="Инструкция" class="icon clickable">
-        </button>        
-                
+            <button class="left-button">
+                <img src="/static/help.png" alt="Инструкция" class="icon clickable"> 
+            </button>
             <button class="left-button">
                 <img src="/static/notification.png" alt="Уведомления" class="icon clickable">
             </button>
@@ -534,7 +520,7 @@ a:visited {
     
     <main class="main-content">
         <div class="search-container">
-          <input type="text" class="search-input" placeholder="Поиск">
+          <input type="text" class="search-input" placeholder="Поиск" style="padding-left: 40px; background: url('static/Search.png') no-repeat 10px center; background-size: 20px 20px;">
         </div>     
         
         <!-- первая таблица -->
@@ -561,7 +547,7 @@ a:visited {
                             data-name="{{ item.name }}"
                             data-client="{{ item.client }}"
                             data-jobnum="{{ item.job_num }}"
-                        >В работу</button>
+                        >Просмотр</button>
                     </td>
                 </tr>
                 {% endfor %}
@@ -583,13 +569,13 @@ a:visited {
                 <tr>
                     <td>Рабочая карта №1</td>
                     <td>
-                        <button class="btn-start" onclick="showThirdTable()">Начать</button>
+                        <button class="btn-start" onclick="showThirdTable()">В работу</button>
                     </td>
                 </tr>
                 <tr>
                     <td>Рабочая карта №2</td>
                     <td>
-                        <button class="btn-start" onclick="showThirdTable()">Начать</button>
+                        <button class="btn-start" onclick="showThirdTable()">В работу</button>
                     </td>
                 </tr>
             </table>
@@ -598,15 +584,15 @@ a:visited {
         <!-- третья таблица -->
 <div class="table-container" id="third-table" style="display: none; position: relative;">
 
-    <button class="back-btn" onclick="goBack()" style="font-size: 24px; padding: 12px 30px; display: flex; align-items: center; gap: 10px;">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c40000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="15 18 9 12 15 6"></polyline>
-        </svg>
-        <span>Назад</span>
-    </button>    
+  <button class="back-btn" onclick="goBack()" style="font-size: 24px; padding: 12px 30px;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c40000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+    </svg>
+    Назад
+</button>    
 
 <!-- Чертёж -->
-<button class="btn-drawing" onclick="window.open('pdfs/6893.00.000.pdf#page=1&view=FitH', '_blank')" style="
+<button class="btn-drawing" onclick="window.open('/static/pdfs/6893.00.000.pdf#page=1&view=FitH', '_blank')" style="
     font-size: 24px;
     padding: 12px 30px;
     background-color: #D5C6CA;
@@ -640,7 +626,7 @@ a:visited {
             <td>1</td>
             <td>Списать материал</td>
             <td>
-                <a href="pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101</a>
+              <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101</a>
             </td>
             <td>
               <div class="timer-block">
@@ -658,8 +644,8 @@ a:visited {
             <td>2</td>
             <td>Отрезать материал</td>
                 <td>
-                    <a href="pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101</a><br>
-                    <a href="pdfs/инструкция2.pdf" target="_blank">ZMS-PH-DP-001</a>
+                  <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101</a><br>
+                  <a href="/static/pdfs/инструкция2.pdf" target="_blank">ZMS-PH-DP-001</a>
                 </td>
             <td>
               <div class="timer-block">
@@ -675,34 +661,10 @@ a:visited {
           </tr>
         </tbody>
       </table>      
-<!-- Страница с видеоинструкциями -->
-<div id="video-page" style="display: none; padding: 20px;">
-  <button class="back-btn" onclick="hideVideoPage()" style="font-size: 24px; padding: 12px 30px;">
-      Назад
-  </button>
-  <h2>Инструкции</h2>
-  <div class="video-container">
-      <h3>Инструкция 1</h3>
-      <video width="320" height="240" controls>
-          <source src="path/to/your/video1.mp4" type="video/mp4">
-          Ваш браузер не поддерживает видео.
-      </video>
-  </div>
-  <div class="video-container">
-      <h3>Инструкция 2</h3>
-      <video width="320" height="240" controls>
-          <source src="path/to/your/video2.mp4" type="video/mp4">
-          Ваш браузер не поддерживает видео.
-      </video>
-  </div>
-  <!-- Добавьте больше видео по необходимости -->
-</div>
-
+    
       <script>
-        
  // === Функции переключения таблиц ===
 function showSecondTable(button) {
-  resetSearch(); // <=== ДОБАВЬ ЭТО
   document.getElementById('first-table').style.display = 'none';
   document.getElementById('second-table').style.display = 'block';
   document.getElementById('second-table').classList.add('show');
@@ -723,7 +685,6 @@ function showSecondTable(button) {
 }
 
 function goBack() {
-  resetSearch(); // <=== ДОБАВЬ ЭТО
   // Проверяем, на какой таблице мы находимся и возвращаемся на предыдущую
   if (document.getElementById('second-table').style.display === 'block') {
     document.getElementById('second-table').classList.remove('show');
@@ -736,13 +697,11 @@ function goBack() {
 }
 
 function showThirdTable() {
-  resetSearch(); // <===
   document.getElementById('second-table').style.display = 'none';
   document.getElementById('third-table').style.display = 'block';
 }
 
 function goBackToSecond() {
-  resetSearch(); // <===
   document.getElementById('third-table').style.display = 'none';
   document.getElementById('second-table').style.display = 'block';
 }
@@ -811,7 +770,7 @@ function goBackToSecond() {
             submitButton.style.display = 'none';
             statusMessage.innerHTML = `
               Отправлено на проверку 
-              <img src="static/done.gif" alt="done" class="done-icon" style="width: 40px; vertical-align: middle; margin-left: 7px; margin-top: 2px;">
+              <img src="static/done.gif" alt="done" class="done-icon" style="width: 40px; vertical-align: middle; margin-left: 5px; margin-top: 2px;">
             `;
       
             setTimeout(() => {
@@ -819,11 +778,74 @@ function goBackToSecond() {
               if (doneIcon) {
                 doneIcon.src = 'static/done.png';
               }
-            }, 1200);
+            }, 1400);
           });
         });
 
-  document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
+  // === Клик по логотипу для возврата на первую таблицу ===
+  document.querySelector('.logo').addEventListener('click', function () {
+    // Скрыть все таблицы
+    document.getElementById('second-table').style.display = 'none';
+    document.getElementById('third-table').style.display = 'none';
+    
+    // Показать первую таблицу
+    document.getElementById('first-table').style.display = 'block';
+  });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // === Клик по логотипу для возврата на первую таблицу ===
+  document.querySelector('.logo').addEventListener('click', function () {
+    // Добавляем анимацию к логотипу
+    this.classList.add('animate');
+    
+    // Получаем элементы таблиц
+    const firstTable = document.getElementById('first-table');
+    const secondTable = document.getElementById('second-table');
+    const thirdTable = document.getElementById('third-table');
+    
+    // Добавляем анимацию скрытия для всех таблиц
+    secondTable.classList.add('fade-out');
+    thirdTable.classList.add('fade-out');
+
+    // Даем время анимации на скрытие (500ms) перед тем, как показать первую таблицу
+    setTimeout(function() {
+      secondTable.style.display = 'none';
+      thirdTable.style.display = 'none';
+      
+      // Показать первую таблицу с анимацией
+      firstTable.style.display = 'block';
+      firstTable.classList.add('fade-in');
+      
+      // Убираем анимацию через время, чтобы она не оставалась при переключении
+      setTimeout(function() {
+        firstTable.classList.remove('fade-in');
+      }, 500); // 500ms — время анимации
+    }, 500); // 500ms — время анимации для скрытия
+    
+    // Убираем анимацию с логотипа после завершения анимации
+    setTimeout(function() {
+      document.querySelector('.logo').classList.remove('animate');
+    }, 500); // После 500ms анимация логотипа завершена
+  });
+});
+
+document.querySelector('.logout-button').addEventListener('click', function() {
+    // Перенаправление на страницу входа по URL
+    window.location.href = 'http://127.0.0.1:8000'; // Или укажите путь к странице входа, например '/login'
+});
+
+document.querySelector('.logout-button').addEventListener('click', function () {
+  // Добавляем анимацию исчезновения ко всему body
+  document.body.classList.add('fade-out');
+
+  // Ждём завершения анимации и делаем переход
+  setTimeout(function () {
+    window.location.href = 'http://127.0.0.1:8000'; // или '/login'
+  }, 500); // Время должно совпадать с длительностью анимации
+});
+document.addEventListener('DOMContentLoaded', function () {
     // === Клик по логотипу для возврата на первую таблицу ===
     document.querySelector('.logo').addEventListener('click', function () {
       // Добавляем анимацию к логотипу
@@ -869,33 +891,61 @@ function goBackToSecond() {
     });
   });
 
+  document.addEventListener('DOMContentLoaded', () => {
+  // 1. Фильтрация видимой таблицы
+  function filterVisibleTable() {
+    const q = document.querySelector('.search-input').value.toLowerCase();
+    const container = Array.from(document.querySelectorAll('.table-container'))
+      .find(c => getComputedStyle(c).display !== 'none');
+    if (!container) return;
+    container.querySelectorAll('tbody tr').forEach(r => {
+      r.style.display = r.innerText.toLowerCase().includes(q) ? '' : 'none';
+    });
+  }
+
+  // 2. Сброс поиска
   function resetSearch() {
+    const inp = document.querySelector('.search-input');
+    inp.value = '';
+    filterVisibleTable();
+  }
+
+  // 3. Подключаем фильтрацию к полю
   const searchInput = document.querySelector('.search-input');
-  searchInput.value = ''; // Очищаем поле поиска
+  if (searchInput) {
+    searchInput.addEventListener('input', filterVisibleTable);
+  }
 
-  // Показываем все строки в текущей таблице
-  const allRows = document.querySelectorAll('.table-container tbody tr');
-  allRows.forEach(row => row.style.display = '');
-}
-// Функция для показа страницы с видеоинструкциями
-function showVideoPage() {
-    document.getElementById('third-table').style.display = 'none';  // Скрыть третью таблицу
-    document.getElementById('video-page').style.display = 'block';  // Показать страницу с видеоинструкциями
-}
+  // 4. Переключение таблиц (твой старый код плюс resetSearch в начале)
+  window.showSecondTable = function(button) {
+    resetSearch();
+    document.getElementById('first-table').style.display  = 'none';
+    document.getElementById('second-table').style.display = 'block';
+    document.getElementById('second-table').classList.add('show');
+  };
 
-// Функция для скрытия страницы с видеоинструкциями
-function hideVideoPage() {
-    document.getElementById('video-page').style.display = 'none';  // Скрыть страницу с видеоинструкциями
-    document.getElementById('third-table').style.display = 'block'; // Показать третью таблицу
-}
-function hideVideoPage() {
-    document.getElementById('video-page').style.display = 'none';  // Скрыть страницу с видеоинструкциями
-    document.getElementById('third-table').style.display = 'block'; // Показать третью таблицу
-}
+  window.showThirdTable = function() {
+    resetSearch();
+    document.getElementById('second-table').style.display = 'none';
+    document.getElementById('third-table').style.display  = 'block';
+  };
 
-</script>
+  window.goBack = function() {
+    resetSearch();
+    const second = document.getElementById('second-table');
+    const third  = document.getElementById('third-table');
 
-
-
+    if (second.style.display === 'block') {
+      second.classList.remove('show');
+      second.style.display = 'none';
+      document.getElementById('first-table').style.display = 'block';
+    } else if (third.style.display === 'block') {
+      third.style.display  = 'none';
+      second.style.display = 'block';
+    }
+  };
+});
+      </script>
+      
 
 
