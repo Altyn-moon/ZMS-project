@@ -525,71 +525,62 @@ a:visited {
         
         <!-- первая таблица -->
         <div class="table-container" id="first-table">
-            <table class="work-table">
-                <tr>
-                    <th>№</th>
-                    <th>Наименование работы</th>
-                    <th>Заказчик</th>
-                    <th>Номер работы</th>
-                    <th>Действие</th>
-                </tr>
-                {% for item in work_items %}
-                <tr>
-                    <td>{{ item.id }}</td>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.client }}</td>
-                    <td>{{ item.job_num }}</td>
-                    <td>
-                        <button
-                            class="btn-start"
-                            onclick="showSecondTable(this)"
-                            data-id="{{ item.id }}"
-                            data-name="{{ item.name }}"
-                            data-client="{{ item.client }}"
-                            data-jobnum="{{ item.job_num }}"
-                        >Просмотр</button>
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
-        </div>            
+          <table class="work-table">
+            <thead>
+              <tr>
+                <th>№</th>
+                <th>Наименование работы</th>
+                <th>Заказчик</th>
+                <th>Номер работы</th>
+                <th>Действие</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for order in work_orders %}
+              <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.name }}</td>
+                <td>{{ order.customer }}</td>
+                <td>{{ order.code }}</td>
+                <td>
+                  <button class="btn-start" onclick="showSecondTable({{ order.id }})">
+                    Просмотр
+                  </button>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>         
     
-        <!-- вторая таблица -->
+        <!-- вторая таблица: work_cards -->
         <div class="table-container" id="second-table" style="display: none;">
-            <button class="back-btn" onclick="goBack()" style="font-size: 24px; padding: 12px 30px;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c40000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
-                Назад
-            </button>       
-            <table class="work-table">
-                <tr>
-                    <th colspan="2">Рабочая карта</th>
-                </tr>
-                <tr>
-                    <td>Рабочая карта №1</td>
-                    <td>
-                        <button class="btn-start" onclick="showThirdTable()">В работу</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Рабочая карта №2</td>
-                    <td>
-                        <button class="btn-start" onclick="showThirdTable()">В работу</button>
-                    </td>
-                </tr>
-            </table>
+          <button class="back-btn" onclick="showFirstTable()">← Назад</button>
+          <h2>Рабочие карты заказа №<span id="order-num"></span></h2>
+          <table class="work-table">
+            <thead>
+              <tr>
+                <th>№</th>
+                <th>Название карты</th>
+                <th>Описание</th>
+                <th>Действие</th>
+              </tr>
+            </thead>
+            <tbody id="second-tbody">
+              <!-- JS будет здесь вставлять строки -->
+            </tbody>
+          </table>
         </div>
 
         <!-- третья таблица -->
-<div class="table-container" id="third-table" style="display: none; position: relative;">
+        <div class="table-container" id="third-table" style="display: none; position: relative;">
 
-  <button class="back-btn" onclick="goBack()" style="font-size: 24px; padding: 12px 30px;">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c40000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="15 18 9 12 15 6"></polyline>
-    </svg>
-    Назад
-</button>    
+          <button class="back-btn" onclick="goBack()" style="font-size: 24px; padding: 12px 30px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c40000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            Назад
+        </button>   
 
 <!-- Чертёж -->
 <button class="btn-drawing" onclick="window.open('/static/pdfs/6893.00.000.pdf#page=1&view=FitH', '_blank')" style="
@@ -661,29 +652,8 @@ a:visited {
           </tr>
         </tbody>
       </table>      
-    
-      <script>
- // === Функции переключения таблиц ===
-function showSecondTable(button) {
-  document.getElementById('first-table').style.display = 'none';
-  document.getElementById('second-table').style.display = 'block';
-  document.getElementById('second-table').classList.add('show');
-  
-  const name = button.dataset.name;
-  const client = button.dataset.client;
-  const jobNum = button.dataset.jobnum;
 
-  const nameElem = document.getElementById('job-name');
-  const clientElem = document.getElementById('job-client');
-  const jobNumElem = document.getElementById('job-num');
-
-  if (nameElem && clientElem && jobNumElem) {
-    nameElem.textContent = name;
-    clientElem.textContent = client;
-    jobNumElem.textContent = jobNum;
-  }
-}
-
+<script>
 function goBack() {
   // Проверяем, на какой таблице мы находимся и возвращаемся на предыдущую
   if (document.getElementById('second-table').style.display === 'block') {
@@ -946,6 +916,103 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 });
       </script>
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  // данные из Python
+  const workOrders = {{ orders_data | tojson }};
+  
+  let currentOrderId = null;
+  let currentCardId = null;
+  
+  function showFirstTable() {
+    document.getElementById('first-table').style.display  = 'block';
+    document.getElementById('second-table').style.display = 'none';
+    document.getElementById('third-table').style.display  = 'none';
+  }
+  
+  function showSecondTable(orderId) {
+  fetch(`/work_cards/${orderId}`)
+    .then(response => response.json())
+    .then(data => {
+      const tbody = document.getElementById('second-tbody');
+      tbody.innerHTML = '';  // Очищаем
+
+      data.forEach((card, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${card.name}</td>
+          <td>${card.description}</td>
+          <td>
+            <button class="btn-start" onclick="showThirdTable()">Открыть</button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      document.getElementById('order-num').textContent = orderId;
+      document.getElementById('first-table').style.display = 'none';
+      document.getElementById('second-table').style.display = 'block';
+    })
+    .catch(error => console.error('Ошибка загрузки рабочих карт:', error));
+}
+
+  
+  
+  
+  function showThirdTable(orderId, cardId) {
+    currentCardId = cardId;
+    const card = workOrders
+      .find(o => o.id === orderId)
+      .work_cards.find(c => c.id === cardId);
+  
+    document.getElementById('card-id').textContent = cardId;
+  
+    const tbody3 = document.getElementById('third-tbody');
+    tbody3.innerHTML = '';
+    card.operation_descriptions.forEach(op => {
+      if (op.work_times.length === 0) {
+        tbody3.insertAdjacentHTML('beforeend', `
+          <tr>
+            <td>${op.id}</td>
+            <td>${op.operation || ''}</td>
+            <td>${op.equipment || ''}</td>
+            <td colspan="2">— нет данных —</td>
+          </tr>`);
+      } else {
+        op.work_times.forEach(wt => {
+          tbody3.insertAdjacentHTML('beforeend', `
+            <tr>
+              <td>${op.id}</td>
+              <td>${op.operation}</td>
+              <td>${op.equipment}</td>
+              <td>${new Date(wt.start_time).toLocaleString()}</td>
+              <td>${new Date(wt.end_time).toLocaleString()}</td>
+            </tr>`);
+        });
+      }
+    });
+  
+    document.getElementById('second-table').style.display = 'none';
+    document.getElementById('first-table').style.display  = 'none';
+    document.getElementById('third-table').style.display  = 'block';
+  }
+  
+  // инициализация — показываем только первую
+  showFirstTable();
+  </script>  
+
+</body>
+</html> 
       
-
-
