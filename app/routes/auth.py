@@ -1,5 +1,3 @@
-# app/routes/auth.py
-
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.dependencies import get_db
@@ -19,3 +17,4 @@ def check_uid(uid: str, db: Session = Depends(get_db)):
 @router.get("/check_uid/{uid}")
 def check_uid(uid: str):
     return {"message": "Проверка UID пока отключена (без базы данных)."}
+

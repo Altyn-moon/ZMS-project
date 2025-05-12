@@ -26,45 +26,52 @@ from fastapi import FastAPI, Form, Request, status
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
-
 from pydantic import BaseModel
 from typing import List
-from starlette.requests import Request
-import sqlite3
-import enum
-
 from sqlalchemy.orm import Session
-from fastapi import status
-from pydantic import BaseModel
+from starlette.middleware.sessions import SessionMiddleware
+import os
 
+# Импорт внутренней логики
 from app import crud, schemas
-
-from app.database import SessionLocal
+from app.database import SessionLocal, Base, engine
 from app.models import User, UserRole
-
-from app.database import Base, engine
+from app.routes.dashboard import router as dashboard_router
 from app.routes.admin import router as admin_router
 from app.routes.users import router as users_router
+from app.routes.work import router as work_router
 from app.routes import auth, admin
 
-# 1) Создаём все таблицы (если ещё не созданы)
+# Создание всех таблиц
 Base.metadata.create_all(bind=engine)
 
+# Создание приложения
 app = FastAPI()
+
+# Добавление middleware
+SECRET_KEY = os.getenv("SECRET_KEY", "default-dev-key")  # Временно для dev
+app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
+
+# Подключение роутеров
+app.include_router(auth.router)
+app.include_router(admin_router)
+app.include_router(users_router, prefix="/users")
+app.include_router(dashboard_router)
+app.include_router(work_router)
+
+# Подключение статических файлов
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
+app.mount("/pdfs", StaticFiles(directory="app/static/pdfs"), name="pdfs")
+
+# Шаблоны
+templates = Jinja2Templates(directory="app/templates")
 
 app.include_router(auth.router)
 app.include_router(admin_router)
 app.include_router(users_router, prefix="/users")
-
-from fastapi import Form, Request, APIRouter, Depends
-from fastapi.responses import RedirectResponse
+app.include_router(dashboard_router)  
 
 router = APIRouter()
-
-# 2) «Статика» и шаблоны
-# Настроим сервер для обслуживания статических файлов, включая PDF
-app.mount("/static", StaticFiles(directory="app/static"), name="static")
-templates = Jinja2Templates(directory="app/templates")
 
 # 3) Депенденси для работы с БД
 def get_db():
@@ -151,15 +158,6 @@ def do_login(
             "message": "Неверный логин или пароль"
         })
 
-    """# определяем, куда редиректить
-    role = user.role.value if isinstance(user.role, enum.Enum) else user.role
-    if role == UserRole.admin.value:
-        target = "/admin/dashboard"
-    elif role == UserRole.inspector.value:
-        target = "/inspector/dashboard"
-    else:
-        target = "/dashboard"""
-
     # выбираем куда редиректить
     role = user.role.value
     if role == UserRole.admin.value:
@@ -168,6 +166,9 @@ def do_login(
         target = "/inspector/dashboard"
     else:  # worker и все остальные
         target = "/dashboard"
+
+    request.session["user_id"] = user.id
+    request.session["user_name"] = user.name  # или user.full_name
 
     # редирект + сохраняем ФИО в cookie
     response = RedirectResponse(url=target, status_code=status.HTTP_302_FOUND)
@@ -255,4 +256,9 @@ def admin_dashboard(request: Request):
         "user_name": user_name,
         # ... можно передать список всех юзеров, заявок и т.д.
     })
+
+@app.get("/get_work_cards/{order_id}")
+def get_work_cards(order_id: int, db: Session = Depends(get_db)):
+    cards = db.query(WorkCard).filter(WorkCard.work_order_id == order_id).all()
+    return [{"id": c.id, "name": c.name, "description": c.description} for c in cards]
 

@@ -1,22 +1,14 @@
-"""from fastapi import APIRouter
-
-router = APIRouter()
-
-@router.get("/users")
-def get_users():
-    return {"message": "Users endpoint working!"}"""
-
-# app/routes/users.py
 from fastapi import APIRouter, Depends, Request
 from sqlalchemy.orm import Session
 from typing import List
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from app.models import WorkOrder 
 
 from app.dependencies import get_db
 from app.models import User
 #from app.database import get_db
-from app.dependencies import get_current_user
+
 from app import crud, schemas
 
 router = APIRouter()
@@ -48,14 +40,23 @@ def delete_user(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     return {"message": "User deleted"}
 
+from app.models import WorkOrder  # Не забудь импортировать WorkOrder
+
 @router.get("/dashboard", response_class=HTMLResponse)
-def get_dashboard(request: Request, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    user_name = current_user.name
-    work_items = db.query(WorkOrder).filter(WorkOrder.user_id == current_user.id).all()  # или подбери свою логику фильтра
+def get_dashboard(request: Request, db: Session = Depends(get_db)):
+    user_id = request.session.get("user_id")
+    user_name = request.session.get("user_name")
+
+    if not user_id:
+        return templates.TemplateResponse("index.html", {"request": request, "msg": "Сессия не найдена. Пожалуйста, войдите снова."})
+
+    work_items = db.query(WorkOrder).filter(WorkOrder.user_id == user_id).all()
+
     return templates.TemplateResponse("dashboard.html", {
         "request": request,
         "user_name": user_name,
         "work_items": work_items
     })
+
 
 
