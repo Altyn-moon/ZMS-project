@@ -98,29 +98,9 @@ class WorkTime(Base):
     operation_description_id   = Column(Integer, ForeignKey("operation_descriptions.id"), nullable=False)
     start_time                 = Column(DateTime, nullable=False)
     end_time                   = Column(DateTime, nullable=False)
+    duration_minutes           = Column(Integer)
 
-
-    # Relationships
-    user        = relationship(
-        "User",
-        back_populates="work_times",
-        foreign_keys=[user_id]
-    )
-    creator     = relationship(
-        "User",
-        back_populates="created_work_times",
-        foreign_keys=[users_id]
-    )
-    operation   = relationship(
-        "OperationDescription",
-        back_populates="work_times"
-    )
-"""
-    # FK на пользователя (кто работал)
-    user_id                    = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
-    # FK на операцию
-    operation_description_id   = Column(Integer, ForeignKey("operation_descriptions.id"), nullable=False, index=True)
-"""
     # связи
     user                     = relationship("User", back_populates="work_times")
     operation_description    = relationship("OperationDescription", back_populates="work_times")
+
