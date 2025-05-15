@@ -1920,63 +1920,63 @@ a:visited {
   <div id="createPage" style="display: none; margin-left: 148px;">
   <h1>WORK ORDER /ЗАКАЗ НАРЯД</h1>
   <form id="workordersForm">
-      <input type="text" style="width: 220px;" placeholder="ZMS-TH-QP-101-F-002" required>
-      <input type="text" id="datepicker" style="width: 100px;" placeholder="24.04.2021" required>
-      <input type="text" style="width: 100px;" placeholder="Рев.02" required>
+      <input type="text" style="width: 220px;" name="work_number" placeholder="ZMS-TH-QP-101-F-002" required>
+      <input type="text" class="datepicker" style="width: 100px;" name="work_date" placeholder="24.04.2021" required>
+      <input type="text" style="width: 100px;" name="work_revision" placeholder="Рев.02" required>
       <div class="form-container">
         <div class="form-item">
-          <label for="workOrder">Work Order №:/ Заказ Наряд №:</label>
-          <input type="text" id="workOrder" style="width: 200px; padding: 10px;" placeholder="" required>
+          <label for="work_order_number">Work Order №:/ Заказ Наряд №:</label>
+          <input type="text" id="work_order_number" style="width: 200px; padding: 10px;" name="work_order_number"  required>
         </div>
         <div class="form-item">
-          <label for="workOrder">Start Date:/ Дата начала работ:</label>
-          <input type="text" id="datepicker" style="width: 200px; padding: 10px;" placeholder="" required>
+          <label for="start_date">Start Date:/ Дата начала работ:</label>
+          <input type="text" class="datepicker" id="start_date" style="width: 200px; padding: 10px;" name="start_date"  required>
         </div>
         <div class="form-item">
-          <label for="workOrder">End Date:/ Дата оконч. работы:</label>
-          <input type="text" id="datepicker" style="width: 200px; padding: 10px;" placeholder="" required>
-        </div>
+      <label for="end_date">End Date / Дата окончания:</label>
+      <input type="text" class="datepicker" id="end_date" style="width: 140px; padding: 10px;" name="end_date" required>
+    </div>
         <div class="form-item">
-          <label for="workOrder">Prepared By:/ Подготовлено:</label>
-          <input type="text" id="workOrder" style="width: 180px; padding: 10px;" placeholder="" required>
-        </div>
+      <label for="prepared_by">Prepared by / Подготовил:</label>
+      <input type="text" id="prepared_by" style="width: 200px; padding: 10px;" name="prepared_by" required>
+    </div>
         <div class="form-item">
-          <label for="workOrder">Quote №:/ Комм.предл-е №:</label>
-          <input type="text" id="workOrder" style="width: 200px; padding: 10px;" placeholder="" required>
-        </div>
+      <label for="quote_number">Quote № / Коммерческое предложение №:</label>
+      <input type="text" id="quote_number" style="width: 200px; padding: 10px;" name="quote_number" required>
+    </div>
       </div>
-      <div class="form-container">
+    <div class="form-container">
+      <div class="form-item">
+      <label for="customer">Customer / Заказчик:</label>
+      <input type="text" id="customer" style="width: 200px; padding: 10px;" name="customer" required>
+    </div>
         <div class="form-item">
-          <label for="workOrder">Customer:/ Заказчик:</label>
-          <input type="text" id="workOrder" style="width: 320px; padding: 10px;" placeholder="" required>
-        </div>
+      <label for="ordered_by">Ordered by / Заказано:</label>
+      <input type="text" id="ordered_by" style="width: 200px; padding: 10px;" name="ordered_by" required>
+    </div>
         <div class="form-item">
-          <label for="workOrder">Ordered By:/ Заказано:</label>
-          <input type="text" id="workOrder" style="width: 300px; padding: 10px;" placeholder="" required>
-        </div>
+      <label for="customer_po_number">Customer PO № / № заказа клиента:</label>
+      <input type="text" id="customer_po_number" style="width: 200px; padding: 10px;" name="customer_po_number" required>
+    </div>
         <div class="form-item">
-          <label for="workOrder">Customer P.O.№:/ Заявка №:</label>
-          <input type="text" id="workOrder" style="width: 210px; padding: 10px;" placeholder="" required>
-        </div>
+      <label for="rig_number">Rig № / Установки №:</label>
+      <input type="text" id="rig_number" style="width: 200px; padding: 10px;" name="rig_number" required>
+    </div>
         <div class="form-item">
-          <label for="workOrder">Rig №:/ Бур.уст.№:</label>
-          <input type="text" id="workOrder" style="width: 120px; padding: 10px;" placeholder="" required>
-        </div>
-        <div class="form-item">
-          <label for="workOrder">Well or AFE №:/ Скважина №:</label>
-          <input type="text" id="workOrder" style="width: 160px; padding: 10px;" placeholder="" required>
-        </div>
+      <label for="well_number">Well № / Скважина №:</label>
+      <input type="text" id="well_number" style="width: 200px; padding: 10px;" name="well_number" required>
+    </div>
       </div>
       <div class="table-container">
         <!-- Шапка -->
         <div class="header-row">
           <div><button class="add-btn" onclick="addOperation()">+</button></div>
-          <div class="col">№</div>
-          <div class="col">Q-ty / Кол-во</div>
-          <div class="col">Unit / Ед-ца</div>
-          <div class="col">Description of work received / Описание полученой работы</div>
-          <div class="col">Serial Number / Серийный Номер</div>
-          <div class="col">Description of work to be performed including applicable standarts/spec. / Описание необходимых работ включая применимые стандарты, спецификации</div>
+          <div class="col" >№</div>
+          <div class="col" name="q_ty">Q-ty / Кол-во</div>
+          <div class="col" name="unit">Unit / Ед-ца</div>
+          <div class="col" name="description">Description of work received / Описание полученой работы</div>
+          <div class="col" name="serial_number">Serial Number / Серийный Номер</div>
+          <div class="col" name="job_description">Description of work to be performed including applicable standarts/spec. / Описание необходимых работ включая применимые стандарты, спецификации</div>
           <div class="col"></div> <!-- для кнопки удаления в шапке остаётся пусто -->
         </div>
       
@@ -1987,60 +1987,36 @@ a:visited {
       
   <h1>JOB CARD/ РАБОЧАЯ КАРТА</h1>
   <form id="jobCardForm">
-      <input type="text" style="width: 220px;" placeholder="ZMS-TH-QP-101-QCP-002-F-001" required>
-      <input type="text" id="datepicker" style="width: 100px;" placeholder="13.02.2023" required>
-      <input type="text" style="width: 100px;" placeholder="Рев.00" required>
+  <input type="text" style="width: 220px;" name="job_number" placeholder="ZMS-TH-QP-101-QCP-002-F-001" required>
 
-      <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <input type="text" class="datepicker" style="width: 100px;" name="job_date" placeholder="13.02.2023" required>
+
+  <input type="text" style="width: 100px;" name="job_revision" placeholder="Рев.00" required>
+
+  <div class="form-container">
+    <div class="form-item">
+      <label for="grease_number">P.O. №Grease / P.O. № смазки</label>
+      <input type="text" id="grease_number" style="width: 170px; padding: 10px;" name="grease_number" required>
+    </div>
+
+    <div class="form-item">
+      <label for="protector_number">P.O. Protector / P.O. № протектора</label>
+      <input type="text" id="protector_number" style="width: 190px; padding: 10px;" name="protector_number" required>
+    </div>
+
+    <div class="form-item">
+      <label for="job_request_number">Request № / Заявка №</label>
+      <input type="text" id="job_request_number" style="width: 140px; padding: 10px;" name="request_number" required>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script>
     flatpickr("#datepicker", {
       dateFormat: "Y-m-d",  // Формат даты
     });
   </script>
-      <div class="form-container">
-        <!--<div class="form-item">
-          <label for="datepicker">Date/Дата</label>
-          <input type="text" id="datepicker" style="width: 90px; padding: 10px;" placeholder="" required>
-        </div>
-    
-        <div class="form-item">
-          <label for="workOrder">Work Order №/ Заказ наряд №</label>
-          <input type="text" id="workOrder" style="width: 180px; padding: 10px;" placeholder="" required>
-        </div>-->
-      
-      <div class="form-item">
-          <label for="workOrder">P.O. №Grease/ P.O. № смазки</label>
-          <input type="text" id="workOrder" style="width: 170px; padding: 10px;" placeholder="" required>
-        </div>
-        <div class="form-item">
-          <label for="workOrder">P.O. protector/ P.O. № протектора</label>
-          <input type="text" id="workOrder" style="width: 190px; padding: 10px;" placeholder="" required>
-        </div>
-        <div class="form-item">
-          <label for="workOrder">Request №/ Заявка №</label>
-          <input type="text" id="workOrder" style="width: 140px; padding: 10px;" placeholder="" required>
-        </div>
-        <div class="form-item">
-          <label for="workOrder">Customer/ Заказчик</label>
-          <input type="text" id="workOrder" style="width: 600px; padding: 10px;" placeholder="" required>
-        </div>
-      </div>
-    
-      <!--<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-      <script>
-        flatpickr("#datepicker", {
-          dateFormat: "Y-m-d",  // Формат даты
-        });
-      </script>
-      
-      <div class="form-container">
-        
-        <div class="form-item">
-          <label for="workOrder">Job description/ Описание работы</label>
-          <textarea style="width: 1190px; height: 100px; resize: none;" placeholder="" required></textarea>
-        </div>
-      </div>-->
-      <div class="scroll-container">
+<button type="submit" class="submit-btn">Сохранить</button>
+      <!--<div class="scroll-container">
 
         <div id="job-cards-container">
           <h3>Job Cards</h3>
@@ -2049,11 +2025,11 @@ a:visited {
         </div>
         
 
-<!-- Модалка Job Card (без затемнения) -->
+<!-- Модалка Job Card (без затемнения) 
 <div id="jobCardModal" class="modal" onclick="closeJobCardModal()">
   <div class="modal-content" onclick="event.stopPropagation()">
 
-    <!-- Заголовок, за который тянем -->
+    <!-- Заголовок, за который тянем 
     <div class="modal-header" id="jobCardHeader">
       
       <button type="button" class="close-button" onclick="closeJobCardModal()">×</button>
@@ -2063,7 +2039,7 @@ a:visited {
     
 
     <form id="jobCardForm" class="modal-form">
-      <!-- Здесь все поля формы -->
+      <!-- Здесь все поля формы 
     </form>
    
 
@@ -2120,7 +2096,7 @@ a:visited {
   </div>
   
 
-<!-- Сертификат материала -->
+<!-- Сертификат материала 
 <div class="form-item" onclick="event.stopPropagation()">
   <label for="certificateUpload">Mill Certificate № / Сертификат материала №</label>
   <div class="input-with-clip" onclick="event.stopPropagation()">
@@ -2143,7 +2119,7 @@ a:visited {
       onclick="event.stopPropagation()"
     >
   </div>
-  <!-- Контейнер для отображения списка выбранных файлов -->
+  <!-- Контейнер для отображения списка выбранных файлов 
   <div id="certificateFilename" class="filename"></div>
 </div>
 </div>
@@ -2357,34 +2333,21 @@ a:visited {
 
   </tbody>
 </table>
-  
-      <button type="button" onclick="saveJobCard()" class="modal-button">Сохранить</button>
-       <!-- Контейнер для динамически добавляемых блоков -->
+  <div class="modal-actions">
+        <button id="saveJobCardBtn" type="button" class="modal-button">Сохранить</button>
+       <!-- Контейнер для динамически добавляемых блоков 
        <div id="operation-rows"></div>
     </div>
-  </form>
+    </form>
+  </div>
 </div>
+      <button type="submit" class="submit-btn">Сохранить</button>-->
+
 </div>
 </main>
-      <!--<div class="form-container">
-        <div class="form-item">
-          <button type="button" id="addOperation" class="add-btn">+</button><label for="workOrder">Operation Description</label>
-          <label for="workOrder">Описание операции работы</label>
-        </div>
-        <div id="operationsList" class="list-container"></div>
 
 
-     
-  
-      <div class="section-header">
-        <h2>Операторы</h2>
-        <button type="button" id="addOperator" class="add-btn">+</button>
-      </div>
-      <div id="operatorsList" class="list-container"></div>-->
-  
-      <button type="submit" class="submit-btn">Сохранить</button>
-  
-</div>
+
 
 <script>
   const table = document.getElementById('myTable');
@@ -3057,11 +3020,302 @@ function handleFileSelect(event, filenameDivId) {
   });
 </script>
 
+<!-- Скрипт -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector("#workordersForm");
+
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      const response = await fetch("/workorders/", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(data)
+});
+
+
+      if (response.ok) {
+        alert("Рабочая карта успешно создана!");
+        form.reset();
+      } else {
+        const error = await response.json();
+        alert("Ошибка при создании карты: " + JSON.stringify(error));
+      }
+    });
+  });
+</script>
+
+<!-- дата-->
+<script>
+  flatpickr(".datepicker", {
+    dateFormat: "Y-m-d",
+  });
+</script>
+<!-- Скрипт бд-->
+<script>
+form.addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const firstRow = document.querySelector(".operation-row");
+if (!firstRow) {
+  alert("Добавьте хотя бы одну операцию!");
+  return;
+}
+
+const q_ty = firstRow.querySelector('input[name$=".q_ty"]')?.value;
+const unit = firstRow.querySelector('input[name$=".unit"]')?.value;
+const description = firstRow.querySelector('input[name$=".description"]')?.value;
+const serial_number = firstRow.querySelector('input[name$=".serial_number"]')?.value;
+const job_description = firstRow.querySelector('input[name$=".job_description"]')?.value;
+
+
+const qTyParsed = parseInt(q_ty, 10);
+if (isNaN(qTyParsed)) {
+  alert("Поле q_ty должно быть числом");
+  return;
+}
+
+
+  const formData = new FormData(form);
+  const raw = Object.fromEntries(formData.entries());
+
+  const data = {
+    work_number: raw.work_number,
+    work_date: raw.work_date,
+    work_revision: raw.work_revision,
+    work_order_number: raw.work_order_number,
+    start_date: raw.start_date,
+    end_date: raw.end_date,
+    q_ty: qTyParsed,
+    unit,
+    description,
+    serial_number,
+    job_description,
+    job_number: raw.job_number,
+    job_date: raw.job_date,
+    job_revision: raw.job_revision,
+    grease_number: raw.grease_number,
+    protector_number: raw.protector_number,
+    request_number: raw.request_number,
+    user_id: raw.user_id || 1
+  };
+
+  console.log("Отправляем данные:", data);
+
+  try {
+    const response = await fetch("/api/workorders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+
+    if (response.ok) {
+      alert("Заказ-наряд успешно создан!");
+      form.reset();
+    } else {
+      const errorText = await response.text();
+      alert("Ошибка при создании:\n" + errorText);
+    }
+  } catch (err) {
+    console.error("Ошибка при выполнении запроса:", err);
+    alert("Произошла ошибка при отправке формы.");
+  }
+});
+</script>
 
 
 
+
+
+<!-- таблица в work order-->
+<script>
+let operationIndex = 0;
+
+function addOperation() {
+  const list = document.getElementById("operationsList");
+
+  const row = document.createElement("div");
+  row.classList.add("operation-row");
+  row.innerHTML = `
+    <div class="col">${operationIndex + 1}</div>
+    <div class="col"><input name="operations[${operationIndex}].q_ty" required></div>
+    <div class="col"><input name="operations[${operationIndex}].unit" required></div>
+    <div class="col"><input name="operations[${operationIndex}].description" required></div>
+    <div class="col"><input name="operations[${operationIndex}].serial_number" required></div>
+    <div class="col"><input name="operations[${operationIndex}].job_description" required></div>
+    <div class="col"><button type="button" onclick="this.closest('.operation-row').remove()">✖</button></div>
+  `;
+  list.appendChild(row);
+  operationIndex++;
+}
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector("#workordersForm");
+
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const firstRow = document.querySelector(".operation-row");
+    if (!firstRow) {
+      alert("Добавьте хотя бы одну операцию!");
+      return;
+    }
+
+    // Извлекаем значения из первой строки
+    const q_ty = firstRow.querySelector('input[name$=".q_ty"]')?.value;
+    const unit = firstRow.querySelector('input[name$=".unit"]')?.value;
+    const description = firstRow.querySelector('input[name$=".description"]')?.value;
+    const serial_number = firstRow.querySelector('input[name$=".serial_number"]')?.value;
+    const job_description = firstRow.querySelector('input[name$=".job_description"]')?.value;
+
+    const qTyParsed = parseInt(q_ty, 10);
+    if (isNaN(qTyParsed)) {
+      alert("Поле Кол-во (q_ty) должно быть числом");
+      return;
+    }
+
+    // Собираем остальные поля формы
+    const formData = new FormData(form);
+    const raw = Object.fromEntries(formData.entries());
+
+    const data = {
+  work_number: raw.work_number,
+  work_date: raw.work_date,
+  work_revision: raw.work_revision,
+  work_order_number: raw.work_order_number,
+  start_date: raw.start_date,
+  end_date: raw.end_date,
+  prepared_by: raw.prepared_by,
+  quote_number: raw.quote_number,
+  customer: raw.customer,
+  ordered_by: raw.ordered_by,
+  customer_po_number: raw.customer_po_number,
+  rig_number: raw.rig_number,
+  well_number: raw.well_number,
+  q_ty: qTyParsed, // число
+  unit: unit,
+  description: description,
+  serial_number: serial_number,
+  job_description: job_description,
+  job_number: raw.job_number,
+  job_date: raw.job_date,
+  job_revision: raw.job_revision,
+  grease_number: raw.grease_number,
+  protector_number: raw.protector_number,
+  request_number: raw.request_number,
+  user_id: raw.user_id || 1
+};
+
+
+    console.log("Отправляем данные:", data);
+
+    try {
+      const response = await fetch("/api/workorders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        alert("Заказ-наряд успешно создан!");
+        form.reset();
+      } else {
+        const errorText = await response.text();
+        alert("Ошибка при создании:\n" + errorText);
+      }
+    } catch (err) {
+      console.error("Ошибка при выполнении запроса:", err);
+      alert("Произошла ошибка при отправке формы.");
+    }
+  });
+});
+</script>
 
 
 
 </body>
 </html>
+
+
+
+<!-- Данные в памяти (до отправки в базу)
+<script>
+  const baseCardData = {}; // Данные из основной формы
+  const jobCard = [];     // Массив job card'ов, добавленных через модалки
+</script>
+<!-- Автозаполнение модалки
+<script>
+  function openJobCardModal(index) {
+  // читаем поля из формы
+  const title = document.querySelector('[name="title"]').value;
+  const material = document.querySelector('[name="material"]').value;
+
+  // заполняем модалку
+  document.getElementById("modal-title").value = title;
+  document.getElementById("modal-material").value = material;
+  document.getElementById("modal-title").readOnly = true;
+  document.getElementById("modal-material").readOnly = true;
+
+  document.getElementById("modalIndex").value = index;
+  document.getElementById("jobCardModal").style.display = "block";
+}
+</script>-->
+<!-- При нажатии "Сохранить" в модалке
+<script>
+function saveJobCard() {
+  const data = {
+    title: document.getElementById("modal-title").value,
+    material: document.getElementById("modal-material").value,
+    operation: document.getElementById("modal-operation").value,
+    time: document.getElementById("modal-time").value,
+    // ... другие поля
+  };
+
+  const index = +document.getElementById("modalIndex").value;
+  jobCards[index] = data;
+
+  document.getElementById("jobCardModal").style.display = "none";
+  document.getElementById(`jobCardStatus${index}`).innerHTML = "✅";
+}
+</script>
+
+<!-- В финале: одна большая кнопка «Сохранить всё»
+<script>
+async function submitAllData() {
+  // читаем основную форму
+  const baseForm = document.getElementById("workcardsForm");
+  const formData = new FormData(baseForm);
+  const baseCard = {
+    title: formData.get("title"),
+    job_description: formData.get("job_description"),
+    // ...
+  };
+
+  const fullData = {
+    ...baseCard,
+    job_cards: jobCards,
+  };
+
+  const response = await fetch("/workcards/create", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(fullData),
+  });
+
+  if (response.ok) {
+    alert("Карта и все Job Cards сохранены!");
+    location.reload();
+  } else {
+    alert("Ошибка при сохранении");
+  }
+}
+</script>-->
+
