@@ -58,5 +58,7 @@ def get_dashboard(request: Request, db: Session = Depends(get_db)):
         "work_items": work_items
     })
 
+# arai admin
+from sqlalchemy.orm import relationship
 
-
+work_orders = relationship("WorkOrder", back_populates="user")

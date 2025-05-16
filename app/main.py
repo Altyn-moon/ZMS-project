@@ -22,6 +22,20 @@ from app.routes.work import router as work_router
 from app.routes import dashboard, timers
 from app.routes import auth, admin
 from app.models import WorkCard
+#admin arai
+from fastapi import FastAPI, Depends, HTTPException
+from sqlalchemy.orm import Session
+from app import crud, schemas
+from app.database import get_db
+from app.routes import work_orders
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+from app.schemas import WorkOrderOut
+from app.schemas import WorkOrderCreate
+from app.schemas import WorkCardOut
+from app.schemas import WorkCardCreate
+
+
 
 # Создание всех таблиц
 Base.metadata.create_all(bind=engine)
@@ -38,6 +52,82 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+#admin arai
+
+
+
+from fastapi import APIRouter
+from app.schemas import WorkOrderRead
+
+
+router = APIRouter()
+
+@app.post("/api/workorders", response_model=schemas.WorkOrderRead)
+def create_work_order(order: schemas.WorkOrderCreate, db: Session = Depends(get_db)):
+    try:
+        return crud.create_work_order(db, order)
+    except Exception as e:
+        print("❌ Ошибка при создании WorkOrder:", str(e))  # ← добавь это
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+
+
+#@router.post("/workcards/", response_model=schemas.WorkOrderRead)
+#def create_work_order(workcard_data: schemas.WorkOrderCreate, db: Session = Depends(get_db)):
+   # new_order = models.WorkOrder(**workcard_data.dict())
+
+   # db.add(new_order)
+   # db.commit()
+   # db.refresh(new_order)  # Без этого new_order будет None или пустым
+
+   # return new_order
+
+
+
+    
+app.include_router(work_orders.router, prefix="/api")
+
+# Создание приложения
+app = FastAPI()
+
+#admin arai
+
+
+
+from fastapi import APIRouter
+from app.schemas import WorkOrderRead
+
+
+router = APIRouter()
+
+@app.post("/api/workorders", response_model=schemas.WorkOrderRead)
+def create_work_order(order: schemas.WorkOrderCreate, db: Session = Depends(get_db)):
+    try:
+        return crud.create_work_order(db, order)
+    except Exception as e:
+        print("❌ Ошибка при создании WorkOrder:", str(e))  # ← добавь это
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+
+
+#@router.post("/workcards/", response_model=schemas.WorkOrderRead)
+#def create_work_order(workcard_data: schemas.WorkOrderCreate, db: Session = Depends(get_db)):
+   # new_order = models.WorkOrder(**workcard_data.dict())
+
+   # db.add(new_order)
+   # db.commit()
+   # db.refresh(new_order)  # Без этого new_order будет None или пустым
+
+   # return new_order
+
+
+
+    
+app.include_router(work_orders.router, prefix="/api")
+
+# altush
 # Добавление middleware
 SECRET_KEY = os.getenv("SECRET_KEY", "default-dev-key")  # Временно для dev
 app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
