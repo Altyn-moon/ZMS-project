@@ -1,6 +1,6 @@
 from sqlalchemy import (
-    Column, Integer, String, Text, DateTime,
-    Enum, ForeignKey, DECIMAL
+    Column, Integer, String, Text, DateTime, Date,
+    Enum, ForeignKey
 )
 from sqlalchemy.orm import relationship
 from app.database import Base
@@ -33,24 +33,39 @@ class User(Base):
 
 # ─── Наряды (WorkOrder) ─────────────────────────────────────────────────
 class WorkOrder(Base):
-    __tablename__ = 'work_orders'
+    __tablename__ = "work_orders"
 
-    id               = Column(Integer, primary_key=True, index=True)
-    code             = Column(String(50), nullable=False)
-    name             = Column(String(255), nullable=False)
-    user_id          = Column(Integer, ForeignKey("users.id"), nullable=False)
-    created_at       = Column(DateTime, default=datetime.datetime.utcnow)
-    zms_code         = Column(String(100))
-    grease_number    = Column(String(50))
-    protector_number = Column(String(50))
-    request_number   = Column(String(50))
-    customer         = Column(String(255))
-    unit             = Column(String(50))
-    quantity         = Column(DECIMAL(10, 2))
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    created_at = Column(DateTime)
+    work_number = Column(String(100))
+    work_date = Column(Date)
+    work_revision = Column(String(50))
+    work_order_number = Column(String(100))
+    start_date = Column(Date)
+    end_date = Column(Date)
+    prepared_by = Column(String(100))
+    quote_number = Column(String(200))
+    customer = Column(String(255))
+    ordered_by = Column(String(100))
+    customer_po_number = Column(String(100))
+    rig_number = Column(String(100))
+    well_number = Column(String(100))
+    q_ty = Column(String(50))
+    unit = Column(String(50))
+    description = Column(String(200))
+    serial_number = Column(String(100))
+    job_description = Column(Text)
+    job_number = Column(String(100))
+    job_date = Column(Date)
+    job_revision = Column(String(50))
+    grease_number = Column(String(100))
+    protector_number = Column(String(100))
+    request_number = Column(String(100))
 
     # связи
-    user             = relationship("User", back_populates="work_orders")
-    work_cards       = relationship("WorkCard", back_populates="work_order")
+    user = relationship("User", back_populates="work_orders")
+    work_cards = relationship("WorkCard", back_populates="work_order")
 
 # ─── Рабочие карты (WorkCard) ────────────────────────────────────────────
 class WorkCard(Base):
@@ -91,16 +106,15 @@ class OperationDescription(Base):
 
 # ─── Время выполнения (WorkTime) ───────────────────────────────────────────
 class WorkTime(Base):
-    __tablename__ = 'work_times'
+    __tablename__ = "work_times"
 
-    id                         = Column(Integer, primary_key=True, index=True)
-    user_id                    = Column(Integer, ForeignKey("users.id"), nullable=False)
-    operation_description_id   = Column(Integer, ForeignKey("operation_descriptions.id"), nullable=False)
-    start_time                 = Column(DateTime, nullable=False)
-    end_time                   = Column(DateTime, nullable=False)
-    duration_minutes           = Column(Integer)
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    operation_description_id = Column(Integer, ForeignKey("operation_descriptions.id"))
+    start_time = Column(DateTime)
+    end_time = Column(DateTime)
+    duration_minutes = Column(Integer)
 
     # связи
     user                     = relationship("User", back_populates="work_times")
     operation_description    = relationship("OperationDescription", back_populates="work_times")
-
