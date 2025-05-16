@@ -13,7 +13,6 @@ from sqlalchemy.orm import declarative_base
 Base = declarative_base()
 
 
-
 # ─── Роль пользователя ────────────────────────────────────────────────
 class UserRole(enum.Enum):
     admin     = 'admin'
@@ -130,10 +129,4 @@ class WorkTime(Base):
     user                     = relationship("User", back_populates="work_times")
     operation_description    = relationship("OperationDescription", back_populates="work_times")
 
-
     # admin arai
-
-
-
-
-

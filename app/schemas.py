@@ -74,14 +74,12 @@ class WorkCard(BaseModel):
     class Config:
         orm_mode = True
 
-
 class OperationDescriptionBase(BaseModel):
     work_card_id: int
     operation: str
     equipment: Optional[str] = None
     instruction_code: Optional[str] = None
     instruction_file_url: Optional[str] = None
-
 
 class OperationDescriptionCreate(OperationDescriptionBase):
     pass  # Можно добавить дополнительные поля, если необходимо
@@ -158,7 +156,6 @@ class WorkOrderRead(WorkOrderBase):
     class Config:
         orm_mode = True
 
-
 from pydantic import BaseModel
 from typing import Optional
 from datetime import date
@@ -171,4 +168,3 @@ class WorkOrderOut(BaseModel):
 
     class Config:
         orm_mode = True  # чтобы FastAPI мог конвертировать из ORM-модели SQLAlchemy
-

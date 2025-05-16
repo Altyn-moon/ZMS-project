@@ -1,4 +1,3 @@
-
 from fastapi import FastAPI, Form, Request, Depends, status, APIRouter, Response
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
@@ -32,7 +31,6 @@ from app.schemas import WorkCardOut
 from app.schemas import WorkCardCreate
 
 
-
 # Создание всех таблиц
 Base.metadata.create_all(bind=engine)
 
@@ -42,10 +40,8 @@ app = FastAPI()
 #admin arai
 
 
-
 from fastapi import APIRouter
 from app.schemas import WorkOrderRead
-
 
 router = APIRouter()
 
@@ -59,7 +55,6 @@ def create_work_order(order: schemas.WorkOrderCreate, db: Session = Depends(get_
 
 
 
-
 #@router.post("/workcards/", response_model=schemas.WorkOrderRead)
 #def create_work_order(workcard_data: schemas.WorkOrderCreate, db: Session = Depends(get_db)):
    # new_order = models.WorkOrder(**workcard_data.dict())
@@ -69,7 +64,6 @@ def create_work_order(order: schemas.WorkOrderCreate, db: Session = Depends(get_
    # db.refresh(new_order)  # Без этого new_order будет None или пустым
 
    # return new_order
-
 
 
     
@@ -203,4 +197,3 @@ def logout(response: Response):
     response.delete_cookie("session")
     # либо сразу редирект
     return RedirectResponse(url="/login", status_code=303)'''
-

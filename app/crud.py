@@ -57,7 +57,6 @@ def create_user(db: Session, user: schemas.UserCreate):
     db.refresh(db_user)
     return db_user
 
-
 from app import schemas
 
 def create_user(db: Session, user: schemas.UserCreate):
@@ -71,7 +70,6 @@ def create_user(db: Session, user: schemas.UserCreate):
 
 def get_users(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.User).offset(skip).limit(limit).all()
-
 
 # Рабочие карты
 def create_work_card(db: Session, card: schemas.WorkCardCreate):
@@ -89,7 +87,6 @@ def get_work_cards(db: Session, order_id: int = None, user_id: int = None, skip:
         q = q.filter(models.WorkCard.user_id == user_id)
     return q.offset(skip).limit(limit).all()
 
-
 # Описания операций
 def create_operation_description(db: Session, op: schemas.OperationDescriptionCreate):
     db_op = models.OperationDescription(**op.dict())
@@ -105,7 +102,6 @@ def get_operation_descriptions(db: Session, card_id: int, skip: int = 0, limit: 
           .offset(skip).limit(limit)
           .all()
     )
-
 
 # Записи времени
 def create_work_time(db: Session, wt: schemas.WorkTimeCreate):
