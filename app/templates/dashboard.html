@@ -210,12 +210,12 @@ th, td {
         }
 
         .header-right {
-    flex: 1;
-    justify-content: flex-end;
-    gap: 10px;
-    overflow: hidden; /* защита от переполнения */
-    flex-wrap: wrap; /* если не влезает, переносит */
-}
+            flex: 1;
+            justify-content: flex-end;
+            gap: 10px;
+            overflow: hidden; /* защита от переполнения */
+            flex-wrap: wrap; /* если не влезает, переносит */
+        }
 
         .logo {
             padding-top: 25px;
@@ -489,6 +489,15 @@ a:visited {
     from { opacity: 1; }
     to { opacity: 0; }
   }
+
+.done-icon {
+  width: 40px;
+  height: 40px;
+  vertical-align: middle;
+  margin-left: 5px;
+  margin-top: -2px;
+}
+
 </style>
 </head>
 <body>
@@ -520,7 +529,7 @@ a:visited {
     
     <main class="main-content">
         <div class="search-container">
-          <input type="text" class="search-input" placeholder="Поиск" style="padding-left: 40px; background: url('static/Search.png') no-repeat 10px center; background-size: 20px 20px;">
+          <input type="text" id="search" class="search-input" name="search" placeholder="Поиск" style="padding-left: 40px; background: url('static/Search.png') no-repeat 10px center; background-size: 20px 20px;">
         </div>     
         
         <!-- первая таблица -->
@@ -536,16 +545,14 @@ a:visited {
               </tr>
             </thead>
             <tbody>
-            {% for order in work_orders %}
+            {% for order in orders_data %}
               <tr>
                 <td>{{ order.id }}</td>
-                <td>{{ order.name }}</td>
+                <td>{{ order.description }}</td>
                 <td>{{ order.customer }}</td>
-                <td>{{ order.code }}</td>
+                <td>{{ order.work_order_number }}</td>
                 <td>
-                  <button class="btn-start" onclick="showSecondTable({{ order.id }})">
-                    Просмотр
-                  </button>
+                  <button class="btn-start" onclick="showSecondTable({{ order.id }})">Просмотр</button>
                 </td>
               </tr>
             {% endfor %}
@@ -554,9 +561,15 @@ a:visited {
         </div>         
     
         <!-- вторая таблица: work_cards -->
-        <div class="table-container" id="second-table" style="display: none;">
-          <button class="back-btn" onclick="showFirstTable()">← Назад</button>
+       <div class="table-container" id="second-table" style="display: none;">
+          <button class="back-btn" onclick="goBack()" style="font-size: 24px; padding: 12px 30px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c40000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            Назад
+          </button>
           <h2>Рабочие карты заказа №<span id="order-num"></span></h2>
+
           <table class="work-table">
             <thead>
               <tr>
@@ -567,114 +580,114 @@ a:visited {
               </tr>
             </thead>
             <tbody id="second-tbody">
-              <!-- JS будет здесь вставлять строки -->
+              {% for order in orders_data %}
+                {% for card in order.work_cards %}
+                <tr class="card-row" data-order-id="{{ order.id }}" data-order-code="{{ order.work_order_number }}" style="display: none;">
+                  <td class="card-index"></td>
+                  <td>{{ card.title }}</td>
+                  <td>{{ card.job_description }}</td>
+                  <td>
+                    <button class="btn-start" onclick="showThirdTable({{ order.id }}, {{ card.id }})">Открыть</button>
+                  </td>
+                </tr>
+                {% endfor %}
+              {% endfor %}
             </tbody>
           </table>
         </div>
 
         <!-- третья таблица -->
-        <div class="table-container" id="third-table" style="display: none; position: relative;">
+      <div class="table-container" id="third-table" style="display: none; position: relative;">
+        <button class="back-btn" onclick="goBack()" style="font-size: 24px; padding: 12px 30px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c40000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          Назад
+        </button>
 
-          <button class="back-btn" onclick="goBack()" style="font-size: 24px; padding: 12px 30px;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c40000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-            Назад
-        </button>   
-
-<!-- Чертёж -->
-<button class="btn-drawing" onclick="window.open('/static/pdfs/6893.00.000.pdf#page=1&view=FitH', '_blank')" style="
-    font-size: 24px;
-    padding: 12px 30px;
-    background-color: #D5C6CA;
-    color: #434343;
-    border: 2px solid #787A77;
-    border-radius: 10px;
-    cursor: pointer;
-    position: absolute;
-    top: 3px;
-    right: 50px;
-">Чертёж</button>
-
-    <!-- ТАБЛИЦА — ВНУТРИ блока -->
-    <table class="work-table">
-        <colgroup>
-          <col style="width: 20px;">
-          <col style="width: 350px;">
-          <col style="width: 120px;">
-          <col style="width: 230px;">
-        </colgroup>
-        <thead>
+        <table class="work-table">
+          <colgroup>
+                <col style="width: 20px;">
+                <col style="width: 350px;">
+                <col style="width: 120px;">
+                <col style="width: 230px;">
+              </colgroup>
+          <thead>
             <tr>
               <th>№</th>
               <th>Описание операции работ</th>
               <th>Инструкция</th>
               <th>Выполнить</th>
             </tr>
-          </thead>          
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Списать материал</td>
-            <td>
-              <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101</a>
-            </td>
-            <td>
-              <div class="timer-block">
-                <div class="timer-display" id="timer-1">00:00:00</div>
-                <div class="button-row">
-                  <button class="btn-start start-btn" id="start-btn-1">Старт</button>
-                  <button class="btn-start stop-btn" id="stop-btn-1" style="display: none;">Стоп</button>
-                </div>
-                <button class="btn-start submit-btn" id="submit-btn-1" style="display: none;">Отправить на проверку</button>
-                <p class="status-message" id="status-msg-1"></p>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Отрезать материал</td>
-                <td>
-                  <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101</a><br>
-                  <a href="/static/pdfs/инструкция2.pdf" target="_blank">ZMS-PH-DP-001</a>
-                </td>
-            <td>
-              <div class="timer-block">
-                <div class="timer-display" id="timer-2">00:00:00</div>
-                <div class="button-row">
-                  <button class="btn-start start-btn" id="start-btn-2">Старт</button>
-                  <button class="btn-start stop-btn" id="stop-btn-2" style="display: none;">Стоп</button>
-                </div>
-                <button class="btn-start submit-btn" id="submit-btn-2" style="display: none;">Отправить на проверку</button>
-                <p class="status-message" id="status-msg-2"></p>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>      
+          </thead>
+          <tbody id="third-tbody">
+            {% for order in orders_data %}
+              {% for card in order.work_cards %}
+                {% for op in card.operation_descriptions %}
+                <tr class="op-row" data-order-id="{{ order.id }}" data-card-id="{{ card.id }}" data-operation-id="{{ op.id }}" data-user-id="{{ user_id }}" style="display: none;">
+                  <td>{{ loop.index }}</td>
+                  <td>{{ op.operation }}</td>
+                  <td>
+                    {% if op.instruction_code and op.instruction_file_url %}
+                      <a href="{{ op.instruction_file_url }}" target="_blank">{{ op.instruction_code }}</a>
+                    {% else %}
+                      —
+                    {% endif %}
+                  </td>
+                  <td>
+                    <div class="timer-block">
+                      <div class="timer-display">00:00:00</div>
+                      <div class="button-row">
+                        <button class="btn-start start-btn">Старт</button>
+                        <button class="btn-start stop-btn" style="display: none;">Стоп</button>
+                      </div>
+                      <button class="btn-start submit-btn" style="display: none;">Отправить на проверку</button>
+                      <p class="status-message"></p>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              {% endfor %}
+            {% endfor %}
+          </tbody>
+        </table>
+        <!-- Чертёж -->
+            <button class="btn-drawing" onclick="window.open('/static/pdfs/6893.00.000.pdf#page=1&view=FitH', '_blank')" style="
+                font-size: 24px;
+                padding: 12px 30px;
+                background-color: #D5C6CA;
+                color: #434343;
+                border: 2px solid #787A77;
+                border-radius: 10px;
+                cursor: pointer;
+                position: absolute;
+                top: 3px;
+                right: 50px;
+            ">Чертёж</button>
+      </div>
 
-<script>
-function goBack() {
-  // Проверяем, на какой таблице мы находимся и возвращаемся на предыдущую
-  if (document.getElementById('second-table').style.display === 'block') {
-    document.getElementById('second-table').classList.remove('show');
-    document.getElementById('first-table').style.display = 'block';
-    document.getElementById('second-table').style.display = 'none';
-  } else if (document.getElementById('third-table').style.display === 'block') {
-    document.getElementById('third-table').style.display = 'none';
-    document.getElementById('second-table').style.display = 'block';
-  }
-}
+      <script>
+      function goBack() {
+        // Проверяем, на какой таблице мы находимся и возвращаемся на предыдущую
+        if (document.getElementById('second-table').style.display === 'block') {
+          document.getElementById('second-table').classList.remove('show');
+          document.getElementById('first-table').style.display = 'block';
+          document.getElementById('second-table').style.display = 'none';
+        } else if (document.getElementById('third-table').style.display === 'block') {
+          document.getElementById('third-table').style.display = 'none';
+          document.getElementById('second-table').style.display = 'block';
+        }
+      }
 
-function showThirdTable() {
-  document.getElementById('second-table').style.display = 'none';
-  document.getElementById('third-table').style.display = 'block';
-}
+      function showThirdTable() {
+        document.getElementById('second-table').style.display = 'none';
+        document.getElementById('third-table').style.display = 'block';
+      }
 
-function goBackToSecond() {
-  document.getElementById('third-table').style.display = 'none';
-  document.getElementById('second-table').style.display = 'block';
-}
+      function goBackToSecond() {
+        document.getElementById('third-table').style.display = 'none';
+        document.getElementById('second-table').style.display = 'block';
+      }
       
         // === Поиск — ВНЕ других функций и обработчиков ===
         document.querySelector('.search-input').addEventListener('input', function () {
@@ -692,65 +705,8 @@ function goBackToSecond() {
             row.style.display = rowText.includes(searchText) ? '' : 'none';
           });
         });
-      
-        // === Таймеры ===
-        document.querySelectorAll('.start-btn').forEach((button, index) => {
-          let timer = document.querySelector(`#timer-${index + 1}`);
-          let startButton = document.querySelector(`#start-btn-${index + 1}`);
-          let stopButton = document.querySelector(`#stop-btn-${index + 1}`);
-          let submitButton = document.querySelector(`#submit-btn-${index + 1}`);
-          let statusMessage = document.querySelector(`#status-msg-${index + 1}`);
-      
-          let interval;
-          let seconds = 0, minutes = 0, hours = 0;
-      
-          function updateTimer() {
-            seconds++;
-            if (seconds >= 60) {
-              seconds = 0;
-              minutes++;
-            }
-            if (minutes >= 60) {
-              minutes = 0;
-              hours++;
-            }
-            timer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-          }
-      
-          startButton.addEventListener('click', () => {
-            startButton.style.display = 'none';
-            stopButton.style.display = 'inline-block';
-            submitButton.style.display = 'inline-block';
-            statusMessage.textContent = '';
-      
-            interval = setInterval(updateTimer, 1000);
-          });
-      
-          stopButton.addEventListener('click', () => {
-            clearInterval(interval);
-            startButton.style.display = 'inline-block';
-            stopButton.style.display = 'none';
-            statusMessage.innerHTML = `Время остановлено <img src="static/pause.png" alt="pause" class="pause-icon" style="width: 20px; vertical-align: middle; margin-left: 8px; margin-top: -4px;">`;
-          });
-      
-          submitButton.addEventListener('click', () => {
-            clearInterval(interval);
-            startButton.style.display = 'none';
-            stopButton.style.display = 'none';
-            submitButton.style.display = 'none';
-            statusMessage.innerHTML = `
-              Отправлено на проверку 
-              <img src="static/done.gif" alt="done" class="done-icon" style="width: 40px; vertical-align: middle; margin-left: 5px; margin-top: 2px;">
-            `;
-      
-            setTimeout(() => {
-              const doneIcon = statusMessage.querySelector('.done-icon');
-              if (doneIcon) {
-                doneIcon.src = 'static/done.png';
-              }
-            }, 1400);
-          });
-        });
+
+
 
     document.addEventListener('DOMContentLoaded', function() {
   // === Клик по логотипу для возврата на первую таблицу ===
@@ -886,14 +842,6 @@ document.addEventListener('DOMContentLoaded', function () {
     searchInput.addEventListener('input', filterVisibleTable);
   }
 
-  // 4. Переключение таблиц (твой старый код плюс resetSearch в начале)
-  window.showSecondTable = function(button) {
-    resetSearch();
-    document.getElementById('first-table').style.display  = 'none';
-    document.getElementById('second-table').style.display = 'block';
-    document.getElementById('second-table').classList.add('show');
-  };
-
   window.showThirdTable = function() {
     resetSearch();
     document.getElementById('second-table').style.display = 'none';
@@ -921,98 +869,161 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
+<script>
+function showFirstTable() {
+  document.getElementById('first-table').style.display = 'block';
+  document.getElementById('second-table').style.display = 'none';
+  document.getElementById('third-table').style.display = 'none';
+}
+</script>
 
+<script>
+let allOrdersData = {{ orders_data|tojson }};
 
+function showSecondTable(orderId) {
+  let orderCode = null;
+  const rows = document.querySelectorAll(".card-row");
+  let index = 1;
 
+  rows.forEach(row => {
+    const rowOrderId = row.dataset.orderId;
+    if (rowOrderId == orderId.toString()) {
+      if (!orderCode) {
+        orderCode = row.dataset.orderCode;
+      }
+      row.style.display = "table-row";
+      row.querySelector(".card-index").textContent = index++;
+    } else {
+      row.style.display = "none";
+    }
+  });
 
+  document.getElementById("order-num").textContent = orderCode || orderId;
+  document.getElementById("first-table").style.display = "none";
+  document.getElementById("second-table").style.display = "block";
+  document.getElementById("second-table").classList.add("show");
+}
+
+function showThirdTable(orderId, cardId) {
+  const tbody = document.getElementById("third-tbody");
+  tbody.innerHTML = "";
+
+  const order = allOrdersData.find(o => o.id === orderId);
+  if (!order) return;
+
+  const card = order.work_cards.find(c => c.id === cardId);
+  if (!card) return;
+
+  let index = 1;
+  card.operation_descriptions.forEach(op => {
+    const instructions = [];
+    if (op.instruction_code && op.instruction_file_url) {
+      instructions.push(`<a href="${op.instruction_file_url}" target="_blank">${op.instruction_code}</a>`);
+    }
+    const instructionHtml = instructions.length > 0 ? instructions.join("<br>") : "—";
+    tbody.insertAdjacentHTML("beforeend", `
+      <tr>
+        <td>${index++}</td>
+        <td>${op.operation || "—"}</td>
+        <td>${instructionHtml}</td>
+        <td>
+          <div class="timer-block">
+            <div class="timer-display">00:00:00</div>
+            <div class="button-row">
+              <button class="btn-start">Старт</button>
+            </div>
+          </div>
+        </td>
+      </tr>
+    `);
+  });
+
+  document.getElementById("second-table").style.display = "none";
+  document.getElementById("third-table").style.display = "block";
+}
+</script>
 
 
 
 <script>
-  // данные из Python
-  const workOrders = {{ orders_data | tojson }};
-  
-  let currentOrderId = null;
-  let currentCardId = null;
-  
-  function showFirstTable() {
-    document.getElementById('first-table').style.display  = 'block';
-    document.getElementById('second-table').style.display = 'none';
-    document.getElementById('third-table').style.display  = 'none';
-  }
-  
-  function showSecondTable(orderId) {
-  fetch(`/work_cards/${orderId}`)
-    .then(response => response.json())
-    .then(data => {
-      const tbody = document.getElementById('second-tbody');
-      tbody.innerHTML = '';  // Очищаем
+document.addEventListener("DOMContentLoaded", () => {
+  function initializeTimers() {
+    document.querySelectorAll('.timer-block').forEach((block) => {
+      const timer = block.querySelector('.timer-display');
+      const startButton = block.querySelector('.start-btn');
+      const stopButton = block.querySelector('.stop-btn');
+      const submitButton = block.querySelector('.submit-btn');
+      const statusMessage = block.querySelector('.status-message');
+      const row = block.closest('tr');
+      const operationId = row.dataset.operationId;
+      const userId = row.dataset.userId;
 
-      data.forEach((card, index) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${index + 1}</td>
-          <td>${card.name}</td>
-          <td>${card.description}</td>
-          <td>
-            <button class="btn-start" onclick="showThirdTable()">Открыть</button>
-          </td>
-        `;
-        tbody.appendChild(row);
+      let interval;
+      let seconds = 0, minutes = 0, hours = 0;
+
+      function updateTimer() {
+        seconds++;
+        if (seconds >= 60) { seconds = 0; minutes++; }
+        if (minutes >= 60) { minutes = 0; hours++; }
+        timer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      }
+
+      startButton.addEventListener('click', () => {
+        startButton.style.display = 'none';
+        stopButton.style.display = 'inline-block';
+        submitButton.style.display = 'inline-block';
+        statusMessage.textContent = '';
+        interval = setInterval(updateTimer, 1000);
       });
 
-      document.getElementById('order-num').textContent = orderId;
-      document.getElementById('first-table').style.display = 'none';
-      document.getElementById('second-table').style.display = 'block';
-    })
-    .catch(error => console.error('Ошибка загрузки рабочих карт:', error));
-}
+      stopButton.addEventListener('click', () => {
+        clearInterval(interval);
+        startButton.style.display = 'inline-block';
+        stopButton.style.display = 'none';
+        statusMessage.innerHTML = `Время остановлено <img src="/static/pause.png" class="pause-icon">`;
+      });
 
-  
-  
-  
-  function showThirdTable(orderId, cardId) {
-    currentCardId = cardId;
-    const card = workOrders
-      .find(o => o.id === orderId)
-      .work_cards.find(c => c.id === cardId);
-  
-    document.getElementById('card-id').textContent = cardId;
-  
-    const tbody3 = document.getElementById('third-tbody');
-    tbody3.innerHTML = '';
-    card.operation_descriptions.forEach(op => {
-      if (op.work_times.length === 0) {
-        tbody3.insertAdjacentHTML('beforeend', `
-          <tr>
-            <td>${op.id}</td>
-            <td>${op.operation || ''}</td>
-            <td>${op.equipment || ''}</td>
-            <td colspan="2">— нет данных —</td>
-          </tr>`);
-      } else {
-        op.work_times.forEach(wt => {
-          tbody3.insertAdjacentHTML('beforeend', `
-            <tr>
-              <td>${op.id}</td>
-              <td>${op.operation}</td>
-              <td>${op.equipment}</td>
-              <td>${new Date(wt.start_time).toLocaleString()}</td>
-              <td>${new Date(wt.end_time).toLocaleString()}</td>
-            </tr>`);
+      submitButton.addEventListener('click', () => {
+        clearInterval(interval);
+        startButton.style.display = 'none';
+        stopButton.style.display = 'none';
+        submitButton.style.display = 'none';
+
+        fetch('/save-time/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            operation_id: parseInt(operationId),
+            user_id: parseInt(userId),
+            duration: timer.textContent
+          })
         });
-      }
+
+        statusMessage.innerHTML = `
+          Отправлено на проверку
+          <img src="/static/done.gif" alt="done" class="done-icon" style="width: 25px; height: 25px; vertical-align: middle;">
+        `;
+        setTimeout(() => {
+          const doneIcon = statusMessage.querySelector('.done-icon');
+          if (doneIcon) doneIcon.src = '/static/done.png';
+        }, 1400);
+      });
     });
-  
-    document.getElementById('second-table').style.display = 'none';
-    document.getElementById('first-table').style.display  = 'none';
-    document.getElementById('third-table').style.display  = 'block';
   }
-  
-  // инициализация — показываем только первую
-  showFirstTable();
-  </script>  
+
+  window.showThirdTable = function(orderId, cardId) {
+    document.querySelectorAll('.op-row').forEach(row => {
+      row.style.display = (row.dataset.orderId === orderId.toString() && row.dataset.cardId === cardId.toString())
+        ? 'table-row' : 'none';
+    });
+    document.getElementById('second-table').style.display = 'none';
+    document.getElementById('third-table').style.display = 'block';
+    setTimeout(() => initializeTimers(), 100);
+  };
+});
+</script>
 
 </body>
-</html> 
-      
+</html>        

@@ -1,6 +1,6 @@
 from sqlalchemy import (
-    Column, Integer, String, Text, DateTime,
-    Enum, ForeignKey, DECIMAL
+    Column, Integer, String, Text, DateTime, Date,
+    Enum, ForeignKey
 )
 from sqlalchemy.orm import relationship
 from app.database import Base
@@ -72,8 +72,8 @@ class WorkOrder(Base):
     request_number = Column(String, nullable=False)
 
     # связи
-    user             = relationship("User", back_populates="work_orders")
-    work_cards       = relationship("WorkCard", back_populates="work_order")
+    user = relationship("User", back_populates="work_orders")
+    work_cards = relationship("WorkCard", back_populates="work_order")
 
 # ─── Рабочие карты (WorkCard) ────────────────────────────────────────────
 class WorkCard(Base):
@@ -116,14 +116,14 @@ class OperationDescription(Base):
 
 # ─── Время выполнения (WorkTime) ───────────────────────────────────────────
 class WorkTime(Base):
-    __tablename__ = 'work_times'
+    __tablename__ = "work_times"
 
-    id                         = Column(Integer, primary_key=True, index=True)
-    user_id                    = Column(Integer, ForeignKey("users.id"), nullable=False)
-    operation_description_id   = Column(Integer, ForeignKey("operation_descriptions.id"), nullable=False)
-    start_time                 = Column(DateTime, nullable=False)
-    end_time                   = Column(DateTime, nullable=False)
-    duration_minutes           = Column(Integer)
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    operation_description_id = Column(Integer, ForeignKey("operation_descriptions.id"))
+    start_time = Column(DateTime)
+    end_time = Column(DateTime)
+    duration_minutes = Column(Integer)
 
     # связи
     user                     = relationship("User", back_populates="work_times")

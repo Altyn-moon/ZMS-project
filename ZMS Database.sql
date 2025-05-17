@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.41, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
 --
 -- Host: localhost    Database: work_portal
 -- ------------------------------------------------------
--- Server version	8.0.41
+-- Server version	8.0.42
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -102,7 +102,7 @@ CREATE TABLE `work_cards` (
   KEY `fk_user_id` (`user_id`),
   CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `work_cards_ibfk_1` FOREIGN KEY (`work_order_id`) REFERENCES `work_orders` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,21 +124,34 @@ DROP TABLE IF EXISTS `work_orders`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `work_orders` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `code` varchar(50) NOT NULL COMMENT 'внутренний код заказа',
-  `name` varchar(255) NOT NULL COMMENT 'потребность или название',
-  `user_id` int NOT NULL COMMENT 'автор (ссылка на users.id)',
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `zms_code` varchar(100) DEFAULT NULL COMMENT 'спец. код ZMS',
-  `grease_number` varchar(50) DEFAULT NULL COMMENT 'смазка №',
-  `protector_number` varchar(50) DEFAULT NULL COMMENT 'Р.О. № протектора',
-  `request_number` varchar(50) DEFAULT NULL COMMENT 'заявка №',
-  `customer` varchar(255) DEFAULT NULL COMMENT 'заказчик',
-  `unit` varchar(50) DEFAULT NULL COMMENT 'единица измерения',
-  `quantity` decimal(10,2) DEFAULT NULL COMMENT 'количество',
-  PRIMARY KEY (`id`),
-  KEY `author_id` (`user_id`),
-  CONSTRAINT `work_orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `user_id` int DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `work_number` varchar(100) DEFAULT NULL,
+  `work_date` date DEFAULT NULL,
+  `work_revision` varchar(50) DEFAULT NULL,
+  `work_order_number` varchar(100) DEFAULT NULL,
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
+  `prepared_by` varchar(100) DEFAULT NULL,
+  `quote_number` varchar(200) DEFAULT NULL,
+  `customer` varchar(255) DEFAULT NULL,
+  `ordered_by` varchar(100) DEFAULT NULL,
+  `customer_po_number` varchar(100) DEFAULT NULL,
+  `rig_number` varchar(100) DEFAULT NULL,
+  `well_number` varchar(100) DEFAULT NULL,
+  `q_ty` varchar(50) DEFAULT NULL,
+  `unit` varchar(50) DEFAULT NULL,
+  `description` varchar(200) DEFAULT NULL,
+  `serial_number` varchar(100) DEFAULT NULL,
+  `job_description` text,
+  `job_number` varchar(100) DEFAULT NULL,
+  `job_date` date DEFAULT NULL,
+  `job_revision` varchar(50) DEFAULT NULL,
+  `grease_number` varchar(100) DEFAULT NULL,
+  `protector_number` varchar(100) DEFAULT NULL,
+  `request_number` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -147,7 +160,7 @@ CREATE TABLE `work_orders` (
 
 LOCK TABLES `work_orders` WRITE;
 /*!40000 ALTER TABLE `work_orders` DISABLE KEYS */;
-INSERT INTO `work_orders` VALUES (1,'1135-24','Изготовление переводников',1,'2025-04-28 10:59:13','ZMS-TH-QP-101-QCP-002-F-001','CMTSPC002628','-----','SLSMRW002036','ТОО \"Сервисное буровое предприятие КазМунайГаз-Бурение\"','шт',2.00);
+INSERT INTO `work_orders` VALUES (1,1,'2025-05-15 11:59:54','ZMS-TH-QP-101-F-002','2025-05-15','Рев.00','1135-24','2025-05-15','2025-05-16','Жексенов Д.Е.','1135-24 Rev.0','ТОО\"Сервисноебуровое предприятие\"','Мукашов Аслан','SLSMRW002036','Нет','Нет','2','шт.','Переводник 165','1135-1,1135-2','Предоставить материал сталь 4145 и изготовить переводник 165 по чертежу 7196.00.000 и нарезать резьбовое соединение','ZMS-TH-QP-101-QCP-002-F-001','2025-05-15','Рев.00','CMTSP002628','---','SLSMRW002036');
 /*!40000 ALTER TABLE `work_orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -192,4 +205,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-12  9:26:33
+-- Dump completed on 2025-05-15 22:15:22
