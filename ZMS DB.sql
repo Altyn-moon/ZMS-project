@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.41, for Win64 (x86_64)
 --
 -- Host: localhost    Database: work_portal
 -- ------------------------------------------------------
--- Server version	8.0.42
+-- Server version	8.0.41
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,6 +16,39 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `documents`
+--
+
+DROP TABLE IF EXISTS `documents`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `documents` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `work_card_id` int NOT NULL,
+  `type` enum('Certificate','DRW','Instruction') NOT NULL,
+  `number` varchar(100) DEFAULT NULL,
+  `pdf_file` longblob NOT NULL,
+  `url` text,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `operation_description_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_documents_work_card` (`work_card_id`),
+  KEY `fk_documents_operation_description` (`operation_description_id`),
+  CONSTRAINT `fk_documents_operation_description` FOREIGN KEY (`operation_description_id`) REFERENCES `operation_descriptions` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `fk_documents_work_card` FOREIGN KEY (`work_card_id`) REFERENCES `work_cards` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `documents`
+--
+
+LOCK TABLES `documents` WRITE;
+/*!40000 ALTER TABLE `documents` DISABLE KEYS */;
+/*!40000 ALTER TABLE `documents` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `operation_descriptions`
 --
 
@@ -27,12 +60,13 @@ CREATE TABLE `operation_descriptions` (
   `work_card_id` int NOT NULL COMMENT 'ссылка на work_cards',
   `operation` varchar(255) DEFAULT NULL COMMENT 'название операции',
   `equipment` varchar(255) DEFAULT NULL COMMENT 'оборудование',
-  `instruction_code` varchar(100) DEFAULT NULL COMMENT 'код инструкции',
-  `instruction_file_url` text COMMENT 'ссылка на PDF-скан инструкции',
   `user_id` int DEFAULT NULL COMMENT 'ответственный (users.id)',
+  `documents_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `work_card_id` (`work_card_id`),
   KEY `responsible_user_id` (`user_id`),
+  KEY `fk_operation_documents` (`documents_id`),
+  CONSTRAINT `fk_operation_documents` FOREIGN KEY (`documents_id`) REFERENCES `documents` (`id`),
   CONSTRAINT `operation_descriptions_ibfk_1` FOREIGN KEY (`work_card_id`) REFERENCES `work_cards` (`id`),
   CONSTRAINT `operation_descriptions_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -44,7 +78,7 @@ CREATE TABLE `operation_descriptions` (
 
 LOCK TABLES `operation_descriptions` WRITE;
 /*!40000 ALTER TABLE `operation_descriptions` DISABLE KEYS */;
-INSERT INTO `operation_descriptions` VALUES (1,1,'Производственная проверка','-----','ZMS-TH-QP-101','http://example.com/instructions/svarka.pdf',2);
+INSERT INTO `operation_descriptions` VALUES (1,1,'Производственная проверка','-----',2,NULL);
 /*!40000 ALTER TABLE `operation_descriptions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,17 +124,16 @@ CREATE TABLE `work_cards` (
   `id` int NOT NULL AUTO_INCREMENT,
   `work_order_id` int NOT NULL COMMENT 'ссылка на work_orders',
   `title` varchar(255) NOT NULL COMMENT 'потребность или название',
-  `job_description` text COMMENT 'описание',
   `material` text COMMENT 'материал',
-  `DRW_number` varchar(100) DEFAULT NULL COMMENT '№ чертежа',
-  `DRW_file_url` text COMMENT 'ссылка на PDF-скан чертежа',
   `cast_number` varchar(50) DEFAULT NULL COMMENT 'номер плавки',
-  `mill_certificate_number` varchar(50) DEFAULT NULL COMMENT 'сертификат №',
   `user_id` int DEFAULT NULL,
+  `documents_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `work_order_id` (`work_order_id`),
   KEY `fk_user_id` (`user_id`),
+  KEY `fk_work_cards_documents` (`documents_id`),
   CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `fk_work_cards_documents` FOREIGN KEY (`documents_id`) REFERENCES `documents` (`id`) ON DELETE SET NULL,
   CONSTRAINT `work_cards_ibfk_1` FOREIGN KEY (`work_order_id`) REFERENCES `work_orders` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -111,7 +144,7 @@ CREATE TABLE `work_cards` (
 
 LOCK TABLES `work_cards` WRITE;
 /*!40000 ALTER TABLE `work_cards` DISABLE KEYS */;
-INSERT INTO `work_cards` VALUES (1,1,'Изготовление переводников №1','Предоставить материал сталь AISI 4145 H Mod и изготовить Переводник 165,1мм (6.500\") по чертежу №7196.00.000 и нарезать резьбовые соединения по спецификации API 7-1 / 7-2 согласно требованию заказчика со следующими техническими характеристиками','Сталь AISI 4145 H Mod','№7196.00.000','/static/pdfs/6893.00.000.pdf','9266, 9890','1819, 170',NULL),(2,1,'Изготовление переводников №2','Предоставить материал сталь AISI 4145 H Mod и изготовить Переводник 196,85мм (7.750\") по чертежу №6893.00.000 и нарезать резьбовые соединения по спецификации API 7-1 / 7-2 согласно требованию заказчика со следующими техническими характеристиками','Сталь AISI 4145 H Mod','№6893.00.000','http://example.com/drawings/d123.pdf','B 74701','572631-14',NULL);
+INSERT INTO `work_cards` VALUES (1,1,'Изготовление переводников №1','Сталь AISI 4145 H Mod','9266, 9890',NULL,NULL),(2,1,'Изготовление переводников №2','Сталь AISI 4145 H Mod','B 74701',NULL,NULL);
 /*!40000 ALTER TABLE `work_cards` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -151,7 +184,7 @@ CREATE TABLE `work_orders` (
   `protector_number` varchar(100) DEFAULT NULL,
   `request_number` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -160,7 +193,7 @@ CREATE TABLE `work_orders` (
 
 LOCK TABLES `work_orders` WRITE;
 /*!40000 ALTER TABLE `work_orders` DISABLE KEYS */;
-INSERT INTO `work_orders` VALUES (1,1,'2025-05-15 11:59:54','ZMS-TH-QP-101-F-002','2025-05-15','Рев.00','1135-24','2025-05-15','2025-05-16','Жексенов Д.Е.','1135-24 Rev.0','ТОО\"Сервисноебуровое предприятие\"','Мукашов Аслан','SLSMRW002036','Нет','Нет','2','шт.','Переводник 165','1135-1,1135-2','Предоставить материал сталь 4145 и изготовить переводник 165 по чертежу 7196.00.000 и нарезать резьбовое соединение','ZMS-TH-QP-101-QCP-002-F-001','2025-05-15','Рев.00','CMTSP002628','---','SLSMRW002036');
+INSERT INTO `work_orders` VALUES (1,1,'2025-05-15 11:59:54','ZMS-TH-QP-101-F-002','2025-05-15','Рев.00','1135-24','2025-05-15','2025-05-16','Жексенов Д.Е.','1135-24 Rev.0','ТОО\"Сервисноебуровое предприятие\"','Мукашов Аслан','SLSMRW002036','Нет','Нет','2','шт.','Переводник 165','1135-1,1135-2','Предоставить материал сталь 4145 и изготовить переводник 165 по чертежу 7196.00.000 и нарезать резьбовое соединение','ZMS-TH-QP-101-QCP-002-F-001','2025-05-15','Рев.00','CMTSP002628','---','SLSMRW002036'),(2,1,'2025-05-16 12:10:47','апсирольбд','2025-05-16','01','0','2025-05-16','2025-05-17','Алтын','0','ТШО','пмирто','0','0','0','1','шт','апмриол','0','рногшждльроипеакуы','самперноглшдж','2025-05-16','00','0','0','0');
 /*!40000 ALTER TABLE `work_orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -205,4 +238,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-15 22:15:22
+-- Dump completed on 2025-05-18 19:19:44

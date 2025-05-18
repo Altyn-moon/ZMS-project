@@ -205,6 +205,12 @@ class WorkOrderRead(WorkOrderBase):
     class Config:
         orm_mode = True
 
+class WorkCardBase(BaseModel):
+    title: str
+    material: str
+    cast_number: str
+    
+
 from pydantic import BaseModel
 from typing import Optional
 from datetime import date
@@ -217,3 +223,10 @@ class WorkOrderOut(BaseModel):
 
     class Config:
         orm_mode = True  # чтобы FastAPI мог конвертировать из ORM-модели SQLAlchemy
+
+from typing import List
+
+class FullWorkOrder(BaseModel):
+    work_order: WorkOrderCreate
+    work_card: WorkCardCreate
+    operations: List[OperationDescriptionCreate]
