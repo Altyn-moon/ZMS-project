@@ -19,6 +19,7 @@ from app.routes.dashboard import router as dashboard_router
 from app.routes.admin import router as admin_router
 from app.routes.users import router as users_router
 from app.routes.work import router as work_router
+from app.routes import documents
 from app.routes import dashboard, timers
 from app.routes import auth, admin
 from app.models import WorkCard
@@ -134,6 +135,7 @@ app.include_router(users_router, prefix="/users")
 app.include_router(dashboard_router)
 app.include_router(work_router)
 app.include_router(timers.router)
+app.include_router(documents.router)
 
 # Подключение статических файлов
 app.mount("/static", StaticFiles(directory="app/static"), name="static")

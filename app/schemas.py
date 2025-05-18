@@ -1,11 +1,13 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import List, Optional
-from datetime import datetime
+from datetime import datetime, date
 
+# ─── Аутентификация ─────────────────────────────
 class AdminLogin(BaseModel):
     name: str
     password: str
 
+# ─── Пользователь ─────────────────────────────
 class UserBase(BaseModel):
     name: str
     role: str
@@ -25,122 +27,25 @@ class UserUpdate(BaseModel):
 
 class UserOut(UserBase):
     id: int
+    job_title: str
     created_time: datetime
 
     class Config:
         from_attributes = True
 
-
-class WorkTimeOut(BaseModel):
+# ─── Документ ─────────────────────────────
+class DocumentOut(BaseModel):
     id: int
-    start_time: datetime
-    end_time: datetime
-    duration_minutes: int
+    work_card_id: Optional[int]
+    type: str
+    number: Optional[str]
+    url: Optional[str]
+    created_at: datetime
 
     class Config:
         from_attributes = True
 
-class OperationDescriptionOut(BaseModel):
-    id: int
-    work_card_id: int
-    operation: Optional[str] = None
-    equipment: Optional[str] = None
-    instruction_code: Optional[str]
-    instruction_file_url: Optional[str]
-    user_id: Optional[int] = None
-    work_times: List[WorkTimeOut] = []
-
-    class Config:
-        from_attributes = True
-
-class WorkCardOut(BaseModel):
-    id: int
-    work_order_id: int
-    title: str
-    job_description: Optional[str] = None
-    material: Optional[str]
-    DRW_number: Optional[str]
-    DRW_file_url: Optional[str]
-    cast_number: Optional[str]
-    mill_certificate_number: Optional[str]
-    user_id: Optional[int] = None
-    operation_descriptions: List[OperationDescriptionOut] = []
-
-    class Config:
-        from_attributes = True
-
-class WorkOrderOut(BaseModel):
-    id: int
-    work_order_number: str
-    description: str
-    customer: Optional[str]
-    work_cards: List[WorkCardOut] = []
-
-    class Config:
-        from_attributes = True
-
-#arai admin
-
-from pydantic import BaseModel
-
-class UserBase(BaseModel):
-    name: str
-    role: str
-    login: str
-    password: str
-    uid: str
-
-class UserCreate(UserBase):
-    pass  # или дополнительные поля для создания пользователя
-
-from typing import Optional
-
-class WorkCardBase(BaseModel):
-    job_description: Optional[str] = None
-    material: Optional[str] = None
-    DRW_number: Optional[str] = None
-    DRW_file_url: Optional[str] = None
-    cast_number: Optional[str] = None
-    mill_certificate_number: Optional[str] = None
-
-class WorkCardCreate(WorkCardBase):
-    pass  # Можно добавить дополнительные поля, если необходимо
-
-class WorkCardOut(WorkCardBase):
-    id: int
-
-    class Config:
-        orm_mode = True
-class WorkCardCreate(BaseModel):
-    name: Optional[str] = None
-    user_id: Optional[str] = None
-
-class WorkCard(BaseModel):
-    id: int
-    name: str
-    user_id: int
-
-    class Config:
-        orm_mode = True
-
-class OperationDescriptionBase(BaseModel):
-    work_card_id: int
-    operation: str
-    equipment: Optional[str] = None
-    instruction_code: Optional[str] = None
-    instruction_file_url: Optional[str] = None
-
-class OperationDescriptionCreate(OperationDescriptionBase):
-    pass  # Можно добавить дополнительные поля, если необходимо
-
-class OperationDescriptionOut(OperationDescriptionBase):
-    id: int
-
-    class Config:
-        orm_mode = True
-
-from datetime import datetime
-
+# ─── Таймер ─────────────────────────────
 class WorkTimeBase(BaseModel):
     operation_description_id: int
 
@@ -156,15 +61,46 @@ class WorkTimeOut(WorkTimeBase):
     duration_minutes: int
 
     class Config:
-        orm_mode = True
-    
-# schemas.py
+        from_attributes = True
 
-from pydantic import BaseModel, Field
-from typing import Optional
-from datetime import date, datetime
+# ─── Описание операций ─────────────────────────────
+class OperationDescriptionBase(BaseModel):
+    work_card_id: int
+    operation: Optional[str] = None
+    equipment: Optional[str] = None
+    user_id: Optional[int] = None
+    documents_id: Optional[int] = None
 
-# Базовая модель — все поля необязательны
+class OperationDescriptionCreate(OperationDescriptionBase):
+    pass
+
+class OperationDescriptionOut(OperationDescriptionBase):
+    id: int
+    work_times: List[WorkTimeOut] = []
+
+    class Config:
+        from_attributes = True
+
+# ─── Рабочие карты ─────────────────────────────
+class WorkCardBase(BaseModel):
+    work_order_id: int
+    title: str
+    material: Optional[str] = None
+    cast_number: Optional[str] = None
+    user_id: Optional[int] = None
+    documents_id: Optional[int] = None
+
+class WorkCardCreate(WorkCardBase):
+    pass
+
+class WorkCardOut(WorkCardBase):
+    id: int
+    operation_descriptions: List[OperationDescriptionOut] = []
+
+    class Config:
+        from_attributes = True
+
+# ─── Наряды (WorkOrders) ─────────────────────────────
 class WorkOrderBase(BaseModel):
     work_number: str
     work_date: date
@@ -179,7 +115,7 @@ class WorkOrderBase(BaseModel):
     customer_po_number: str
     rig_number: str
     well_number: str
-    q_ty: int
+    q_ty: str
     unit: str
     description: str
     serial_number: str
@@ -191,25 +127,16 @@ class WorkOrderBase(BaseModel):
     protector_number: str
     request_number: str
 
-# Модель для создания WorkOrder
 class WorkOrderCreate(WorkOrderBase):
     user_id: Optional[int] = None
-    
 
-# Модель ответа с id
 class WorkOrderRead(WorkOrderBase):
     id: int
     user_id: Optional[int] = None
-    created_at: datetime  # если это поле есть в модели
+    created_at: datetime
 
     class Config:
         orm_mode = True
-
-class WorkCardBase(BaseModel):
-    title: str
-    material: str
-    cast_number: str
-    
 
 from pydantic import BaseModel
 from typing import Optional
@@ -217,16 +144,10 @@ from datetime import date
 
 class WorkOrderOut(BaseModel):
     id: int
-    work_number: str
-    work_date: date
-    # и остальные поля, которые хочешь вернуть
+    work_order_number: str
+    description: str
+    customer: Optional[str]
+    work_cards: List[WorkCardOut] = []
 
     class Config:
         orm_mode = True  # чтобы FastAPI мог конвертировать из ORM-модели SQLAlchemy
-
-from typing import List
-
-class FullWorkOrder(BaseModel):
-    work_order: WorkOrderCreate
-    work_card: WorkCardCreate
-    operations: List[OperationDescriptionCreate]

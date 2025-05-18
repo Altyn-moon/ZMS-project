@@ -649,6 +649,19 @@ a:visited {
                 {% endfor %}
               {% endfor %}
             {% endfor %}
+
+            <form action="/upload-document/" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="work_card_id" value="1">
+                <input type="text" name="number" placeholder="Номер документа">
+                <select name="doc_type">
+                    <option value="Certificate">Certificate</option>
+                    <option value="DRW">DRW</option>
+                    <option value="Instruction">Instruction</option>
+                </select>
+                <input type="file" name="file">
+                <button type="submit">Загрузить</button>
+            </form>
+
           </tbody>
         </table>
         <!-- Чертёж -->

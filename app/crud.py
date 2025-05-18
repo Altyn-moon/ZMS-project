@@ -112,3 +112,21 @@ def get_operations_by_card(db: Session, card_id: int):
              .filter(OperationDescription.work_card_id == card_id)\
              .all()
 
+# arai admin
+from app import models
+from app import crud
+
+from app import schemas
+
+def create_work_card(db: Session, card: schemas.WorkCardCreate):
+    # Код для создания рабочей карты
+    pass
+from sqlalchemy.orm import Session
+from app import models, schemas
+
+def create_work_order(db, order: schemas.WorkOrderCreate):
+    db_order = models.WorkOrder(**order.dict())
+    db.add(db_order)
+    db.commit()
+    db.refresh(db_order)
+    return db_order
