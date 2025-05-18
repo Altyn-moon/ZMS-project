@@ -3020,7 +3020,7 @@ function handleFileSelect(event, filenameDivId) {
   });
 </script>
 
-<!-- Скрипт -->
+<!-- Скрипт 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const form = document.querySelector("#workordersForm");
@@ -3049,7 +3049,7 @@ function handleFileSelect(event, filenameDivId) {
       }
     });
   });
-</script>
+</script>-->
 
 <!-- дата-->
 <script>
@@ -3057,77 +3057,7 @@ function handleFileSelect(event, filenameDivId) {
     dateFormat: "Y-m-d",
   });
 </script>
-<!-- Скрипт бд-->
-<script>
-form.addEventListener("submit", async function (e) {
-  e.preventDefault();
 
-  const firstRow = document.querySelector(".operation-row");
-if (!firstRow) {
-  alert("Добавьте хотя бы одну операцию!");
-  return;
-}
-
-const q_ty = firstRow.querySelector('input[name$=".q_ty"]')?.value;
-const unit = firstRow.querySelector('input[name$=".unit"]')?.value;
-const description = firstRow.querySelector('input[name$=".description"]')?.value;
-const serial_number = firstRow.querySelector('input[name$=".serial_number"]')?.value;
-const job_description = firstRow.querySelector('input[name$=".job_description"]')?.value;
-
-
-const qTyParsed = parseInt(q_ty, 10);
-if (isNaN(qTyParsed)) {
-  alert("Поле q_ty должно быть числом");
-  return;
-}
-
-
-  const formData = new FormData(form);
-  const raw = Object.fromEntries(formData.entries());
-
-  const data = {
-    work_number: raw.work_number,
-    work_date: raw.work_date,
-    work_revision: raw.work_revision,
-    work_order_number: raw.work_order_number,
-    start_date: raw.start_date,
-    end_date: raw.end_date,
-    q_ty: qTyParsed,
-    unit,
-    description,
-    serial_number,
-    job_description,
-    job_number: raw.job_number,
-    job_date: raw.job_date,
-    job_revision: raw.job_revision,
-    grease_number: raw.grease_number,
-    protector_number: raw.protector_number,
-    request_number: raw.request_number,
-    user_id: raw.user_id || 1
-  };
-
-  console.log("Отправляем данные:", data);
-
-  try {
-    const response = await fetch("/api/workorders", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    });
-
-    if (response.ok) {
-      alert("Заказ-наряд успешно создан!");
-      form.reset();
-    } else {
-      const errorText = await response.text();
-      alert("Ошибка при создании:\n" + errorText);
-    }
-  } catch (err) {
-    console.error("Ошибка при выполнении запроса:", err);
-    alert("Произошла ошибка при отправке формы.");
-  }
-});
-</script>
 
 
 
@@ -3170,50 +3100,52 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Извлекаем значения из первой строки
-    const q_ty = firstRow.querySelector('input[name$=".q_ty"]')?.value;
-    const unit = firstRow.querySelector('input[name$=".unit"]')?.value;
-    const description = firstRow.querySelector('input[name$=".description"]')?.value;
-    const serial_number = firstRow.querySelector('input[name$=".serial_number"]')?.value;
-    const job_description = firstRow.querySelector('input[name$=".job_description"]')?.value;
+const q_ty = document.querySelector('input[name="q_ty"]')?.value;
+const unit = document.querySelector('input[name="unit"]')?.value;
+const description = document.querySelector('input[name="description"]')?.value;
+const serial_number = document.querySelector('input[name="serial_number"]')?.value;
+const job_description = document.querySelector('input[name="job_description"]')?.value;
+
+  
 
     const qTyParsed = parseInt(q_ty, 10);
+
     if (isNaN(qTyParsed)) {
       alert("Поле Кол-во (q_ty) должно быть числом");
       return;
     }
 
-    // Собираем остальные поля формы
+    // Остальная часть формы
     const formData = new FormData(form);
     const raw = Object.fromEntries(formData.entries());
 
     const data = {
-  work_number: raw.work_number,
-  work_date: raw.work_date,
-  work_revision: raw.work_revision,
-  work_order_number: raw.work_order_number,
-  start_date: raw.start_date,
-  end_date: raw.end_date,
-  prepared_by: raw.prepared_by,
-  quote_number: raw.quote_number,
-  customer: raw.customer,
-  ordered_by: raw.ordered_by,
-  customer_po_number: raw.customer_po_number,
-  rig_number: raw.rig_number,
-  well_number: raw.well_number,
-  q_ty: qTyParsed, // число
-  unit: unit,
-  description: description,
-  serial_number: serial_number,
-  job_description: job_description,
-  job_number: raw.job_number,
-  job_date: raw.job_date,
-  job_revision: raw.job_revision,
-  grease_number: raw.grease_number,
-  protector_number: raw.protector_number,
-  request_number: raw.request_number,
-  user_id: raw.user_id || 1
-};
-
+      work_number: raw.work_number,
+      work_date: raw.work_date,
+      work_revision: raw.work_revision,
+      work_order_number: raw.work_order_number,
+      start_date: raw.start_date,
+      end_date: raw.end_date,
+      prepared_by: raw.prepared_by,
+      quote_number: raw.quote_number,
+      customer: raw.customer,
+      ordered_by: raw.ordered_by,
+      customer_po_number: raw.customer_po_number,
+      rig_number: raw.rig_number,
+      well_number: raw.well_number,
+      q_ty: qTyParsed,
+      unit: unit,
+      description: description,
+      serial_number: serial_number,
+      job_description: job_description,
+      job_number: raw.job_number,
+      job_date: raw.job_date,
+      job_revision: raw.job_revision,
+      grease_number: raw.grease_number,
+      protector_number: raw.protector_number,
+      request_number: raw.request_number,
+      user_id: raw.user_id || 1
+    };
 
     console.log("Отправляем данные:", data);
 
@@ -3240,82 +3172,133 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
+<!-- номер изменила чтобы удаление строки корректно пересчитывает номера -->
+<script>
+function addOperation() {
+  const list = document.getElementById("operationsList");
+
+  const row = document.createElement("div");
+  row.classList.add("operation-row");
+
+  row.innerHTML = `
+    <div class="col index"></div>
+    <div class="col"><input name="operations[].q_ty" required></div>
+    <div class="col"><input name="operations[].unit" required></div>
+    <div class="col"><input name="operations[].description" required></div>
+    <div class="col"><input name="operations[].serial_number" required></div>
+    <div class="col"><input name="operations[].job_description" required></div>
+    <div class="col">
+      <button type="button" class="delete-btn" onclick="deleteOperation(this)">✖</button>
+    </div>
+  `;
+
+  list.appendChild(row);
+  renumberOperations(); // обновим №
+}
+
+function deleteOperation(btn) {
+  const row = btn.closest('.operation-row');
+  if (row) row.remove();
+  renumberOperations();
+}
+
+function renumberOperations() {
+  const rows = document.querySelectorAll(".operation-row");
+  rows.forEach((row, index) => {
+    const indexCell = row.querySelector(".index");
+    if (indexCell) {
+      indexCell.textContent = index + 1;
+    }
+  });
+}
+</script>
+
+
+
+<!-- дизайн прежний но не знаю работает ли база данных нужно проверить-->
+<script>
+  function addOperation() {
+    operationCount++;
+    const list = document.getElementById('operationsList');
+
+    const row = document.createElement('div');
+    row.className = 'data-row operation-row';
+    row.dataset.index = operationCount;
+
+    row.innerHTML = `
+      <div></div>
+      <div class="col index">${operationCount}</div>
+
+      <div class="col">
+        <input type="text"
+               name="q_ty"
+               placeholder="Кол-во"
+               style="width: 70px;" required>
+      </div>
+
+      <div class="col">
+        <input type="text"
+               name="unit"
+               placeholder="шт."
+               style="width: 50px;" required>
+      </div>
+
+      <div class="col">
+        <input type="text"
+               name="description"
+               placeholder="Описание полученной работы"
+               style="width: 220px;" required>
+      </div>
+
+      <div class="col">
+        <input type="text"
+               name="serial_number"
+               placeholder="Серийный номер"
+               style="width: 215px;" required>
+      </div>
+
+      <div class="col">
+        <input type="text"
+               name="job_description"
+               placeholder="Описание необходимых работ..."
+               style="width: 750px;" required>
+      </div>
+
+      <div class="col">
+        <button type="button"
+                class="delete-btn"
+                onclick="deleteOperation(this)">🗑️</button>
+      </div>
+    `;
+
+    list.appendChild(row);
+    renumberOperations();
+  }
+
+  function deleteOperation(btn) {
+    const row = btn.closest('.data-row');
+    if (row) {
+      row.remove();
+      renumberOperations();
+    }
+  }
+
+  function renumberOperations() {
+    const rows = document.querySelectorAll('.data-row');
+    rows.forEach((row, index) => {
+      const cell = row.querySelector('.index');
+      if (cell) {
+        cell.textContent = index + 1;
+      }
+    });
+  }
+</script>
+
+
 
 </body>
 </html>
 
 
 
-<!-- Данные в памяти (до отправки в базу)
-<script>
-  const baseCardData = {}; // Данные из основной формы
-  const jobCard = [];     // Массив job card'ов, добавленных через модалки
-</script>
-<!-- Автозаполнение модалки
-<script>
-  function openJobCardModal(index) {
-  // читаем поля из формы
-  const title = document.querySelector('[name="title"]').value;
-  const material = document.querySelector('[name="material"]').value;
-
-  // заполняем модалку
-  document.getElementById("modal-title").value = title;
-  document.getElementById("modal-material").value = material;
-  document.getElementById("modal-title").readOnly = true;
-  document.getElementById("modal-material").readOnly = true;
-
-  document.getElementById("modalIndex").value = index;
-  document.getElementById("jobCardModal").style.display = "block";
-}
-</script>-->
-<!-- При нажатии "Сохранить" в модалке
-<script>
-function saveJobCard() {
-  const data = {
-    title: document.getElementById("modal-title").value,
-    material: document.getElementById("modal-material").value,
-    operation: document.getElementById("modal-operation").value,
-    time: document.getElementById("modal-time").value,
-    // ... другие поля
-  };
-
-  const index = +document.getElementById("modalIndex").value;
-  jobCards[index] = data;
-
-  document.getElementById("jobCardModal").style.display = "none";
-  document.getElementById(`jobCardStatus${index}`).innerHTML = "✅";
-}
-</script>
-
-<!-- В финале: одна большая кнопка «Сохранить всё»
-<script>
-async function submitAllData() {
-  // читаем основную форму
-  const baseForm = document.getElementById("workcardsForm");
-  const formData = new FormData(baseForm);
-  const baseCard = {
-    title: formData.get("title"),
-    job_description: formData.get("job_description"),
-    // ...
-  };
-
-  const fullData = {
-    ...baseCard,
-    job_cards: jobCards,
-  };
-
-  const response = await fetch("/workcards/create", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(fullData),
-  });
-
-  if (response.ok) {
-    alert("Карта и все Job Cards сохранены!");
-    location.reload();
-  } else {
-    alert("Ошибка при сохранении");
-  }
-}
-</script>-->
 
