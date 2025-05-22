@@ -36,6 +36,7 @@ from app.schemas import WorkCardOut
 from app.schemas import WorkCardCreate
 
 from fastapi.encoders import jsonable_encoder
+from fastapi.middleware.cors import CORSMiddleware
 
 
 # Создание всех таблиц
