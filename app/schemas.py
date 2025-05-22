@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field
 from typing import List, Optional
 from datetime import datetime, date
+from typing import Literal
 
 # ─── Аутентификация ─────────────────────────────
 class AdminLogin(BaseModel):
@@ -151,3 +152,75 @@ class WorkOrderOut(BaseModel):
 
     class Config:
         orm_mode = True  # чтобы FastAPI мог конвертировать из ORM-модели SQLAlchemy
+
+
+from typing import List
+
+class FullWorkOrder(BaseModel):
+    work_order: WorkOrderCreate
+    work_card: WorkCardCreate
+    operations: List[OperationDescriptionCreate]
+
+
+class WorkCardCreate(BaseModel):
+    title: Optional[str]
+    material: Optional[str]
+    cast_number: Optional[str]
+    
+class DocumentCreate(BaseModel):
+    work_card_id: Optional[int]
+    operation_description_id: Optional[int]
+    type: str  # должен быть 'Certificate', 'DRW' или 'Instruction'
+    number: Optional[str]
+    url: Optional[str]  # если файл загружается и путь сохраняется
+    
+class DocumentIn(BaseModel):
+    type: Literal['DRW', 'Certificate', 'Instruction']
+    number: Optional[str]
+    url: Optional[str]
+    work_card_id: Optional[int]
+    operation_description_id: Optional[int]
+
+class OperationIn(BaseModel):
+    operation: str
+    equipment: Optional[str]
+    user_id: int
+    documents: Optional[list[DocumentIn]]
+
+class WorkCardIn(BaseModel):
+    title: str
+    material: Optional[str]
+    cast_number: Optional[str]
+    user_id: int
+    operations: List[OperationIn]
+
+class WorkOrderIn(BaseModel):
+    work_number: str
+    work_date: date
+    work_revision: str
+    work_order_number: str
+    start_date: date
+    end_date: date
+    prepared_by: str
+    quote_number: str
+    customer: str
+    ordered_by: str
+    customer_po_number: str
+    rig_number: str
+    well_number: str
+    q_ty: str
+    unit: str
+    description: str
+    serial_number: str
+    job_description: str
+    job_number: str
+    job_date: date
+    job_revision: str
+    grease_number: str
+    protector_number: str
+    request_number: str
+    user_id: int
+    work_cards: List[WorkCardIn]
+
+class FullWorkOrder(BaseModel):
+    work_order: WorkOrderIn
