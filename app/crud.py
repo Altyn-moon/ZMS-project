@@ -91,7 +91,6 @@ from sqlalchemy.orm import Session
 from app import models, schemas
 from app.models import WorkOrder, WorkCard, OperationDescription, WorkTime
 
-
 def create_work_order(db, order: schemas.WorkOrderCreate):
     db_order = models.WorkOrder(**order.dict())
     db.add(db_order)
@@ -130,3 +129,4 @@ def create_work_order(db, order: schemas.WorkOrderCreate):
     db.commit()
     db.refresh(db_order)
     return db_order
+

@@ -36,6 +36,7 @@ from app.schemas import WorkOrderCreate
 from app.schemas import WorkCardOut
 from app.schemas import WorkCardCreate
 
+from fastapi.encoders import jsonable_encoder
 
 # Создание всех таблиц
 Base.metadata.create_all(bind=engine)
@@ -54,11 +55,8 @@ app.add_middleware(
 
 #admin arai
 
-
-
 from fastapi import APIRouter
 from app.schemas import WorkOrderRead
-
 
 router = APIRouter()
 
@@ -71,8 +69,6 @@ def create_work_order(order: schemas.WorkOrderCreate, db: Session = Depends(get_
         raise HTTPException(status_code=500, detail=str(e))
 
 
-
-
 #@router.post("/workcards/", response_model=schemas.WorkOrderRead)
 #def create_work_order(workcard_data: schemas.WorkOrderCreate, db: Session = Depends(get_db)):
    # new_order = models.WorkOrder(**workcard_data.dict())
@@ -82,8 +78,6 @@ def create_work_order(order: schemas.WorkOrderCreate, db: Session = Depends(get_
    # db.refresh(new_order)  # Без этого new_order будет None или пустым
 
    # return new_order
-
-
 
     
 app.include_router(work_orders.router, prefix="/api")
@@ -93,7 +87,6 @@ app = FastAPI()
 
 #admin arai
 
-
 from fastapi import APIRouter
 from app.schemas import WorkOrderRead
 
@@ -108,7 +101,6 @@ def create_work_order(order: schemas.WorkOrderCreate, db: Session = Depends(get_
         raise HTTPException(status_code=500, detail=str(e))
 
 
-
 #@router.post("/workcards/", response_model=schemas.WorkOrderRead)
 #def create_work_order(workcard_data: schemas.WorkOrderCreate, db: Session = Depends(get_db)):
    # new_order = models.WorkOrder(**workcard_data.dict())
@@ -118,7 +110,6 @@ def create_work_order(order: schemas.WorkOrderCreate, db: Session = Depends(get_
    # db.refresh(new_order)  # Без этого new_order будет None или пустым
 
    # return new_order
-
 
     
 app.include_router(work_orders.router, prefix="/api")
@@ -207,26 +198,38 @@ def do_login(
     response.set_cookie(key="username", value=user.name)
     return response
 
-"""# 6) Дашборд рабочего цеха (worker)
-@app.get("/dashboard", response_class=HTMLResponse)
-def worker_dashboard(request: Request):
-    user_name = request.cookies.get("username", "Гость")
-    # сюда потом вытянем реальные work_items из БД
-    return templates.TemplateResponse("dashboard.html", {
-        "request": request,
-        "user_name": user_name,
-        "work_items": []
-    })"""
-
 # 6) Дашборд рабочего цеха (worker)
-@app.get("/dashboard", response_class=HTMLResponse)
+"""@app.get("/dashboard", response_class=HTMLResponse)
 def worker_dashboard(request: Request, db: Session = Depends(get_db)):
     user_id = request.session.get("user_id")
-    user_name = request.session.get("user_name")
+    user_name = request.session.get("user_name")"""
+
+@app.get("/dashboard", response_class=HTMLResponse)
+def dashboard(request: Request, db: Session = Depends(get_db)):
+    user_name = request.cookies.get("username", "Гость")
+    user_id = request.cookies.get("user_id")
 
     if not user_id:
         return templates.TemplateResponse("index.html", {"request": request, "msg": "Сессия не найдена. Пожалуйста, войдите снова."})
 
+    work_orders = (
+        db.query(models.WorkOrder)
+        .filter(models.WorkOrder.user_id == user_id)
+        .options(
+            joinedload(models.WorkOrder.work_cards)
+            .joinedload(models.WorkCard.operation_descriptions)
+            .joinedload(models.OperationDescription.work_times)
+        )
+        .all()
+    )
+
+    return templates.TemplateResponse("dashboard.html", {
+        "request": request,
+        "user_name": user_name,
+        "orders_data": work_orders,   # ← ПЕРЕДАЁМ ORM, НЕ СЛОВАРИ
+        "user_id": user_id,
+    })
+"""
     # Загружаем заказы с вложенными рабочими картами и операциями
     work_orders = (
         db.query(models.WorkOrder)
@@ -275,9 +278,9 @@ def worker_dashboard(request: Request, db: Session = Depends(get_db)):
         "request": request,
         "user_name": user_name,
         "orders_data": orders_data,
-        "work_orders": work_orders
-    })
-
+        "work_orders": work_orders,
+        "user_id": user_id,
+    })"""
 
 # 7) Дашборд инспектора
 @app.get("/inspector/dashboard", response_class=HTMLResponse)
@@ -314,3 +317,4 @@ def logout(response: Response):
     response.delete_cookie("session")
     # либо сразу редирект
     return RedirectResponse(url="/login", status_code=303)'''
+

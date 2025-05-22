@@ -314,7 +314,6 @@ th, td {
 #second-table {
     width: 100%; /* Растягиваем на всю ширину */
     height: 100%; /* Растягиваем на всю высоту */
-    display: block;
     opacity: 0;
 }
 
@@ -510,7 +509,7 @@ a:visited {
                 <img src="/static/notification.png" alt="Уведомления" class="icon clickable">
             </button>
         </div>
-    
+
         <div class="header-center">
             <img src="/static/logo.png" alt="ZMS Logo" class="logo">
         </div>
@@ -530,7 +529,9 @@ a:visited {
     <main class="main-content">
         <div class="search-container">
           <input type="text" id="search" class="search-input" name="search" placeholder="Поиск" style="padding-left: 40px; background: url('static/Search.png') no-repeat 10px center; background-size: 20px 20px;">
-        </div>     
+        </div>
+        
+       
         
         <!-- первая таблица -->
         <div class="table-container" id="first-table">
@@ -581,11 +582,11 @@ a:visited {
             </thead>
             <tbody id="second-tbody">
               {% for order in orders_data %}
-                {% for card in order.work_cards %}
+                {% for card in order.work_cards|sort(attribute="id") %}
                 <tr class="card-row" data-order-id="{{ order.id }}" data-order-code="{{ order.work_order_number }}" style="display: none;">
                   <td class="card-index"></td>
                   <td>{{ card.title }}</td>
-                  <td>{{ card.job_description }}</td>
+                  <td>{{ card.description }}</td>
                   <td>
                     <button class="btn-start" onclick="showThirdTable({{ order.id }}, {{ card.id }})">Открыть</button>
                   </td>
@@ -623,8 +624,9 @@ a:visited {
           <tbody id="third-tbody">
             {% for order in orders_data %}
               {% for card in order.work_cards %}
-                {% for op in card.operation_descriptions %}
-                <tr class="op-row" data-order-id="{{ order.id }}" data-card-id="{{ card.id }}" data-operation-id="{{ op.id }}" data-user-id="{{ user_id }}" style="display: none;">
+                {% for op in card.operation_descriptions|sort(attribute="id") %}
+                <tr class="op-row" data-user-id="{{ user_id }}" data-order-id="{{ order.id }}" data-card-id="{{ card.id }}" data-operation-id="{{ op.id }}" style="display: none;">
+                  
                   <td>{{ loop.index }}</td>
                   <td>{{ op.operation }}</td>
                   <td>
@@ -646,21 +648,10 @@ a:visited {
                     </div>
                   </td>
                 </tr>
+
                 {% endfor %}
               {% endfor %}
             {% endfor %}
-
-            <form action="/upload-document/" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="work_card_id" value="1">
-                <input type="text" name="number" placeholder="Номер документа">
-                <select name="doc_type">
-                    <option value="Certificate">Certificate</option>
-                    <option value="DRW">DRW</option>
-                    <option value="Instruction">Instruction</option>
-                </select>
-                <input type="file" name="file">
-                <button type="submit">Загрузить</button>
-            </form>
 
           </tbody>
         </table>
@@ -679,28 +670,9 @@ a:visited {
             ">Чертёж</button>
       </div>
 
+
       <script>
-      function goBack() {
-        // Проверяем, на какой таблице мы находимся и возвращаемся на предыдущую
-        if (document.getElementById('second-table').style.display === 'block') {
-          document.getElementById('second-table').classList.remove('show');
-          document.getElementById('first-table').style.display = 'block';
-          document.getElementById('second-table').style.display = 'none';
-        } else if (document.getElementById('third-table').style.display === 'block') {
-          document.getElementById('third-table').style.display = 'none';
-          document.getElementById('second-table').style.display = 'block';
-        }
-      }
-
-      function showThirdTable() {
-        document.getElementById('second-table').style.display = 'none';
-        document.getElementById('third-table').style.display = 'block';
-      }
-
-      function goBackToSecond() {
-        document.getElementById('third-table').style.display = 'none';
-        document.getElementById('second-table').style.display = 'block';
-      }
+      
       
         // === Поиск — ВНЕ других функций и обработчиков ===
         document.querySelector('.search-input').addEventListener('input', function () {
@@ -718,8 +690,6 @@ a:visited {
             row.style.display = rowText.includes(searchText) ? '' : 'none';
           });
         });
-
-
 
     document.addEventListener('DOMContentLoaded', function() {
   // === Клик по логотипу для возврата на первую таблицу ===
@@ -831,6 +801,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   document.addEventListener('DOMContentLoaded', () => {
+
   // 1. Фильтрация видимой таблицы
   function filterVisibleTable() {
     const q = document.querySelector('.search-input').value.toLowerCase();
@@ -855,11 +826,6 @@ document.addEventListener('DOMContentLoaded', function () {
     searchInput.addEventListener('input', filterVisibleTable);
   }
 
-  window.showThirdTable = function() {
-    resetSearch();
-    document.getElementById('second-table').style.display = 'none';
-    document.getElementById('third-table').style.display  = 'block';
-  };
 
   window.goBack = function() {
     resetSearch();
@@ -876,7 +842,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   };
 });
-      </script>
+</script>
 
 
 
@@ -888,11 +854,10 @@ function showFirstTable() {
   document.getElementById('second-table').style.display = 'none';
   document.getElementById('third-table').style.display = 'none';
 }
+
 </script>
 
 <script>
-let allOrdersData = {{ orders_data|tojson }};
-
 function showSecondTable(orderId) {
   let orderCode = null;
   const rows = document.querySelectorAll(".card-row");
@@ -916,103 +881,189 @@ function showSecondTable(orderId) {
   document.getElementById("second-table").style.display = "block";
   document.getElementById("second-table").classList.add("show");
 }
+</script>
+<script>
+  function showThirdTable(orderId, cardId) {
+    const rows = document.querySelectorAll('.op-row');
+    
+    rows.forEach(row => {
+      const rowOrderId = row.getAttribute('data-order-id');
+      const rowCardId = row.getAttribute('data-card-id');
 
-function showThirdTable(orderId, cardId) {
-  const tbody = document.getElementById("third-tbody");
-  tbody.innerHTML = "";
+      if (rowOrderId === String(orderId) && rowCardId === String(cardId)) {
+        row.style.display = 'table-row';
+      } else {
+        row.style.display = 'none';
+      }
+    });
 
-  const order = allOrdersData.find(o => o.id === orderId);
-  if (!order) return;
+    document.getElementById('second-table').style.display = 'none';
+    document.getElementById('third-table').style.display = 'block';
 
-  const card = order.work_cards.find(c => c.id === cardId);
-  if (!card) return;
-
-  let index = 1;
-  card.operation_descriptions.forEach(op => {
-    const instructions = [];
-    if (op.instruction_code && op.instruction_file_url) {
-      instructions.push(`<a href="${op.instruction_file_url}" target="_blank">${op.instruction_code}</a>`);
-    }
-    const instructionHtml = instructions.length > 0 ? instructions.join("<br>") : "—";
-    tbody.insertAdjacentHTML("beforeend", `
-      <tr>
-        <td>${index++}</td>
-        <td>${op.operation || "—"}</td>
-        <td>${instructionHtml}</td>
-        <td>
-          <div class="timer-block">
-            <div class="timer-display">00:00:00</div>
-            <div class="button-row">
-              <button class="btn-start">Старт</button>
-            </div>
-          </div>
-        </td>
-      </tr>
-    `);
-  });
-
-  document.getElementById("second-table").style.display = "none";
-  document.getElementById("third-table").style.display = "block";
-}
+    setTimeout(() => initializeTimers(), 100);
+  }
 </script>
 
 
 
+
+
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  function initializeTimers() {
-    document.querySelectorAll('.timer-block').forEach((block) => {
-      const timer = block.querySelector('.timer-display');
-      const startButton = block.querySelector('.start-btn');
-      const stopButton = block.querySelector('.stop-btn');
-      const submitButton = block.querySelector('.submit-btn');
-      const statusMessage = block.querySelector('.status-message');
-      const row = block.closest('tr');
-      const operationId = row.dataset.operationId;
-      const userId = row.dataset.userId;
+function formatTime(totalSeconds) {
+  const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+  const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+  const s = String(totalSeconds % 60).padStart(2, '0');
+  return `${h}:${m}:${s}`;
+}
 
-      let interval;
-      let seconds = 0, minutes = 0, hours = 0;
+function initializeTimers() {
+  document.querySelectorAll('.timer-block').forEach((block) => {
+    const timer = block.querySelector('.timer-display');
+    const startButton = block.querySelector('.start-btn');
+    const stopButton = block.querySelector('.stop-btn');
+    const submitButton = block.querySelector('.submit-btn');
+    const statusMessage = block.querySelector('.status-message');
+    const row = block.closest('tr');
 
-      function updateTimer() {
-        seconds++;
-        if (seconds >= 60) { seconds = 0; minutes++; }
-        if (minutes >= 60) { minutes = 0; hours++; }
-        timer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    const operationId = row.dataset.operationId;
+    const userId = row.dataset.userId;
+
+    let interval = null;
+    let elapsedTime = parseInt(localStorage.getItem(`elapsedTime-${operationId}`)) || 0;
+    let isPaused = localStorage.getItem(`paused-${operationId}`) === 'true';
+    let isStarted = localStorage.getItem(`started-${operationId}`) === 'true';
+    let isSubmitted = localStorage.getItem(`submitted-${operationId}`) === 'true';
+    let storedStartTime = parseInt(localStorage.getItem(`startTime-${operationId}`)) || null;
+    let startTime = storedStartTime ? new Date(storedStartTime) : null;
+
+    if (!window.timerStates) window.timerStates = {};
+    window.timerStates[operationId] = { interval: null };
+
+    const updateTimer = () => {
+      const now = Date.now();
+      const elapsed = Math.floor((now - startTime) / 1000) + elapsedTime;
+      timer.textContent = formatTime(elapsed);
+    };
+
+    if (isSubmitted) {
+      const submittedTime = parseInt(localStorage.getItem(`submitted-elapsedTime-${operationId}`)) || 0;
+      timer.textContent = formatTime(submittedTime);
+      startButton.style.display = 'none';
+      stopButton.style.display = 'none';
+      submitButton.style.display = 'none';
+      statusMessage.innerHTML = `Отправлено на проверку <img src="/static/done.png" class="done-icon">`;
+      return;
+    }
+
+    if (isStarted) {
+      if (!isPaused && startTime) {
+        interval = setInterval(updateTimer, 1000);
+        window.timerStates[operationId].interval = interval;
+        startButton.style.display = 'none';
+        stopButton.style.display = 'inline-block';
+        submitButton.style.display = 'inline-block';
+      } else {
+        timer.textContent = formatTime(elapsedTime);
+        startButton.style.display = 'inline-block';
+        stopButton.style.display = 'none';
+        submitButton.style.display = 'inline-block';
       }
+    }
 
-      startButton.addEventListener('click', () => {
+    startButton.addEventListener('click', () => {
+      if (isPaused && isStarted) {
+        isPaused = false;
+        isStarted = true;
+        localStorage.setItem(`paused-${operationId}`, 'false');
+        localStorage.setItem(`started-${operationId}`, 'true');
+        startTime = new Date();
+        localStorage.setItem(`startTime-${operationId}`, startTime.getTime());
+        interval = setInterval(updateTimer, 1000);
+        window.timerStates[operationId].interval = interval;
+
         startButton.style.display = 'none';
         stopButton.style.display = 'inline-block';
         submitButton.style.display = 'inline-block';
         statusMessage.textContent = '';
-        interval = setInterval(updateTimer, 1000);
-      });
+        return;
+      }
 
-      stopButton.addEventListener('click', () => {
-        clearInterval(interval);
-        startButton.style.display = 'inline-block';
-        stopButton.style.display = 'none';
-        statusMessage.innerHTML = `Время остановлено <img src="/static/pause.png" class="pause-icon">`;
-      });
+      fetch(`/api/start-time/?operation_description_id=${operationId}`, { method: 'POST' })
+        .then(res => res.json())
+        .then(data => {
+          block.dataset.workTimeId = data.work_time_id;
+          startTime = new Date(data.start_time);
+          isStarted = true;
+          isPaused = false;
 
-      submitButton.addEventListener('click', () => {
-        clearInterval(interval);
-        startButton.style.display = 'none';
-        stopButton.style.display = 'none';
-        submitButton.style.display = 'none';
+          localStorage.setItem(`elapsedTime-${operationId}`, '0');
+          localStorage.setItem(`paused-${operationId}`, 'false');
+          localStorage.setItem(`started-${operationId}`, 'true');
+          localStorage.setItem(`startTime-${operationId}`, startTime.getTime());
 
-        fetch('/save-time/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            operation_id: parseInt(operationId),
-            user_id: parseInt(userId),
-            duration: timer.textContent
-          })
+          interval = setInterval(() => {
+            const now = Date.now();
+            const elapsed = Math.floor((now - startTime.getTime()) / 1000) + elapsedTime;
+            timer.textContent = formatTime(elapsed);
+          }, 1000);
+
+          window.timerStates[operationId].interval = interval;
+
+          startButton.style.display = 'none';
+          stopButton.style.display = 'inline-block';
+          submitButton.style.display = 'inline-block';
+          statusMessage.textContent = '';
         });
+    });
+
+    stopButton.addEventListener('click', () => {
+      clearInterval(window.timerStates[operationId].interval);
+      const currentTime = Date.now();
+      if (startTime) {
+        elapsedTime += Math.floor((currentTime - startTime.getTime()) / 1000);
+        localStorage.setItem(`elapsedTime-${operationId}`, elapsedTime);
+        localStorage.setItem(`paused-${operationId}`, 'true');
+        localStorage.setItem(`startTime-${operationId}`, '');
+      }
+
+      stopButton.style.display = 'none';
+      startButton.style.display = 'inline-block';
+      statusMessage.innerHTML = `Время остановлено <img src="/static/pause.png" class="pause-icon">`;
+    });
+
+    submitButton.addEventListener('click', () => {
+      const workTimeId = block.dataset.workTimeId;
+      if (!workTimeId) {
+        alert("Таймер не запущен");
+        return;
+      }
+
+      clearInterval(window.timerStates[operationId].interval);
+      startButton.style.display = 'none';
+      stopButton.style.display = 'none';
+      submitButton.style.display = 'none';
+
+      const finalElapsed = startTime ? elapsedTime + Math.floor((Date.now() - startTime.getTime()) / 1000) : elapsedTime;
+
+      // Отправка в БД через API
+      fetch(`/api/stop-time/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          work_time_id: workTimeId,
+          duration_seconds: finalElapsed
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        block.dataset.workTimeId = "";
+
+        localStorage.setItem(`submitted-${operationId}`, 'true');
+        localStorage.setItem(`submitted-elapsedTime-${operationId}`, finalElapsed);
+        localStorage.removeItem(`elapsedTime-${operationId}`);
+        localStorage.removeItem(`paused-${operationId}`);
+        localStorage.removeItem(`started-${operationId}`);
+        localStorage.removeItem(`startTime-${operationId}`);
 
         statusMessage.innerHTML = `
           Отправлено на проверку
@@ -1024,19 +1075,85 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 1400);
       });
     });
-  }
 
-  window.showThirdTable = function(orderId, cardId) {
-    document.querySelectorAll('.op-row').forEach(row => {
-      row.style.display = (row.dataset.orderId === orderId.toString() && row.dataset.cardId === cardId.toString())
-        ? 'table-row' : 'none';
-    });
-    document.getElementById('second-table').style.display = 'none';
-    document.getElementById('third-table').style.display = 'block';
-    setTimeout(() => initializeTimers(), 100);
-  };
-});
+  });
+}
 </script>
 
+
+
+
+
+
+
+
+
+
+<script>
+// === Единый DOMContentLoaded для инициализации ===
+document.addEventListener('DOMContentLoaded', function () {
+  // Показываем только первую таблицу, скрываем вторую и третью
+  document.getElementById('first-table').style.display = 'block';
+  document.getElementById('second-table').style.display = 'none';
+  document.getElementById('third-table').style.display = 'none';
+
+  // Убедимся, что вторая таблица скрыта (даже если где-то установлено display: block)
+  document.getElementById('second-table').classList.remove('show');
+
+  // Скрываем все строки карточек и операций
+  document.querySelectorAll('.card-row').forEach(row => {
+    row.style.display = 'none';
+  });
+  document.querySelectorAll('.op-row').forEach(row => {
+    row.style.display = 'none';
+  });
+
+
+// Поиск
+  const searchInput = document.querySelector('.search-input');
+  if (searchInput) {
+    searchInput.addEventListener('input', function () {
+      const searchText = this.value.toLowerCase();
+      const visibleTableContainer = Array.from(document.querySelectorAll('.table-container'))
+        .find(container => getComputedStyle(container).display !== 'none');
+      if (!visibleTableContainer) return;
+      const rows = visibleTableContainer.querySelectorAll('tbody tr');
+      rows.forEach(row => {
+        row.style.display = row.innerText.toLowerCase().includes(searchText) ? '' : 'none';
+      });
+    });
+  }
+
+
+// Кнопка назад
+  window.goBack = function () {
+    const second = document.getElementById('second-table');
+    const third = document.getElementById('third-table');
+    if (third.style.display === 'block') {
+      third.style.display = 'none';
+      second.style.display = 'block';
+    } else {
+      second.style.display = 'none';
+      document.getElementById('first-table').style.display = 'block';
+    }
+  };
+
+
+// Logout
+  const logout = document.querySelector('.logout-button');
+  if (logout) {
+    logout.addEventListener('click', function () {
+      document.body.classList.add('fade-out');
+      setTimeout(() => window.location.href = 'http://127.0.0.1:8000', 500);
+    });
+  }
+// остальные функции showFirstTable, showSecondTable, showThirdTable, formatTime, initializeTimers остаются без изменений...
+</script>
+
+
+
+
+
+
 </body>
-</html>        
+</html>    
