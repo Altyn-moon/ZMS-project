@@ -6,7 +6,6 @@ from app.dependencies import get_db
 
 router = APIRouter()
 
-
 @router.post("/documents/upload")
 def upload_document(
     work_card_id: int = Form(...),
@@ -35,7 +34,6 @@ def upload_document(
 
     return {"status": "success", "document_id": doc.id}
 
-
 @router.get("/documents/{doc_id}")
 def get_document(doc_id: int, db: Session = Depends(get_db)):
     doc = db.query(Document).filter(Document.id == doc_id).first()
@@ -49,3 +47,4 @@ def get_document(doc_id: int, db: Session = Depends(get_db)):
         "url": doc.url,
         "created_at": doc.created_at
     }
+

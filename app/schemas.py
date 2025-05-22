@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field
 from typing import List, Optional, Literal
 from datetime import datetime, date
+from typing import Literal
 
 # ─── Аутентификация ─────────────────────────────
 class AdminLogin(BaseModel):
@@ -154,6 +155,8 @@ class WorkOrderOut(BaseModel):
     class Config:
         orm_mode = True  # чтобы FastAPI мог конвертировать из ORM-модели SQLAlchemy
 
+
+
 from typing import List
 
 class FullWorkOrder(BaseModel):
@@ -223,5 +226,8 @@ class WorkOrderIn(BaseModel):
     work_cards: List[WorkCardIn]
 
 class FullWorkOrder(BaseModel):
+
+    work_order: WorkOrderIn
+
     work_order: WorkOrderIn
 

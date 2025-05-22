@@ -23,9 +23,20 @@ from sqlalchemy.orm import Session
 from app import crud, schemas, models
 from app.database import get_db, engine
 from app.routes import work_orders
+
 from app.routes import documents
 from app.schemas import WorkOrderCreate, WorkOrderRead
 from fastapi import APIRouter
+
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+from app.schemas import WorkOrderOut
+from app.schemas import WorkOrderCreate
+from app.schemas import WorkCardOut
+from app.schemas import WorkCardCreate
+
+from fastapi.encoders import jsonable_encoder
+
 
 # Создание всех таблиц
 models.Base.metadata.create_all(bind=engine)
@@ -33,7 +44,26 @@ models.Base.metadata.create_all(bind=engine)
 # Создание приложения
 app = FastAPI()
 
+
 # Маршрут для создания WorkOrder
+
+# CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+#admin arai
+
+from fastapi import APIRouter
+from app.schemas import WorkOrderRead
+
+router = APIRouter()
+
+
 @app.post("/api/workorders", response_model=schemas.WorkOrderRead)
 def create_work_order(order: schemas.WorkOrderCreate, db: Session = Depends(get_db)):
     try:
@@ -55,8 +85,51 @@ app.include_router(documents.router)
 
 
 
+
+#@router.post("/workcards/", response_model=schemas.WorkOrderRead)
+#def create_work_order(workcard_data: schemas.WorkOrderCreate, db: Session = Depends(get_db)):
+   # new_order = models.WorkOrder(**workcard_data.dict())
+
+
 templates = Jinja2Templates(directory="app/templates")
 
+
+
+
+    
+app.include_router(work_orders.router, prefix="/api")
+
+# Создание приложения
+app = FastAPI()
+
+#admin arai
+
+from fastapi import APIRouter
+from app.schemas import WorkOrderRead
+
+router = APIRouter()
+
+@app.post("/api/workorders", response_model=schemas.WorkOrderRead)
+def create_work_order(order: schemas.WorkOrderCreate, db: Session = Depends(get_db)):
+    try:
+        return crud.create_work_order(db, order)
+    except Exception as e:
+        print("❌ Ошибка при создании WorkOrder:", str(e))  # ← добавь это
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+#@router.post("/workcards/", response_model=schemas.WorkOrderRead)
+#def create_work_order(workcard_data: schemas.WorkOrderCreate, db: Session = Depends(get_db)):
+   # new_order = models.WorkOrder(**workcard_data.dict())
+
+   # db.add(new_order)
+   # db.commit()
+   # db.refresh(new_order)  # Без этого new_order будет None или пустым
+
+   # return new_order
+
+    
+app.include_router(work_orders.router, prefix="/api")
 
 
 # altush
@@ -142,6 +215,7 @@ def do_login(
     return response
 
 # 6) Дашборд рабочего цеха (worker)
+
 @app.get("/dashboard", response_class=HTMLResponse)
 def worker_dashboard(request: Request):
     user_name = request.cookies.get("username", "Гость")
@@ -151,6 +225,90 @@ def worker_dashboard(request: Request):
         "user_name": user_name,
         "work_items": []
     })
+
+"""@app.get("/dashboard", response_class=HTMLResponse)
+def worker_dashboard(request: Request, db: Session = Depends(get_db)):
+    user_id = request.session.get("user_id")
+    user_name = request.session.get("user_name")"""
+
+@app.get("/dashboard", response_class=HTMLResponse)
+def dashboard(request: Request, db: Session = Depends(get_db)):
+    user_name = request.cookies.get("username", "Гость")
+    user_id = request.cookies.get("user_id")
+
+    if not user_id:
+        return templates.TemplateResponse("index.html", {"request": request, "msg": "Сессия не найдена. Пожалуйста, войдите снова."})
+
+    work_orders = (
+        db.query(models.WorkOrder)
+        .filter(models.WorkOrder.user_id == user_id)
+        .options(
+            joinedload(models.WorkOrder.work_cards)
+            .joinedload(models.WorkCard.operation_descriptions)
+            .joinedload(models.OperationDescription.work_times)
+        )
+        .all()
+    )
+
+    return templates.TemplateResponse("dashboard.html", {
+        "request": request,
+        "user_name": user_name,
+        "orders_data": work_orders,   # ← ПЕРЕДАЁМ ORM, НЕ СЛОВАРИ
+        "user_id": user_id,
+    })
+"""
+    # Загружаем заказы с вложенными рабочими картами и операциями
+    work_orders = (
+        db.query(models.WorkOrder)
+        .filter(models.WorkOrder.user_id == user_id)
+        .options(
+            joinedload(models.WorkOrder.work_cards)
+            .joinedload(models.WorkCard.operation_descriptions)
+            .joinedload(models.OperationDescription.work_times)
+        )
+        .all()
+    )
+
+    orders_data = []
+    for order in work_orders:
+        cards_data = []
+        for card in order.work_cards:
+            ops_data = []
+            for op in card.operation_descriptions:
+                times_data = [{
+                    "id": wt.id,
+                    "user": wt.user.name if wt.user else "",
+                    "start_time": wt.start_time.isoformat(),
+                    "end_time": wt.end_time.isoformat(),
+                } for wt in op.work_times]
+                ops_data.append({
+                    "id": op.id,
+                    "operation": op.operation,
+                    "equipment": op.equipment,
+                    "work_times": times_data,
+                })
+            cards_data.append({
+                "id": card.id,
+                "title": card.title,
+                "job_description": card.job_description,
+                "operation_descriptions": ops_data,
+            })
+        orders_data.append({
+            "id": order.id,
+            "name": order.name,
+            "customer": order.customer,
+            "code": order.code,
+            "work_cards": cards_data,
+        })
+
+    return templates.TemplateResponse("dashboard.html", {
+        "request": request,
+        "user_name": user_name,
+        "orders_data": orders_data,
+        "work_orders": work_orders,
+        "user_id": user_id,
+    })"""
+
 
 # 7) Дашборд инспектора
 @app.get("/inspector/dashboard", response_class=HTMLResponse)
@@ -187,3 +345,4 @@ def logout(response: Response):
     response.delete_cookie("session")
     # либо сразу редирект
     return RedirectResponse(url="/login", status_code=303)'''
+
