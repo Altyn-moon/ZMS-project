@@ -2,13 +2,10 @@ from fastapi import FastAPI, Form, Request, Depends, status, APIRouter, Response
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
-from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
 from sqlalchemy.orm import Session
 from starlette.middleware.sessions import SessionMiddleware
-from app import models
-from sqlalchemy.orm import joinedload
 import os
 
 # Импорт внутренней логики
@@ -19,16 +16,18 @@ from app.routes.dashboard import router as dashboard_router
 from app.routes.admin import router as admin_router
 from app.routes.users import router as users_router
 from app.routes.work import router as work_router
-from app.routes import documents
-from app.routes import dashboard, timers
 from app.routes import auth, admin
-from app.models import WorkCard
 #admin arai
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
-from app import crud, schemas
-from app.database import get_db
+from app import crud, schemas, models
+from app.database import get_db, engine
 from app.routes import work_orders
+
+from app.routes import documents
+from app.schemas import WorkOrderCreate, WorkOrderRead
+from fastapi import APIRouter
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.schemas import WorkOrderOut
@@ -38,11 +37,15 @@ from app.schemas import WorkCardCreate
 
 from fastapi.encoders import jsonable_encoder
 
+
 # Создание всех таблиц
-Base.metadata.create_all(bind=engine)
+models.Base.metadata.create_all(bind=engine)
 
 # Создание приложения
 app = FastAPI()
+
+
+# Маршрут для создания WorkOrder
 
 # CORS
 app.add_middleware(
@@ -60,24 +63,38 @@ from app.schemas import WorkOrderRead
 
 router = APIRouter()
 
+
 @app.post("/api/workorders", response_model=schemas.WorkOrderRead)
 def create_work_order(order: schemas.WorkOrderCreate, db: Session = Depends(get_db)):
     try:
         return crud.create_work_order(db, order)
     except Exception as e:
-        print("❌ Ошибка при создании WorkOrder:", str(e))  # ← добавь это
+        print("❌ Ошибка при создании WorkOrder:", str(e))
         raise HTTPException(status_code=500, detail=str(e))
+
+# Маршрут для создания полной структуры WorkOrder + WorkCard + Operations + Documents
+@app.post("/api/full-workorder")
+def create_full_workorder(data: schemas.FullWorkOrder, db: Session = Depends(get_db)):
+    return crud.create_full_workorder(db, data)
+
+
+# Подключение маршрутов
+app.include_router(work_orders.router)
+app.include_router(documents.router)
+
+
+
 
 
 #@router.post("/workcards/", response_model=schemas.WorkOrderRead)
 #def create_work_order(workcard_data: schemas.WorkOrderCreate, db: Session = Depends(get_db)):
    # new_order = models.WorkOrder(**workcard_data.dict())
 
-   # db.add(new_order)
-   # db.commit()
-   # db.refresh(new_order)  # Без этого new_order будет None или пустым
 
-   # return new_order
+templates = Jinja2Templates(directory="app/templates")
+
+
+
 
     
 app.include_router(work_orders.router, prefix="/api")
@@ -114,6 +131,7 @@ def create_work_order(order: schemas.WorkOrderCreate, db: Session = Depends(get_
     
 app.include_router(work_orders.router, prefix="/api")
 
+
 # altush
 # Добавление middleware
 SECRET_KEY = os.getenv("SECRET_KEY", "default-dev-key")  # Временно для dev
@@ -125,8 +143,6 @@ app.include_router(admin_router)
 app.include_router(users_router, prefix="/users")
 app.include_router(dashboard_router)
 app.include_router(work_router)
-app.include_router(timers.router)
-app.include_router(documents.router)
 
 # Подключение статических файлов
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
@@ -199,6 +215,17 @@ def do_login(
     return response
 
 # 6) Дашборд рабочего цеха (worker)
+
+@app.get("/dashboard", response_class=HTMLResponse)
+def worker_dashboard(request: Request):
+    user_name = request.cookies.get("username", "Гость")
+    # сюда потом вытянем реальные work_items из БД
+    return templates.TemplateResponse("dashboard.html", {
+        "request": request,
+        "user_name": user_name,
+        "work_items": []
+    })
+
 """@app.get("/dashboard", response_class=HTMLResponse)
 def worker_dashboard(request: Request, db: Session = Depends(get_db)):
     user_id = request.session.get("user_id")
@@ -281,6 +308,7 @@ def dashboard(request: Request, db: Session = Depends(get_db)):
         "work_orders": work_orders,
         "user_id": user_id,
     })"""
+
 
 # 7) Дашборд инспектора
 @app.get("/inspector/dashboard", response_class=HTMLResponse)

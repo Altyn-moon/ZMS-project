@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import List, Optional
+from typing import List, Optional, Literal
 from datetime import datetime, date
 from typing import Literal
 
@@ -116,7 +116,7 @@ class WorkOrderBase(BaseModel):
     customer_po_number: str
     rig_number: str
     well_number: str
-    q_ty: str
+    q_ty: int
     unit: str
     description: str
     serial_number: str
@@ -127,6 +127,8 @@ class WorkOrderBase(BaseModel):
     grease_number: str
     protector_number: str
     request_number: str
+    
+
 
 class WorkOrderCreate(WorkOrderBase):
     user_id: Optional[int] = None
@@ -152,6 +154,7 @@ class WorkOrderOut(BaseModel):
 
     class Config:
         orm_mode = True  # чтобы FastAPI мог конвертировать из ORM-модели SQLAlchemy
+
 
 
 from typing import List
@@ -223,4 +226,8 @@ class WorkOrderIn(BaseModel):
     work_cards: List[WorkCardIn]
 
 class FullWorkOrder(BaseModel):
+
     work_order: WorkOrderIn
+
+    work_order: WorkOrderIn
+

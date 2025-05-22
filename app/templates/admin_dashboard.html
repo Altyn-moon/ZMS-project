@@ -1578,7 +1578,30 @@ a:visited {
   width: 100%;
   box-sizing: border-box;
 }
+.connector.selected {
+  background-color: darkred;
+  color: white;
+  border: none;
+}
+.option-btn {
+  padding: 5px 10px;
+  margin: 2px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.3s;
+}
 
+.option-btn.selected {
+  background-color: #800020; /* Бордовый цвет */
+  color: white;
+  border-color: #800020;
+}
+
+.option-btn.selected::before {
+  content: "✔ ";
+}
 </style>
 
 
@@ -2004,184 +2027,22 @@ button.add-row:hover {
       </tr>
     </thead>
   
-    <tbody>
-      <tr>
-        <td>№1345-25 (1)</td>
-        <td>Изготовить Переходник 165,1 мм (6.500") по чертежу №7196.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>29.03.2025</td>
-        <td>Фамилия Имя Отчество</td>
-        <td>Ремонтно-механический цех</td>
-        <td>ТШО</td>
-      </tr>
-      <tr>
-        <td>№1345-25 (2)</td>
-        <td>Изготовить Переходник 196,1 мм (7.200") по чертежу №6996.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>29.03.2025</td>
-        <td>Фамилия Имя Отчество</td>
-        <td>Ремонтно-механический цех</td>
-        <td>ТШО</td>
-      </tr>
-      <tr>
-        <td>№1344-25 (1)</td>
-        <td>Изготовить Переходник 165,1 мм (6.500") по чертежу №7196.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>28.03.2025</td>
-        <td>Фамилия Имя Отчество</td>
-        <td>Ремонтно-механический цех</td>
-        <td>ТОО"СЕРВИСНОЕ БУРОВОЕ ПРЕДПРИЯТИЕ КАЗМУНАЙГАЗ-БУРЕНИЕ"</td>
-      </tr>
-      <tr>
-        <td>№1344-25 (2)</td>
-        <td>Изготовить Переходник 196,1 мм (7.200") по чертежу №6996.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>28.03.2025</td>
-        <td>Фамилия Имя Отчество</td>
-        <td>Ремонтно-механический цех</td>
-        <td>ТОО"СЕРВИСНОЕ БУРОВОЕ ПРЕДПРИЯТИЕ КАЗМУНАЙГАЗ-БУРЕНИЕ"</td>
-      </tr>
-      <tr>
-        <td>№1343-25 (1)</td>
-        <td>Изготовить Переходник 165,1 мм (6.500") по чертежу №7196.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>27.03.2025</td>
-        <td>Фамилия Имя Отчество</td>
-        <td>Ремонтно-механический цех</td>
-        <td>ТШО</td>
-      </tr>
-      <tr>
-        <td>№1343-25 (2)</td>
-        <td>Изготовить Переходник 196,1 мм (7.200") по чертежу №6996.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>27.03.2025</td>
-        <td>Фамилия Имя Отчество</td>
-        <td>Ремонтно-механический цех</td>
-        <td>NCOC</td>
-      </tr>
-      <tr>
-        <td>№1342-25 (1)</td>
-        <td>Изготовить Переходник 165,1 мм (6.500") по чертежу №7196.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>26.03.2025</td>
-        <td>Фамилия Имя Отчество</td>
-        <td>Ремонтно-механический цех</td>
-        <td>NCOC</td>
-      </tr>
-      <tr>
-        <td>№1342-25 (2)</td>
-        <td>Изготовить Переходник 196,1 мм (7.200") по чертежу №6996.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>26.03.2025</td>
-        <td>Фамилия Имя Отчество</td>
-        <td>Ремонтно-механический цех</td>
-        <td>02.04.2025 15:02:06</td>
-      </tr>
-      <tr>
-        <td>№1341-25 (1)</td>
-        <td>Изготовить Переходник 165,1 мм (6.500") по чертежу №7196.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>25.03.2025</td>
-        <td>Фамилия Имя Отчество</td>
-        <td>Ремонтно-механический цех</td>
-        <td>02.04.2025 15:02:06</td>
-      </tr>
-      <tr>
-        <td>№1341-25 (2)</td>
-        <td>Изготовить Переходник 196,1 мм (7.200") по чертежу №6996.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>25.03.2025</td>
-        <td>Фамилия Имя Отчество</td>
-        <td>Ремонтно-механический цех</td>
-        <td>02.04.2025 15:02:06</td>
-      </tr>
-      <tr>
-        <td>№1340-25 (1)</td>
-        <td>Изготовить Переходник 165,1 мм (6.500") по чертежу №7196.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>24.03.2025</td>
-        <td>Фамилия Имя Отчество</td>
-        <td>Ремонтно-механический цех</td>
-        <td>02.04.2025 15:02:06</td>
-      </tr>
-      <tr>
-        <td>№1340-25 (2)</td>
-        <td>Изготовить Переходник 196,1 мм (7.200") по чертежу №6996.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>24.03.2025</td>
-        <td>Фамилия Имя Отчество</td>
-        <td>Ремонтно-механический цех</td>
-        <td>02.04.2025 15:02:06</td>
-      </tr>
-      <tr>
-        <td>№1339-25 (1)</td>
-        <td>Изготовить Переходник 165,1 мм (6.500") по чертежу №7196.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>24.03.2025</td>
-        <td>Фамилия Имя Отчество</td>
-        <td>Ремонтно-механический цех</td>
-        <td>02.04.2025 15:02:06</td>
-      </tr>
-      <tr>
-        <td>№1339-25 (2)</td>
-        <td>Изготовить Переходник 196,1 мм (7.200") по чертежу №6996.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>24.03.2025</td>
-        <td>Фамилия Имя Отчество</td>
-        <td>Ремонтно-механический цех</td>
-        <td>02.04.2025 15:02:06</td>
-      </tr>
-      <tr>
-        <td>№1338-25 (1)</td>
-        <td>Изготовить Переходник 165,1 мм (6.500") по чертежу №7196.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>24.03.2025</td>
-        <td>Фамилия Имя Отчество</td>
-        <td>Ремонтно-механический цех</td>
-        <td>02.04.2025 15:02:06</td>
-      </tr>
-      <tr>
-        <td>№1338-25 (2)</td>
-        <td>Изготовить Переходник 196,1 мм (7.200") по чертежу №6996.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>24.03.2025</td>
-        <td>Фамилия Имя Отчество</td>
-        <td>Ремонтно-механический цех</td>
-        <td>02.04.2025 15:02:06</td>
-      </tr>
-      <tr>
-        <td>№1337-25 (1)</td>
-        <td>Изготовить Переходник 165,1 мм (6.500") по чертежу №7196.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>24.03.2025</td>
-        <td>Фамилия Имя Отчество</td>
-        <td>Ремонтно-механический цех</td>
-        <td>02.04.2025 15:02:06</td>
-      </tr>
-      <tr>
-        <td>№1337-25 (2)</td>
-        <td>Изготовить Переходник 196,1 мм (7.200") по чертежу №6996.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>24.03.2025</td>
-        <td>Фамилия Имя Отчество</td>
-        <td>Ремонтно-механический цех</td>
-        <td>02.04.2025 15:02:06</td>
-      </tr>
-      <tr>
-        <td>№1336-25 (1)</td>
-        <td>Изготовить Переходник 165,1 мм (6.500") по чертежу №7196.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>24.03.2025</td>
-        <td>Фамилия Имя Отчество</td>
-        <td>Ремонтно-механический цех</td>
-        <td>02.04.2025 15:02:06</td>
-      </tr>
-      <tr>
-        <td>№1336-25 (2)</td>
-        <td>Изготовить Переходник 196,1 мм (7.200") по чертежу №6996.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>24.03.2025</td>
-        <td>Фамилия Имя Отчество</td>
-        <td>Ремонтно-механический цех</td>
-        <td>02.04.2025 15:02:06</td>
-      </tr>
-      <tr>
-        <td>№1335-25 (1)</td>
-        <td>Изготовить Переходник 165,1 мм (6.500") по чертежу №7196.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>24.03.2025</td>
-        <td>Фамилия Имя Отчество</td>
-        <td>Ремонтно-механический цех</td>
-        <td>02.04.2025 15:02:06</td>
-      </tr>
-      <tr>
-        <td>№1335-25 (2)</td>
-        <td>Изготовить Переходник 196,1 мм (7.200") по чертежу №6996.00.000 и нарезать резьбовое соединение по спецификации API 7-1/ 7-Z</td>
-        <td>24.03.2025</td>
-        <td>Фамилия Имя Отчество</td>
-        <td>Ремонтно-механический цех</td>
-        <td>02.04.2025 15:02:06</td>
-      </tr>
-    </tbody>
+  <tbody>
+    
+  {% for order in work_orders %}
+  <tr onclick="window.location.href='/admin/workorder/{{ order.id }}'" style="cursor: pointer;">
+    <td>{{ order.work_order_number }}</td>
+    <td>{{ order.job_description }}</td>
+    <td>{{ order.created_at.strftime('%d.%m.%Y') if order.created_at else '' }}</td>
+    <td>{{ order.prepared_by }}</td>
+    <td>—</td>  <!-- Подразделение -->
+    <td>{{ order.customer }}</td>
+  </tr>
+  {% endfor %}
+</tbody>
+
+
+
   </table>
 </div>
 
@@ -2206,51 +2067,51 @@ button.add-row:hover {
   <div id="createPage" style="display: none; margin-left: 148px;">
   <h1>WORK ORDER /ЗАКАЗ НАРЯД</h1>
   <form id="workordersForm">
-      <input type="text" style="width: 220px;" name="work_number" placeholder="ZMS-TH-QP-101-F-002" required>
-      <input type="text" class="datepicker" style="width: 100px;" name="work_date" placeholder="24.04.2021" required>
-      <input type="text" style="width: 100px;" name="work_revision" placeholder="Рев.02" required>
+      <input type="text" style="width: 220px;" name="work_number" value="{{ order.work_number if order else '' }}" placeholder="ZMS-TH-QP-101-F-002" required>
+      <input type="text" class="datepicker" style="width: 100px;" name="work_date" value="{{ order.work_date if order else '' }}" placeholder="24.04.2021" required>
+      <input type="text" style="width: 100px;" name="work_revision" value="{{ order.work_revision if order else '' }}" placeholder="Рев.02" required>
       <div class="form-container">
         <div class="form-item">
           <label for="work_order_number">Work Order №:/ Заказ Наряд №:</label>
-          <input type="text" id="work_order_number" style="width: 200px; padding: 10px;" name="work_order_number"  required>
+          <input type="text" id="work_order_number" value="{{ order.work_order_number if order else '' }}" style="width: 200px; padding: 10px;" name="work_order_number"  required>
         </div>
         <div class="form-item">
           <label for="start_date">Start Date:/ Дата начала работ:</label>
-          <input type="text" class="datepicker" id="start_date" style="width: 200px; padding: 10px;" name="start_date"  required>
+          <input type="text" class="datepicker" id="start_date" value="{{ order.start_date if order else '' }}" style="width: 200px; padding: 10px;" name="start_date"  required>
         </div>
         <div class="form-item">
       <label for="end_date">End Date / Дата окончания:</label>
-      <input type="text" class="datepicker" id="end_date" style="width: 140px; padding: 10px;" name="end_date" required>
+      <input type="text" class="datepicker" id="end_date" value="{{ order.end_date if order else '' }}" style="width: 140px; padding: 10px;" name="end_date" required>
     </div>
         <div class="form-item">
       <label for="prepared_by">Prepared by / Подготовил:</label>
-      <input type="text" id="prepared_by" style="width: 200px; padding: 10px;" name="prepared_by" required>
+      <input type="text" id="prepared_by" value="{{ order.prepared_by if order else '' }}" style="width: 200px; padding: 10px;" name="prepared_by" required>
     </div>
         <div class="form-item">
       <label for="quote_number">Quote № / Коммерческое предложение №:</label>
-      <input type="text" id="quote_number" style="width: 200px; padding: 10px;" name="quote_number" required>
+      <input type="text" id="quote_number" value="{{ order.quote_number if order else '' }}" style="width: 200px; padding: 10px;" name="quote_number" required>
     </div>
       </div>
     <div class="form-container">
       <div class="form-item">
       <label for="customer">Customer / Заказчик:</label>
-      <input type="text" id="customer" style="width: 200px; padding: 10px;" name="customer" required>
+      <input type="text" id="customer" value="{{ order.customer if order else '' }}" style="width: 200px; padding: 10px;" name="customer" required>
     </div>
         <div class="form-item">
       <label for="ordered_by">Ordered by / Заказано:</label>
-      <input type="text" id="ordered_by" style="width: 200px; padding: 10px;" name="ordered_by" required>
+      <input type="text" id="ordered_by" value="{{ order.ordered_by if order else '' }}" style="width: 200px; padding: 10px;" name="ordered_by" required>
     </div>
         <div class="form-item">
       <label for="customer_po_number">Customer PO № / № заказа клиента:</label>
-      <input type="text" id="customer_po_number" style="width: 200px; padding: 10px;" name="customer_po_number" required>
+      <input type="text" id="customer_po_number" value="{{ order.customer_po_number if order else '' }}" style="width: 200px; padding: 10px;" name="customer_po_number" required>
     </div>
         <div class="form-item">
       <label for="rig_number">Rig № / Установки №:</label>
-      <input type="text" id="rig_number" style="width: 200px; padding: 10px;" name="rig_number" required>
+      <input type="text" id="rig_number" value="{{ order.rig_number if order else '' }}" style="width: 200px; padding: 10px;" name="rig_number" required>
     </div>
         <div class="form-item">
       <label for="well_number">Well № / Скважина №:</label>
-      <input type="text" id="well_number" style="width: 200px; padding: 10px;" name="well_number" required>
+      <input type="text" id="well_number" value="{{ order.well_number if order else '' }}" style="width: 200px; padding: 10px;" name="well_number" required>
     </div>
       </div>
       <div class="table-container">
@@ -2269,29 +2130,27 @@ button.add-row:hover {
         <div id="operationsList"></div>
       </div>
       
-      
+    
   <h1>JOB CARD/ РАБОЧАЯ КАРТА</h1>
-  <form id="jobCardForm">
-  <input type="text" style="width: 220px;" name="job_number" placeholder="ZMS-TH-QP-101-QCP-002-F-001" required>
-
-  <input type="text" class="datepicker" style="width: 100px;" name="job_date" placeholder="13.02.2023" required>
-
-  <input type="text" style="width: 100px;" name="job_revision" placeholder="Рев.00" required>
+      <form id="jobCardForm">
+        <input type="text" id="jobNumber" value="{{ order.jobNumber if order else '' }}" name="job_number" style="width: 220px;" placeholder="ZMS-TH-QP-101-QCP-002-F-001" required>
+        <input type="text" id="jobDate" value="{{ order.jobDate if order else '' }}" name="job_date" class="datepicker" style="width: 100px;" placeholder="13.02.2023" required>
+        <input type="text" id="jobRevision" value="{{ order.jobRevision if order else '' }}" name="job_revision" style="width: 100px;" placeholder="Рев.00" required>
 
   <div class="form-container">
     <div class="form-item">
       <label for="grease_number">P.O. №Grease / P.O. № смазки</label>
-      <input type="text" id="grease_number" style="width: 170px; padding: 10px;" name="grease_number" required>
+      <input type="text" id="grease_number" value="{{ order.grease_number if order else '' }}" style="width: 170px; padding: 10px;" name="grease_number" required>
     </div>
 
     <div class="form-item">
       <label for="protector_number">P.O. Protector / P.O. № протектора</label>
-      <input type="text" id="protector_number" style="width: 190px; padding: 10px;" name="protector_number" required>
+      <input type="text" id="protector_number" value="{{ order.protector_number if order else '' }}" style="width: 190px; padding: 10px;" name="protector_number" required>
     </div>
 
     <div class="form-item">
-      <label for="job_request_number">Request № / Заявка №</label>
-      <input type="text" id="job_request_number" style="width: 140px; padding: 10px;" name="request_number" required>
+      <label for="request_number">Request № / Заявка №</label>
+      <input type="text" id="request_number" value="{{ order.request_number if order else '' }}" style="width: 140px; padding: 10px;" name="request_number" required>
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -2315,12 +2174,28 @@ button.add-row:hover {
 
     <!-- Заголовок, за который тянем -->
     <div class="modal-header" id="jobCardHeader">
+    
       
       <button type="button" class="close-button" onclick="closeJobCardModal()">×</button>
       <form id="employeeForm">
         <div id="jobCardSuccessMessage" class="success-message">Задача сохранена!</div>
         <div id="jobCardErrorMessage" class="error-message">Заполните все поля!</div>
     
+<!-- JOB CARD 1 + английское название -->
+<div style="margin-bottom: 5px; display: flex; align-items: baseline;">
+  <h2 style="margin: 0 10px 0 0; font-weight: bold; white-space: nowrap;">JOB CARD 1</h2>
+  <input type="text" id="jobCardTitleEN" value="{{ order.jobCardTitleEN if order else '' }}" placeholder="Manufacturing of subs №1" style="width: 300px; padding: 8px;">
+</div>
+
+<!-- РАБОЧАЯ КАРТА 1 + русское название -->
+<div style="margin-bottom: 20px; display: flex; align-items: baseline;">
+  <h3 style="margin: 0 10px 0 0; font-weight: bold; white-space: nowrap;">РАБОЧАЯ КАРТА 1</h3>
+  <input type="text" id="modalTitle" value="{{ card.modalTitle if order else '' }}" placeholder="Изготовление переводников №1" style="width: 300px; padding: 8px;">
+</div>
+
+<input type="text" id="modalJobNumber" class="auto-field" readonly style="width: 220px; padding: 10px;">
+<input type="text" id="modalJobDate" class="auto-field" readonly style="width: 100px; padding: 10px;">
+<input type="text" id="modalJobRevision" class="auto-field" readonly style="width: 100px; padding: 10px;">
 
     <form id="jobCardForm" class="modal-form">
       <!-- Здесь все поля формы--> 
@@ -2351,7 +2226,7 @@ button.add-row:hover {
         </div>
         <div class="form-item">
           <label for="workOrder">Cast Number / Номер Плавки:</label>
-          <input type="text" id="workOrder" style="width: 180px; padding: 10px;" placeholder="" >
+          <input type="text" id="modalCastNumber" style="width: 180px; padding: 10px;" placeholder="" >
         </div>
       </div>
     
@@ -2365,13 +2240,12 @@ button.add-row:hover {
 <label for="drawingUpload" class="clip-icon" title="Прикрепить">
   <img src="/static/прикрепить.png" alt="Прикрепить" width="16" height="16"/>
 </label>
-    <input type="file" id="drawingUpload" multiple
-           accept="image/*,application/pdf"
-           onchange="handleFileSelect(event,'drawingFilename')"
->
+    <input type="file" id="drawingUpload" name="pdf_file" form="jobCardForm" accept="image/*,application/pdf" onchange="handleFileSelect(event,'drawingFilename')">
   </div>
   <div id="drawingFilename" class="filename"></div>
+  <button type="button" onclick="uploadDrawing(1)">Загрузить чертёж</button>
 </div>
+
 
 
   <div class="form-item">
@@ -2411,7 +2285,7 @@ button.add-row:hover {
 <div class="form-container">
   <div class="form-item">
     <label for="workOrder">Material/ Материал</label>
-    <input type="text" id="workOrder" style="width: 180px; padding: 10px;" placeholder="" required>
+    <input type="text" id="modalMaterial" value="{{ card.modalMaterial if order else '' }}" name="material" style="width: 180px; padding: 10px;" placeholder="" required>
   </div>
   <div class="form-item">
     <label for="workOrder">Job description/ Описание работы</label>
@@ -2431,8 +2305,7 @@ button.add-row:hover {
       <th id="controlHeader" rowspan="1" style="border: 1px solid black; padding: 0; width: 50px;">
         <div style="display: flex; flex-direction: column; height: 100%;">
           <button id="addColumnBtn" type="button" onclick="addColumnWithSerial()" style="flex: 1; border-bottom: 1px solid black;">➕</button>
-<button id="removeColumnBtn" type="button" onclick="removeColumnWithSerial()" style="flex: 1;">➖</button>
-
+          <button id="removeColumnBtn" type="button" style="flex: 1;">➖</button>
         </div>
       </th>            
     </tr>
@@ -2443,62 +2316,142 @@ button.add-row:hover {
       <th></th>
     </tr>
   </thead>  
-  <tbody>
+  <tbody id="opsTableBody">
+  {% if operations %}
+    {% for op in operations %}
     <tr>
-      <td>1</td>
-      <td>Производственная проверка</td>
+      <td>{{ loop.index }}</td>
+      <td>{{ op.operation }}</td>
+      <td>
+        {% if loop.index == 1 %}
+          <a href="/static/pdfs/ZMS-TH-QP-101.pdf" target="_blank">ZMS-TH-QP-101</a>
+        {% elif loop.index == 2 %}
+          <a href="/static/pdfs/ZMS-TH-QP-101.pdf" target="_blank">ZMS-TH-QP-101</a><br>
+          <a href="/static/pdfs/ZMS-PN-DP-001.pdf" target="_blank">ZMS-PN-DP-001</a>
+        {% elif loop.index == 3 %}
+          <a href="/static/pdfs/ZMS-PN-DP-003.pdf" target="_blank">ZMS-PN-DP-003</a><br>
+          <a href="/static/pdfs/ZMS-PN-DP-003-F-002.pdf" target="_blank">ZMS-PN-DP-003-F-002</a>
+        {% elif loop.index == 4 %}
+          <a href="/static/pdfs/ZMS-PT-KTL-001-F-002.pdf" target="_blank">ZMS-PT-KTL-001-F-002</a>
+        {% endif %}
+      </td>
+      <td>
+        <button type="button" class="add-row">➕</button>
+        <button type="button" class="delete-row">🗑️</button>
+      </td>
+    </tr>
+    {% endfor %}
+  {% else %}
+    {# Если операций нет — показываем фиксированный список #}
+    {% set ops = [
+      ("Производственная проверка", ["ZMS-TH-QP-101"]),
+      ("Закуп материала", ["ZMS-TH-QP-101", "ZMS-PN-DP-001"]),
+      ("Списать материал со склада", ["ZMS-PN-DP-003", "ZMS-PN-DP-003-F-002"]),
+      ("Отрезать материал до необходимой длины", ["ZMS-PT-KTL-001-F-002"]),
+      ("Просверлить прутковый материал до необходимого внутреннего диаметра", ["ZMS-PT-KTL-001-F-002"]),
+      ("Обработка внутреннего диаметра до необходимого размера", ["ZMS-PT-KTL-001-F-002"]),
+      ("Обработка наружного диаметра до необходимого размера", ["ZMS-PT-KTL-001-F-002"]),
+      ("Нарезка резьбы", ["Резьбовая книга"]),
+      ("Холодная прокатка", ["ZMS-TH-QP-101-WI-004"]),
+      ("Нарезка резьбы", ["Резьбовая книга"]),
+      ("Холодная прокатка", ["ZMS-TH-QP-101-WI-004"]),
+      ("Очистить детали", ["ZMS-QC-DP-008-WI-023"]),
+      ("Набить серийный номер", ["ZMS-QC-DP-008-WI-023"]),
+      ("Фосфатная обработка", ["ZMS-TH-QP-101-WI-002"]),
+      ("Смазать резьбовые соединения", ["ZMS-TH-QP-101-WI-043"]),
+      ("Накрутить защитные протектора", ["ZMS-TH-QP-101-WI-043"]),
+      ("Покраска готовой продукции", ["ZMS-TH-QP-101-WI-042"]),
+      ("Упаковка готовой продукции", ["ZMS-TH-QP-101-WI-043"]),
+      ("Окончательная инспекция", ["ZMS-QC-DP-001-WI-002"]),
+      ("Комплектация документов для передачи продукции заказчику", ["ZMS-TH-QP-101"]),
+      ("Выпуск продукции", ["ZMS-TH-QP-101"])
+    ] %}
+    {% for op, docs in ops %}
+    <tr>
+      <td>{{ loop.index }}</td>
+<td>
+  {{ op }}
+  {% if "резьбы" in op.lower() or "прокатка" in op.lower() %}
+  <div class="toggle-buttons">
+    <button type="button" class="option-btn" data-value="Муфта">Муфта</button>
+    <button type="button" class="option-btn" data-value="Ниппель">Ниппель</button>
+  </div>
+  {% endif %}
+</td>
+      <td>
+        {% for doc in docs %}
+          <a href="/static/pdfs/{{ doc }}.pdf" target="_blank">{{ doc }}</a><br>
+        {% endfor %}
+      </td>
+      <td>
+        <button type="button" class="add-row">➕</button>
+        <button type="button" class="delete-row">🗑️</button>
+      </td>
+    </tr>
+    {% endfor %}
+  {% endif %}
+</tbody>
+
+
+
+
+
+  <!--<tbody id="opsTableBody">
+    <tr>
+      <td class="item">1</td>
+      <td><input type="text" name="operation" value="Производственная проверка"></td>
       <td>
         <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101</a><br>
       </td>    
       <td>
-        <button class="add-row">➕</button>
-        <button class="delete-row">🗑️</button>
+        <button type="button" class="add-row">➕</button>
+        <button type="button" class="delete-row">🗑️</button>
       </td>
     </tr>
     <tr>
-      <td>2</td>
-      <td>Закуп материала</td>
+      <td class="item">2</td>
+      <td><input type="text" name="operation" value="Закуп материала"></td>
       <td>
         <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101</a><br>
         <a href="/static/pdfs/инструкция2.pdf" target="_blank">ZMS-PN-DP-001</a>
       </td>
       <td>
-        <button class="add-row">➕</button>
-        <button class="delete-row">🗑️</button>
+        <button type="button" class="add-row">➕</button>
+        <button type="button" class="delete-row">🗑️</button>
       </td>
     </tr>
     <tr>
-      <td>3</td>
-      <td>Списать материал со склада</td>
+      <td class="item">3</td>
+      <td><input type="text" name="operation" value="Списать материал со склада"></td>
       <td>
         <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-PN-DP-003</a><br>
         <a href="/static/pdfs/инструкция2.pdf" target="_blank">ZMS-PN-DP-003-F-002</a>
       </td>
       <td>
-        <button class="add-row">➕</button>
-        <button class="delete-row">🗑️</button>
+        <button type="button" class="add-row">➕</button>
+        <button type="button" class="delete-row">🗑️</button>
       </td>
     </tr>
     <tr>
-      <td>4</td>
-      <td>Отрезать материал до необходимой длины</td>
+      <td class="item">4</td>
+      <td><input type="text" name="operation" value="Отрезать материал до необходимой длины"></td>
       <td>
         <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-PT-KTL-001-F-002</a><br>
       </td>
       <td>
-        <button class="add-row">➕</button>
-        <button class="delete-row">🗑️</button>
+        <button type="button" class="add-row">➕</button>
+        <button type="button" class="delete-row">🗑️</button>
       </td>
     </tr>
     <tr>
-      <td>5</td>
-      <td>Просверлить прутковый материал до необходимого внутреннего диаметра</td>
+      <td class="item">5</td>
+      <td><input type="text" name="operation" value="Просверлить прутковый материал до необходимого внутреннего диаметра"></td>
       <td>
         <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-PT-KTL-001-F-002</a><br>
       </td>
       <td>
-        <button class="add-row">➕</button>
-        <button class="delete-row">🗑️</button>
+        <button type="button" class="add-row">➕</button>
+        <button type="button" class="delete-row">🗑️</button>
       </td>
     </tr>
     <tr>
@@ -2508,8 +2461,8 @@ button.add-row:hover {
         <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-PT-KTL-001-F-002</a><br>
       </td>
       <td>
-        <button class="add-row">➕</button>
-        <button class="delete-row">🗑️</button>
+        <button type="button" class="add-row">➕</button>
+        <button type="button" class="delete-row">🗑️</button>
       </td>
     </tr>
     <tr>
@@ -2519,17 +2472,18 @@ button.add-row:hover {
         <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-PT-KTL-001-F-002</a><br>
       </td>
       <td>
-        <button class="add-row">➕</button>
-        <button class="delete-row">🗑️</button>
+        <button type="button" class="add-row">➕</button>
+        <button type="button" class="delete-row">🗑️</button>
       </td>
     </tr>
     <tr>
       <td>8</td>
       <td>
-        Нарезка резьбы:
-        <div class="toggle-buttons" data-group="резьба1">
-          <button type="button" class="option-btn" data-value="муфта">✔ Муфта</button>
-          <button type="button" class="option-btn" data-value="ниппель">✔ Ниппель</button>
+  <span class="operation-label">Нарезка резьбы</span>
+        <div class="toggle-buttons" >
+          <button type="button" class="option-btn" data-value="Муфта">Муфта</button>
+          <button type="button" class="option-btn" data-value="Ниппель">Ниппель</button>
+
         </div>
       </td>
       
@@ -2537,155 +2491,172 @@ button.add-row:hover {
         <a href="/static/pdfs/инструкция.pdf" target="_blank">Резьбовая книга</a><br>
       </td>
       <td>
-        <button class="add-row">➕</button>
-        <button class="delete-row">🗑️</button>
+        <button type="button" class="add-row">➕</button>
+        <button type="button" class="delete-row">🗑️</button>
       </td>
     </tr>
+    <tr>
     <td>9</td>
     <td>
-      Холодная прокатка (по требованиям заказчика)
-      <div class="toggle-buttons" data-group="резьба1">
-        <button type="button" class="option-btn" data-value="муфта">✔ Муфта</button>
-        <button type="button" class="option-btn" data-value="ниппель">✔ Ниппель</button>
+      <span class="operation-label">Холодная прокатка (по требованиям заказчика)</span>
+      <div class="toggle-buttons" >
+        <button type="button" class="option-btn" data-value="Муфта">Муфта</button>
+        <button type="button" class="option-btn" data-value="Ниппель">Ниппель</button>
       </div>
     </td>
     <td>
       <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101-WI-004</a><br>
     </td>
       <td>
-        <button class="add-row">➕</button>
-        <button class="delete-row">🗑️</button>
+        <button type="button" class="add-row">➕</button>
+        <button type="button" class="delete-row">🗑️</button>
       </td>
   </tr>
+  <tr>
   <td>10</td>
     <td>
-      Нарезка резьбы:
+      <span class="operation-label">Нарезка резьбы</span>
       <div class="toggle-buttons" data-group="резьба1">
-        <button type="button" class="option-btn" data-value="муфта">✔ Муфта</button>
-        <button type="button" class="option-btn" data-value="ниппель">✔ Ниппель</button>
+        <button type="button" class="option-btn" data-value="Муфта">Муфта</button>
+        <button type="button" class="option-btn" data-value="Ниппель">Ниппель</button>
       </div>
     </td>
     <td>
       <a href="/static/pdfs/инструкция.pdf" target="_blank">Резьбовая книга</a><br>
     </td>
       <td>
-        <button class="add-row">➕</button>
-        <button class="delete-row">🗑️</button>
+        <button type="button" class="add-row">➕</button>
+        <button type="button" class="delete-row">🗑️</button>
       </td>
   </tr>
+  <tr>
   <td>11</td>
     <td>
-      Холодная прокатка (по требованиям заказчика)
+      <span class="operation-label">Холодная прокатка (по требованиям заказчика)</span>
       <div class="toggle-buttons" data-group="резьба1">
-        <button type="button" class="option-btn" data-value="муфта">✔ Муфта</button>
-        <button type="button" class="option-btn" data-value="ниппель">✔ Ниппель</button>
+        <button type="button" class="option-btn" data-value="Муфта">Муфта</button>
+        <button type="button" class="option-btn" data-value="Ниппель">Ниппель</button>
       </div>
     </td>
     <td>
       <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101-WI-004</a><br>
     </td>
       <td>
-        <button class="add-row">➕</button>
-        <button class="delete-row">🗑️</button>
+        <button type="button" class="add-row">➕</button>
+        <button type="button" class="delete-row">🗑️</button>
       </td>
   </tr>
+  <tr>
   <td>12</td>
     <td>Очистить детали</td>
     <td>---</td>
       <td>
-        <button class="add-row">➕</button>
-        <button class="delete-row">🗑️</button>
+        <button type="button" class="add-row">➕</button>
+        <button type="button" class="delete-row">🗑️</button>
       </td>
   </tr>
+  <tr>
   <td>13</td>
     <td>Набить серийный номер</td>
     <td>
       <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-QC-DP-008-WI-023</a><br>
     </td>
       <td>
-        <button class="add-row">➕</button>
-        <button class="delete-row">🗑️</button>
+        <button type="button" class="add-row">➕</button>
+        <button type="button" class="delete-row">🗑️</button>
       </td>
   </tr>
+  <tr>
   <td>14</td>
     <td>Фосфатная обработка</td>
     <td>
       <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101-WI-002</a><br>
     </td>
       <td>
-        <button class="add-row">➕</button>
-        <button class="delete-row">🗑️</button>
+        <button type="button" class="add-row">➕</button>
+        <button type="button" class="delete-row">🗑️</button>
       </td>
   </tr>
+  <tr>
   <td>15</td>
     <td>Смазать резьбовые соединения</td>
     <td>
       <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101-WI-043</a><br>
     </td>
       <td>
-        <button class="add-row">➕</button>
-        <button class="delete-row">🗑️</button>
+        <button type="button" class="add-row">➕</button>
+        <button type="button" class="delete-row">🗑️</button>
       </td>
   </tr>
+  <tr>
   <td>16</td>
     <td>Накрутить защитные протектора</td>
     <td>
       <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101-WI-043</a><br>
     </td>
       <td>
-        <button class="add-row">➕</button>
-        <button class="delete-row">🗑️</button>
+        <button type="button" class="add-row">➕</button>
+        <button type="button" class="delete-row">🗑️</button>
       </td>
   </tr>
+  <tr>
   <td>17</td>
     <td>Покраска готовой продукции</td>
     <td>
       <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101-WI-042</a><br>
     </td>
       <td>
-        <button class="add-row">➕</button>
-        <button class="delete-row">🗑️</button>
+        <button type="button" class="add-row">➕</button>
+        <button type="button" class="delete-row">🗑️</button>
       </td>
   </tr>
+  <tr>
   <td>18</td>
     <td>Упаковка готовой продукции</td>
     <td>
       <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101-WI-043</a><br>
     </td>
       <td>
-        <button class="add-row">➕</button>
-        <button class="delete-row">🗑️</button>
+        <button type="button" class="add-row">➕</button>
+        <button type="button" class="delete-row">🗑️</button>
       </td>
   </tr>
+  <tr>
   <td>19</td>
     <td>Окончательная инспекция</td>
     <td>
       <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-QC-DP-001-WI-002</a><br>
     </td>
       <td>
-        <button class="add-row">➕</button>
-        <button class="delete-row">🗑️</button>
+        <button type="button" class="add-row">➕</button>
+        <button type="button" class="delete-row">🗑️</button>
       </td>
   </tr>
+  <tr>
   <td>20</td>
     <td>Комплектация документов для передачи продукции заказчику</td>
     <td>
       <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101</a><br>
     </td>
       <td>
-        <button class="add-row">➕</button>
-        <button class="delete-row">🗑️</button>
+        <button type="button" class="add-row">➕</button>
+        <button type="button" class="delete-row">🗑️</button>
       </td>
   </tr>
+  <tr>
   <td>21</td>
     <td>Выпуск продукции</td>
     <td>
       <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101</a><br>
     </td>
       <td>
-        <button class="add-row">➕</button>
-        <button class="delete-row">🗑️</button>
+        <button type="button" class="add-row">➕</button>
+        <button type="button" class="delete-row">🗑️</button>
       </td>
+    </tr>
+  </tbody>
+</table>
+</div>-->
 <table class="signature-block" >
   <tr>
     <td colspan="2"><strong>Job Card Approved<br>Утвердил Рабочую карту</strong></td>
@@ -2725,7 +2696,8 @@ button.add-row:hover {
   </tbody>
 </table>
 <div class="save-btn-wrapper">
-<button type="button" onclick="saveDraft('jobcard-1')">Сохранить</button>
+  <button type="button" onclick="saveToDatabase()">Сохранить</button>
+
 </div>
 
        <!-- Контейнер для динамически добавляемых блоков--> 
@@ -2997,26 +2969,33 @@ function showDashboard() {
 }
 
     
-    // Добавление операции
-    document.getElementById('addOperation').addEventListener('click', () => {
-      const div = document.createElement('div');
-      div.className = 'item';
-      div.innerHTML = '<input type="text" placeholder="Описание операции работы">';
-      document.getElementById('operationsList').appendChild(div);
-    });
-    
-    // Добавление оператора
-    document.getElementById('addOperator').addEventListener('click', () => {
-      const div = document.createElement('div');
-      div.className = 'item';
-      div.innerHTML = `
-        <input type="text" placeholder="Дата">
-        <input type="text" placeholder="ФИО оператора">
-        <input type="text" placeholder="Идентификация">
-        <input type="text" placeholder="Подпись инспектора ОТК">
-      `;
-      document.getElementById('operatorsList').appendChild(div);
-    });
+    // ✅ Добавление операции — безопасно
+const addOperationBtn = document.getElementById('addOperation');
+if (addOperationBtn) {
+  addOperationBtn.addEventListener('click', () => {
+    const div = document.createElement('div');
+    div.className = 'item';
+    div.innerHTML = '<input type="text" placeholder="Описание операции работы">';
+    document.getElementById('operationsList').appendChild(div);
+  });
+}
+
+// ✅ Добавление оператора — безопасно
+const addOperatorBtn = document.getElementById('addOperator');
+if (addOperatorBtn) {
+  addOperatorBtn.addEventListener('click', () => {
+    const div = document.createElement('div');
+    div.className = 'item';
+    div.innerHTML = `
+      <input type="text" placeholder="Дата">
+      <input type="text" placeholder="ФИО оператора">
+      <input type="text" placeholder="Идентификация">
+      <input type="text" placeholder="Подпись инспектора ОТК">
+    `;
+    document.getElementById('operatorsList').appendChild(div);
+  });
+}
+
     
     // Привязываем обработчик к кнопке отправки формы
 document.getElementById('jobCardForm').addEventListener('submit', function(e) {
@@ -3427,8 +3406,8 @@ document.getElementById('opsTable').addEventListener('click', function (e) {
     newRow.querySelectorAll('td').forEach((td, i) => {
       if (i === 0) return; // "Пункт" пересчитается
       td.innerHTML = (i === 3) ? `
-        <button class="delete-row">🗑️</button>
-        <button class="add-row">➕</button>
+        <button type="button" class="delete-row">🗑️</button>
+        <button type="button" class="add-row">➕</button>
       ` : '';
     });
 
@@ -3787,7 +3766,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Извлекаем значения из первой строки
-const q_ty = document.querySelector('input[name="q_ty"]')?.value;
+const q_ty = document.querySelector('input[name="q_ty"]')?.value || "1";
 const unit = document.querySelector('input[name="unit"]')?.value;
 const description = document.querySelector('input[name="description"]')?.value;
 const serial_number = document.querySelector('input[name="serial_number"]')?.value;
@@ -3918,6 +3897,8 @@ function renumberOperations() {
 
       <div class="col">
         <input type="text"
+               id="q_ty"
+               value="{{ order.q_ty if order else '' }}"
                name="q_ty"
                placeholder="Кол-во"
                style="width: 70px;" required>
@@ -3926,6 +3907,7 @@ function renumberOperations() {
       <div class="col">
         <input type="text"
                name="unit"
+               value="{{ order.unit if order else '' }}"
                placeholder="шт."
                style="width: 50px;" required>
       </div>
@@ -3933,6 +3915,7 @@ function renumberOperations() {
       <div class="col">
         <input type="text"
                name="description"
+               value="{{ order.description if order else '' }}"
                placeholder="Описание полученной работы"
                style="width: 220px;" required>
       </div>
@@ -3940,6 +3923,7 @@ function renumberOperations() {
       <div class="col">
         <input type="text"
                name="serial_number"
+               value="{{ order.serial_number if order else '' }}"
                id="serial_number"
                placeholder="Серийный номер"
                style="width: 215px;" required>
@@ -3949,6 +3933,7 @@ function renumberOperations() {
         <input type="text"
                name="job_description"
                id="job_description"
+               value="{{ order.job_description if order else '' }}"
                placeholder="Описание необходимых работ..."
                style="width: 750px;" required>
       </div>
@@ -3991,7 +3976,7 @@ function openJobCardModal(index) {
   const startDate = document.getElementById("start_date")?.value || "";
   const greaseNumber = document.getElementById("grease_number")?.value || "";
   const protectorNumber = document.getElementById("protector_number")?.value || "";
-  const jobRequestNumber = document.getElementById("job_request_number")?.value || "";
+  const jobRequestNumber = document.getElementById("request_number")?.value || "";
   const customer = document.getElementById("customer")?.value || "";
   const jobDescription = document.getElementById("job_description")?.value || "";
 
@@ -4091,32 +4076,101 @@ function addColumnWithSerial() {
 
 <!-- утвердил и подготовлено автоматом выходит (внизу раб карты)-->
 <script>
-async function saveDraft(jobCardId) {
-  const modal = document.getElementById(`${jobCardId}-modal`);
-  if (!modal) {
-    console.warn(`❗ Модалка ${jobCardId}-modal не найдена`);
-    return;
+document.addEventListener("DOMContentLoaded", function () {
+  const startInput = document.getElementById("start_date"); // input с датой начала работ
+  const approvedDateSpan = document.getElementById("approvedDate");
+  const coordinatorDateSpan = document.getElementById("coordinatorDate");
+
+  function updateSignatureDates() {
+    const value = startInput?.value || "";
+    approvedDateSpan.textContent = value;
+    coordinatorDateSpan.textContent = value;
   }
 
-  // Собираем данные
-  const payload = {
+  // Найти и обновить при загрузке
+  updateSignatureDates();
+
+  // Обновлять при изменении даты
+  startInput?.addEventListener("change", updateSignatureDates);
+});
+
+async function saveToDatabase() {
+  const modal = document.getElementById("jobCardModal");
+
+  const workCard = {
     drw_number: modal.querySelector('[name="drw_number"]')?.value || "",
     customer: modal.querySelector('[name="customer"]')?.value || "",
     material: modal.querySelector('[name="material"]')?.value || "",
     job_description: modal.querySelector('[name="job_description"]')?.value || "",
-    request_number: modal.querySelector('[name="request_number"]')?.value || ""
+    cast_number: modal.querySelector('[name="cast_number"]')?.value || "",
+    grease_number: modal.querySelector('[name="grease_number"]')?.value || "",
+    protector_number: modal.querySelector('[name="protector_number"]')?.value || "",
+    request_number: modal.querySelector('[name="request_number"]')?.value || "",
+    mill_certificate_number: modal.querySelector('[name="mill_certificate_number"]')?.value || ""
+  };
+
+  // собираем все строки операций
+  const operationRows = document.querySelectorAll("#opsTable tbody tr");
+  const operations = [];
+  operationRows.forEach(row => {
+    const opText = row.querySelector("td:nth-child(2)")?.textContent.trim();
+    const links = row.querySelectorAll("td:nth-child(3) a");
+    const codes = [...links].map(a => a.textContent.trim()).join(", ");
+    const fileUrl = links[0]?.getAttribute("href");
+
+    if (opText && codes) {
+      operations.push({
+        operation: opText,
+        instruction_code: codes,
+        instruction_file_url: fileUrl
+      });
+    }
+  });
+
+  const payload = {
+    work_card: workCard,
+    operations: operations
   };
 
   try {
-    const response = await fetch("/api/workcards", {
+    const response = await fetch("/api/workcards/full", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
 
     if (response.ok) {
-      alert("Job Card успешно сохранен в базу");
+      alert("✅ Job Card и операции сохранены!");
       modal.style.display = "none";
+    } else {
+      const errorText = await response.text();
+      alert("❌ Ошибка:\n" + errorText);
+    }
+  } catch (err) {
+    console.error("Ошибка запроса:", err);
+    alert("Произошла ошибка при отправке данных.");
+  }
+}
+</script>
+
+<script>
+async function submitJobCard(e) {
+  e.preventDefault();
+
+  const form = document.getElementById("jobCardForm");
+  const formData = new FormData(form);
+  const data = Object.fromEntries(formData.entries());
+
+  try {
+    const response = await fetch("/api/workcards", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+
+    if (response.ok) {
+      alert("✅ Job Card успешно сохранен в базу");
+      document.getElementById("jobCardModal").style.display = "none";
     } else {
       const errorText = await response.text();
       alert("❌ Ошибка при сохранении:\n" + errorText);
@@ -4125,6 +4179,266 @@ async function saveDraft(jobCardId) {
     console.error("Ошибка при отправке запроса:", err);
     alert("Произошла ошибка при отправке данных.");
   }
+}
+</script>
+
+
+<!--  при нажатии кнопки “Сохранить” в модальном окне данные отправлялись в базу данных-->
+<script>
+async function saveToDatabase() {
+  const workOrderData = { /* собрать work_order поля */ };
+  const workCardData = { /* собрать work_card поля */ };
+  const operations = [ /* массив операций */ ];
+
+  const payload = {
+    work_order: workOrderData,
+    work_card: workCardData,
+    operations: operations
+  };
+
+  const response = await fetch("/api/full-workorder", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(fullData)
+});
+
+  if (response.ok) {
+    alert("✅ Все данные успешно сохранены");
+  } else {
+    const err = await response.text();
+    alert("❌ Ошибка при сохранении: " + err);
+  }
+}
+</script>
+
+<!--  отправить в таблицу documents чертеж-->
+<script>
+async function uploadDrawing(workCardId) {
+  const fileInput = document.getElementById("drawingUpload");
+  const numberInput = document.getElementById("jobTitleDrawing");
+
+  if (!fileInput.files.length) {
+    alert("Выберите файл");
+    return;
+  }
+
+  const file = fileInput.files[0];
+  const number = numberInput.value;
+
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("number", number);
+  formData.append("work_card_id", workCardId); // Подставь реальный ID
+  formData.append("type", "DRW"); // ВАЖНО: это обязательное поле
+
+  try {
+    const response = await fetch("/documents/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (response.ok) {
+      alert("✅ Файл успешно загружен");
+    } else {
+      const err = await response.text();
+      alert("❌ Ошибка загрузки: " + err);
+    }
+  } catch (error) {
+    alert("❌ Ошибка соединения: " + error);
+  }
+}
+</script>
+
+<!--  при нажатии кнопки “Сохранить” в модальном окне все данные (work_orders, work_cards, ...) уходят в базу данных вроде работает-->
+<script>
+  async function saveToDatabase() {
+  console.log("➡️ Начало сохранения данных");
+  
+  try {
+    // Собираем данные операций
+  const operations = Array.from(document.querySelectorAll("#opsTable tbody tr"))
+  .map(tr => {
+    // Получаем текст операции из второго столбца (индекс 1)
+    const operationCell = tr.querySelector("td:nth-child(2)");
+    let baseText = "";
+    
+    // Для операций с выбором (муфта/ниппель)
+    const operationLabel = operationCell?.querySelector(".operation-label");
+    if (operationLabel) {
+      baseText = operationLabel.textContent.trim();
+    } 
+    // Для обычных операций
+    else if (operationCell) {
+      baseText = operationCell.textContent.trim();
+    }
+    
+    // Получаем инструкцию из третьего столбца
+    const instructionCode = tr.querySelector("td:nth-child(3)")?.textContent?.trim() || null;
+    
+    // Обработка кнопок выбора
+    const optionButtons = tr.querySelectorAll(".option-btn");
+    if (optionButtons.length > 0) {
+      const selectedTypes = Array.from(optionButtons)
+        .filter(btn => btn.classList.contains("selected"))
+        .map(btn => btn.dataset.value);
+      
+      return {
+        operation: selectedTypes.length > 0 
+          ? `${baseText}: ${selectedTypes.join(" + ")}` 
+          : baseText,
+        instruction_code: instructionCode,
+        equipment: "-",
+        user_id: 1,
+        documents: []
+      };
+    }
+    
+    // Для обычных операций
+    return {
+      operation: baseText,
+      instruction_code: instructionCode,
+      equipment: "-",
+      user_id: 1,
+      documents: []
+    };
+  })
+  .filter(op => op.operation.trim() !== "");
+
+    // Проверка обязательных полей
+    const qTyInput = document.querySelector("#q_ty");
+    const q_ty = qTyInput ? qTyInput.value.trim() : "";
+    
+    if (!q_ty) {
+      throw new Error("Поле 'Количество (q_ty)' не заполнено!");
+    }
+
+    // Остальной код формирования workCard и workOrder остается без изменений
+    const workCard = {
+      title: document.querySelector("#modalTitle").value,
+      material: document.querySelector("#modalMaterial").value,
+      cast_number: document.querySelector("#modalCastNumber").value,
+      user_id: 1,
+      operations: operations
+    };
+
+    const workOrder = {
+      work_number: document.querySelector("[name='work_number']").value,
+      work_date: document.querySelector("[name='work_date']").value,
+      work_revision: document.querySelector("[name='work_revision']").value,
+      work_order_number: document.querySelector("#work_order_number").value,
+      start_date: document.querySelector("#start_date").value,
+      end_date: document.querySelector("#end_date").value,
+      prepared_by: document.querySelector("#prepared_by").value,
+      quote_number: document.querySelector("#quote_number").value,
+      customer: document.querySelector("#customer").value,
+      ordered_by: document.querySelector("#ordered_by").value,
+      customer_po_number: document.querySelector("#customer_po_number").value,
+      rig_number: document.querySelector("#rig_number").value,
+      well_number: document.querySelector("#well_number").value,
+      q_ty: q_ty,
+      unit: "шт.",
+      description: "описание",
+      serial_number: "1157-1",
+      job_description: document.querySelector("#modalJobDescription").value,
+      job_number: document.querySelector("[name='job_number']").value,
+      job_date: document.querySelector("[name='job_date']").value,
+      job_revision: document.querySelector("[name='job_revision']").value,
+      grease_number: document.querySelector("#grease_number").value,
+      protector_number: document.querySelector("#protector_number").value,
+      request_number: document.querySelector("#request_number").value,
+      user_id: 1,
+      work_cards: [workCard]
+    };
+
+    const documents = [
+      {
+        type: "DRW",
+        number: document.querySelector("#jobTitleDrawing").value,
+        url: "/static/uploads/example.pdf"
+      }
+    ];
+
+    const payload = {
+      work_order: workOrder,
+      documents: documents
+    };
+
+    console.log("📦 Отправляемые данные:", operations);
+
+    // Отправка на сервер
+    const response = await fetch("/api/full-workorder", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Ошибка сервера: ${response.status} - ${errorText}`);
+    }
+
+    const result = await response.json();
+    console.log("✅ Успешно сохранено:", result);
+    alert("Данные успешно сохранены!");
+    
+  } catch (error) {
+    console.error("🚨 Ошибка:", error);
+    alert(`Ошибка при сохранении:\n${error.message}`);
+  }
+}
+</script>
+
+<script>
+  async function openWorkOrder(orderId) {
+  console.log("📥 Запрос на заказ ID:", orderId);
+
+  const response = await fetch(`/api/workorders/${orderId}`);
+  const data = await response.json();
+
+  console.log("📦 Получен заказ:", data);
+
+  const form = document.getElementById("createPage");
+  form.style.display = "block";
+  form.style.opacity = "1";
+  form.style.transform = "translateY(0)";
+
+  // Прокрутка к форме
+  form.scrollIntoView({ behavior: "smooth" });
+
+  // Заполнение полей
+  console.log("work_number:", data.work_number);
+  document.querySelector("input[name='work_number']").value = data.work_number || "";
+  document.querySelector("input[name='work_date']").value = data.work_date || "";
+  document.querySelector("input[name='work_revision']").value = data.work_revision || "";
+  document.querySelector("input[name='work_order_number']").value = data.work_order_number || "";
+  document.querySelector("input[name='start_date']").value = data.start_date || "";
+  document.querySelector("input[name='end_date']").value = data.end_date || "";
+  document.querySelector("input[name='prepared_by']").value = data.prepared_by || "";
+  document.querySelector("input[name='quote_number']").value = data.quote_number || "";
+  document.querySelector("input[name='customer']").value = data.customer || "";
+  document.querySelector("input[name='jobNumber']").value = data.jobNumber || "";
+  document.querySelector("input[name='request_number']").value = data.request_number || "";
+  document.querySelector("input[name='modalTitle']").value = data.modalTitle || "";
+  document.querySelector("input[name='modalMaterial']").value = data.modalMaterial || "";
+  
+}
+// Показываем родителя формы
+const parent = document.getElementById("formButtonsContainer");
+if (parent) parent.style.display = "block";
+
+// Показываем саму форму
+const cp = document.getElementById("createPage");
+if (cp) {
+  cp.style.display = "block";
+  cp.style.opacity = "1";
+  cp.style.transform = "translateY(0)";
+  cp.style.zIndex = "99999";
+  cp.style.position = "relative";
+  cp.scrollIntoView({ behavior: "smooth" });
 }
 
 
@@ -4225,16 +4539,64 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+<!--для отображения данных на главной странице
+<script>
+  // Функция для загрузки и отображения Work Orders
+async function loadWorkOrders() {
+  try {
+    const response = await fetch('/api/work-orders');
+    const workOrders = await response.json();
+    
+    const tableBody = document.getElementById('workOrdersBody');
+    tableBody.innerHTML = '';
+    
+    workOrders.forEach(order => {
+      const row = document.createElement('tr');
+      
+      row.innerHTML = `
+        <td>${order.workOrderNumber}</td>
+        <td>${order.description}</td>
+        <td>${new Date(order.createdAt).toLocaleDateString()}</td>
+        <td>${order.author}</td>
+        <td>${order.department}</td>
+        <td>${order.customer}</td>
+      `;
+      
+      tableBody.appendChild(row);
+    });
+  } catch (error) {
+    console.error('Ошибка загрузки данных:', error);
+  }
+}
 
-
-
-
-
-
-
-
-
-
+// Вызываем при загрузке страницы
+document.addEventListener('DOMContentLoaded', loadWorkOrders);
+</script>
+<!--Обновить серверный API для возврата данных в нужном формате
+<script>
+  // Пример API endpoint (Node.js/Express)
+app.get('/api/work-orders', async (req, res) => {
+  try {
+    const orders = await WorkOrder.findAll({
+      include: [JobCard, Customer],
+      order: [['createdAt', 'DESC']]
+    });
+    
+    const formattedOrders = orders.map(order => ({
+      workOrderNumber: order.number,
+      description: `Изготовить ${order.product} по чертежу №${order.drawingNumber}`,
+      createdAt: order.createdAt,
+      author: order.author,
+      department: order.department,
+      customer: order.Customer.name
+    }));
+    
+    res.json(formattedOrders);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+</script>-->
 
 
 

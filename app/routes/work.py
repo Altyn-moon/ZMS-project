@@ -5,6 +5,7 @@ from app.dependencies import get_db
 from app.schemas import WorkOrderOut, WorkCardOut, OperationDescriptionOut
 from app import crud
 from app.models import WorkTime
+from app.schemas import WorkCardCreate
 
 router = APIRouter(prefix="/api")
 #router = APIRouter(tags=["work"])
@@ -88,4 +89,30 @@ def get_work_times(operation_id: int, db: Session = Depends(get_db)):
             "duration": t.duration
         } for t in times
     ]
+
+
+
+@router.get("/operations/{card_id}", response_model=list[OperationDescriptionOut])
+def read_operations(card_id: int, db: Session = Depends(get_db)):
+    ops = crud.get_operations_by_card(db, card_id)
+    if ops is None:
+        raise HTTPException(status_code=404, detail="Card not found")
+    return ops
+
+# ==== МАРШРУТЫ ДЛЯ WORK TIMES ====
+@router.get("/work_times/{operation_id}")
+def get_work_times(operation_id: int, db: Session = Depends(get_db)):
+    times = db.query(WorkTime).filter(WorkTime.operation_description_id == operation_id).all()
+    return [
+        {
+            "id": t.id,
+            "user_id": t.user_id,
+            "start_time": t.start_time,
+            "end_time": t.end_time,
+            "duration": t.duration
+        } for t in times
+    ]
+
+
+
 
