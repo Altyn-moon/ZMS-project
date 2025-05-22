@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.41, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
 --
 -- Host: localhost    Database: work_portal
 -- ------------------------------------------------------
--- Server version	8.0.41
+-- Server version	8.0.42
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -100,7 +100,7 @@ CREATE TABLE `users` (
   `created_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`login`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=180 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -109,7 +109,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Shagirova Arailym','admin','a.shagirova','Zms2025!','53 61 0E 4F','Координатор','2025-04-25 16:38:30'),(2,'Sabyrzhan Altynai','inspector','a.sabyrzhan','Zms2025!','91 41 0B 4F','Инспектор','2025-04-25 16:38:30'),(3,'Kenzhegali Asel','worker','a.kenzhegali','Zms2025!','1E A2 0D 4F','Оператор станка','2025-04-25 16:38:30');
+INSERT INTO `users` VALUES (1,'Shagirova Arailym','admin','a.shagirova','Zms2025!','53 61 0E 4F','Координатор','2025-04-25 16:38:30'),(2,'Sabyrzhan Altynai','inspector','a.sabyrzhan','Zms2025!','91 41 0B 4F','Инспектор','2025-04-25 16:38:30'),(3,'Kenzhegali Asel','worker','a.kenzhegali','Zms2025!','1E A2 0D 4F','Оператор станка','2025-04-25 16:38:30'),(4,'Ibagaliev Aibolat','worker','a.ibagaliev','Zms2025!','AA 7F 00 64','Оператор станка','2025-05-21 14:37:23'),(5,'Berdigaliev Abilai','worker','a.berdigaliev','Zms2025!','BE BB C5 D4','Оператор станка','2025-05-21 14:37:23'),(6,'Yerbolatov Rauan','worker','r.yerbolatov','Zms2025!','77 94 0D 4F','Оператор станка','2025-05-21 14:37:23'),(7,'Igilikov Azamat','worker','a.igilikov','Zms2025!','5A B9 0B 4F','Оператор станка','2025-05-21 14:37:23'),(8,'Karataev Kuanish','worker','k.karataev','Zms2025!','29 71 ED BB','Оператор станка','2025-05-21 14:37:23'),(9,'Muslimov Aibek','worker','a.muslimov','Zms2025!','6A E3 17 64','Оператор станка','2025-05-21 14:37:23'),(10,'Sailauov Salaua','worker','s.sailauov','Zms2025!','CA EC 07 B5','Оператор станка','2025-05-21 14:37:23'),(11,'Saktaganov Oryngali','worker','o.saktaganov','Zms2025!','81 05 CA 93','Оператор станка','2025-05-21 14:37:23'),(12,'Tazhmuratov Bakyt','worker','b.tazhmuratov','Zms2025!','8A CC E6 63','Оператор станка','2025-05-21 14:37:23'),(13,'Abu Abzal','worker','a.abu','Zms2025!','FA F6 FD 63','Оператор станка','2025-05-21 14:37:23'),(14,'Otemisov Baktiyar','worker','b.otemisov','Zms2025!','BA 6D EC B4','Оператор станка','2025-05-21 14:37:23'),(15,'Sapanov Murat','worker','m.sapanov','Zms2025!','DA D4 12 B5','Оператор станка','2025-05-21 14:37:23'),(16,'Adilbaev Zhasulan','worker','z.adilbaev','Zms2025!','2E 2A C0 D4','Оператор станка','2025-05-21 14:37:23'),(17,'Balimov Zholzhan','worker','z.balimov','Zms2025!','6A 60 FE B4','Оператор станка','2025-05-21 14:37:23'),(18,'Yergaliev Amandyk','worker','a.yergaliev','Zms2025!','6A 22 02 B5','Оператор станка','2025-05-21 14:37:23'),(19,'Zhilkishiev Nurbulat','worker','n.zhilkishiev','Zms2025!','7A 25 0A B5','Оператор станка','2025-05-21 14:37:23'),(20,'Kuanbaev Asylbek','worker','a.kuanbaev','Zms2025!','AA 56 FB B4','Оператор станка','2025-05-21 14:37:23'),(21,'Mukashev Tynyshbek','worker','t.mukashev','Zms2025!','13 63 0B 4F','Оператор станка','2025-05-21 14:37:23'),(22,'Seitpeev Zhanibek','worker','z.seitpeev','Zms2025!','7A 2E 0D B5','Оператор станка','2025-05-21 14:37:23'),(23,'Andir Altynbek','worker','a.andir','Zms2025!','6B AD 0D 4F','Оператор станка','2025-05-21 14:37:23'),(24,'Bekturlin Zhanibek','worker','z.bekturlin','Zms2025!','75 78 0E 4F','Оператор станка','2025-05-21 14:37:23'),(25,'Alishev Alibek','worker','a.alishev','Zms2025!','3A 96 F2 B4','Оператор станка','2025-05-21 14:37:23'),(26,'Amankulov Targin','worker','t.amankulov','Zms2025!','BA A9 F6 63','Оператор станка','2025-05-21 14:37:23'),(27,'Bagitzhanov Berkhan','worker','b.bagitzhanov','Zms2025!','0A 11 E9 B4','Оператор станка','2025-05-21 14:37:23'),(28,'Zhurimbaev Erzhan','worker','e.zhurimbaev','Zms2025!','DA BA 08 64','Оператор станка','2025-05-21 14:37:23'),(29,'Isekenov Arystanbek','worker','a.isekenov','Zms2025!','FA DE 12 B5','Оператор станка','2025-05-21 14:37:23'),(30,'Kabdulov Asylan','worker','a.kabdulov','Zms2025!','BD 19 0B 4F','Оператор станка','2025-05-21 14:37:23'),(31,'Kaliyev Alikhan','worker','a.kaliyev','Zms2025!','DA C1 0C B5','Оператор станка','2025-05-21 14:37:23'),(32,'Mendigaliyev Zhumabek','worker','z.mendigaliyev','Zms2025!','9A 4A FD B4','Оператор станка','2025-05-21 14:37:23'),(33,'Rysbaev Nursultan','worker','n.rysbaev','Zms2025!','CC 6F 0E 4F','Оператор станка','2025-05-21 14:37:23'),(34,'Saparov Nurolla','worker','n.saparov','Zms2025!','32 25 0B 4F','Оператор станка','2025-05-21 14:37:23'),(35,'Satybaldy Adilzhan','worker','a.satybaldy','Zms2025!','26 8D 0D 4F','Оператор станка','2025-05-21 14:37:23'),(36,'Shubakov Sairan','worker','s.shubakov','Zms2025!','0E BC 0A 4F','Оператор станка','2025-05-21 14:37:23'),(37,'Kurmanov Anuar','worker','a.kurmanov','Zms2025!','30 14 0E 4F','Оператор станка','2025-05-21 14:37:23'),(38,'Gusmanov Bekbolat','worker','b.gusmanov','Zms2025!','83 7C 0E 4F','Оператор станка','2025-05-21 14:37:23');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -238,4 +238,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-18 19:19:44
+-- Dump completed on 2025-05-22 10:14:32

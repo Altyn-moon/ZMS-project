@@ -1668,6 +1668,179 @@ button.add-row:hover {
     padding: 5px;
   }
 
+  .video-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* четко две колонки */
+  gap: 80px;
+  margin: 20px auto;
+  max-width: 1500px; /* чтобы не растягивалось */
+  padding: 0 20px;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.video-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.video-box {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #fafafa;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 60px;
+  color: #b30000;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, background 0.2s ease;
+  overflow: hidden;
+  position: relative;
+  min-height: 0; /* на всякий случай */
+}
+
+.video-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 40px;
+  display: block;
+}
+
+.video-box:hover {
+  transform: scale(1.05);
+  background: #fff0f0;
+}
+
+.video-box .video-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 40px;
+  display: block;
+}
+
+.video-title {
+  font-size: 25px;
+  text-align: center;
+  color: #333;
+  font-weight: 500;
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.fade-in.show {
+  opacity: 1;
+  transform: translateY(0);
+  display: block;
+}
+
+/* Затемнённый фон */
+.new-modal {  /* Здесь изменен класс на новый */
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.new-modal-backdrop {  /* Класс для фона */
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  z-index: 1;
+}
+
+/* Контейнер модалки */
+.new-modal-content {  /* Класс для содержимого модалки */
+  position: relative;
+  z-index: 2;
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 800px;
+  animation: fadeInUp 0.35s ease;
+  pointer-events: auto;
+}
+
+/* Видео */
+.new-modal-content video {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.new-modal .close {  /* Кнопка закрытия модалки */
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  background: #d3d3d3d9;
+  border: none;
+  border-radius: 999px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, transform 0.2s ease;
+  z-index: 10;
+}
+
+.new-modal .close:hover {
+  background: rgba(240, 240, 240, 1);
+  transform: scale(1.05);
+}
+
+.new-modal .close:before {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  font-family: 'Manrope', sans-serif;
+  line-height: 1;
+}
+
+/* Скрытие */
+.new-modal.hidden {
+  display: none;
+}
+
+/* Анимация появления */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#instructions-section {
+  display: none;
+  position: relative;
+  z-index: 1;
+  background-color: #f2f2f2;
+  padding: 20px 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
   </style>
   
 </head>
@@ -2567,6 +2740,62 @@ button.add-row:hover {
 </form>
 
 </div>
+
+  <!-- Блок с видео-инструкциями -->
+  <div id="instructions-section" class="instructions-section" style="display: none;">
+  <button class="back-btn" onclick="goBack()" style="font-size: 24px; padding: 12px 30px;">
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c40000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="15 18 9 12 15 6"></polyline>
+  </svg>
+  Назад
+  </button>
+
+  <div class="video-grid">
+  <div class="video-item" data-src="/static/videos/instruction1.mp4">
+    <div class="video-box">
+      <img src="/static/previews/instruction1.jpg" alt="Превью видео 1" class="video-preview" />
+    </div>
+    <p class="video-title">Правила эвакуации</p>
+  </div>
+
+  <div class="video-item" data-src="/static/videos/instruction2.mp4">
+    <div class="video-box">
+      <img src="/static/previews/instruction2.jpg" alt="Превью видео 2" class="video-preview" />
+    </div>
+    <p class="video-title">Обучение работе с оборудованием</p>
+  </div>
+
+  <div class="video-item" data-src="/static/videos/instruction3.mp4">
+    <div class="video-box">
+      <img src="/static/previews/instruction3.jpg" alt="Превью видео 3" class="video-preview" />
+    </div>
+    <p class="video-title">Инструктаж по технике безопасности</p>
+  </div>
+
+  <div class="video-item" data-src="/static/videos/instruction4.mp4">
+    <div class="video-box">
+      <img src="/static/previews/instruction4.jpg" alt="Превью видео 4" class="video-preview" />
+    </div>
+    <p class="video-title">Охрана труда на производстве</p>
+  </div>
+  </div>
+  </div>
+      
+  <!-- Модальное окно -->
+  <div id="videoModal" class="new-modal hidden">
+  <div class="new-modal-backdrop"></div>
+  <div class="new-modal-content">
+  <button class="close" aria-label="Закрыть модалку">
+    <svg width="20" height="20" viewBox="0 0 24 24" stroke="#333" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+  </button>
+  <video id="modalVideo" controls autoplay></video>
+  </div>
+  </div>
+
+
 </main>
 
 
@@ -3900,6 +4129,98 @@ async function saveDraft(jobCardId) {
 
 
 </script>
+
+<script>
+ // Функция для переключения между разделами
+function toggleSection(sectionToShow) {
+  // Список всех основных разделов
+  const mainSections = ['dashboardContent', 'instructions-section'];
+  
+  // Скрываем все разделы
+  mainSections.forEach(sectionId => {
+    const section = document.getElementById(sectionId);
+    if (section) section.style.display = 'none';
+  });
+  
+  // Показываем только выбранный раздел
+  const activeSection = document.getElementById(sectionToShow);
+  if (activeSection) {
+    activeSection.style.display = 'block';
+    activeSection.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+// Функция для возврата на главную
+function goBack() {
+  toggleSection('dashboardContent');
+}
+
+// Обработчики для toggle-кнопок
+document.querySelectorAll('.toggle-buttons').forEach(group => {
+  group.querySelectorAll('.option-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      button.classList.toggle('selected');
+    });
+  });
+});
+
+// Инициализация при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+  // По умолчанию показываем dashboard
+  toggleSection('dashboardContent');
+  
+  // Обработчик кнопки "Инструкции"
+  const instructionBtn = document.getElementById('btn-instruction');
+  if (instructionBtn) {
+    instructionBtn.addEventListener('click', () => {
+      toggleSection('instructions-section');
+      
+      // Закрываем меню, если открыто
+      const menu = document.getElementById('dropdown-menu');
+      if (menu) menu.classList.remove('show');
+    });
+  }
+  
+  // Обработчик для видео-модалки
+  const videoModal = document.getElementById('videoModal');
+  if (videoModal) {
+    const video = videoModal.querySelector('video');
+    const closeBtn = videoModal.querySelector('.close');
+    
+    document.querySelectorAll('.video-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const src = item.getAttribute('data-src');
+        if (video && src) {
+          video.src = src;
+          videoModal.classList.remove('hidden');
+        }
+      });
+    });
+    
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        videoModal.classList.add('hidden');
+        if (video) {
+          video.pause();
+          video.currentTime = 0;
+        }
+      });
+    }
+    
+    window.addEventListener('click', (e) => {
+      if (e.target === videoModal) {
+        videoModal.classList.add('hidden');
+        if (video) {
+          video.pause();
+          video.currentTime = 0;
+        }
+      }
+    });
+  }
+});
+
+  </script>
+
 
 
 

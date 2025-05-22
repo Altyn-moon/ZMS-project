@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Рабочая карта</title>
+    <title>Инспектор</title>
     <link rel="stylesheet" href="/static/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
@@ -55,6 +55,8 @@ body {
   display: flex;
   justify-content: center;
   margin: 10px 0;
+  margin-bottom: 0; /* если раньше было что-то типа 40px */
+  padding-bottom: 0;
 }
 
 /* полностью перебиваем ширину и размер шрифта */
@@ -521,13 +523,6 @@ a:visited {
   color: #9C1D11;
 }
 
-.dropdown-menu {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
 .menu-block {
   background-color: #ccb3b2;
   border-radius: 25px;
@@ -692,28 +687,98 @@ a:visited {
   margin-top: 2px;
 }
 
-.video-grid {
+/* Стили для блока инструкций */
+.instruction-block {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  gap: 16px;
-  margin-top: 16px;
+  grid-template-columns: repeat(2, 1fr); /* 2 колонки */
+  gap: 16px; /* расстояние между карточками */
+  padding: 20px;
+  background-color: #f1eaea; /* как на скрине */
+  max-width: 600px;
+  margin: 0 auto;
+  margin-top: 0;
+  padding-top: 0;
 }
 
-.video-box {
-  width: 80px;
-  height: 80px;
+.instruction-item {
+  background-color: white;
   border-radius: 12px;
-  background: #f0f0f0;
+  padding: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 36px;
+  aspect-ratio: 16 / 9;
+}
+
+#first-table,
+#second-table,
+#third-table {
+  position: relative;
+  z-index: 1;
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* четко две колонки */
+  gap: 80px;
+  margin: 20px auto;
+  max-width: 1500px; /* чтобы не растягивалось */
+  padding: 0 20px;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.video-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.video-box {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #fafafa;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 60px;
   color: #b30000;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, background 0.2s ease;
+  overflow: hidden;
+  position: relative;
+  min-height: 0; /* на всякий случай */
 }
+
+.video-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 40px;
+  display: block;
+}
+
 .video-box:hover {
   transform: scale(1.05);
+  background: #fff0f0;
+}
+
+.video-box .video-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 40px;
+  display: block;
+}
+
+.video-title {
+  font-size: 25px;
+  text-align: center;
+  color: #333;
+  font-weight: 500;
 }
 
 .fade-in {
@@ -728,13 +793,100 @@ a:visited {
   display: block;
 }
 
+/* Затемнённый фон */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  z-index: 1;
+}
+
+/* Контейнер модалки */
+.modal-content {
+  position: relative;
+  z-index: 2;
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 800px;
+  animation: fadeInUp 0.35s ease;
+  pointer-events: auto;
+}
+
+/* Видео */
+.modal-content video {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.modal .close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  background: #d3d3d3d9;
+  border: none;
+  border-radius: 999px; /* капсульный стиль */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, transform 0.2s ease;
+  z-index: 10;
+}
+
+.modal .close:hover {
+  background: rgba(240, 240, 240, 1);
+  transform: scale(1.05);
+}
+
+.modal .close:before {
+
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  font-family: 'Manrope', sans-serif;
+  line-height: 1;
+}
+
+/* Скрытие */
+.modal.hidden {
+  display: none;
+}
+
+/* Анимация появления */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 </style>
 </head>
 <body>
     <div class="header">
         <div class="header-left">
             <button class="left-button">
-                <img src="/static/help.png" alt="Инструкция" class="icon clickable"> 
             </button>
             <button class="left-button">
                 <img src="/static/notification.png" alt="Уведомления" class="icon clickable">
@@ -785,249 +937,200 @@ a:visited {
           <input type="text" class="search-input" placeholder="Поиск" style="padding-left: 40px; background: url('/static/Search.png') no-repeat 10px center; background-size: 20px 20px;">
         </div>     
         
-        <!-- Инструкция — вставить ПОД таблицами или перед ними -->
-        <div id="instructions-section" class="content-section fade-in" style="display: none;">
-          <h2>Инструкция</h2>
-          <div class="video-grid">
-            <div class="video-box"><i class="ri-play-circle-line"></i></div>
-            <div class="video-box"><i class="ri-play-circle-line"></i></div>
-            <div class="video-box"><i class="ri-play-circle-line"></i></div>
-            <div class="video-box"><i class="ri-play-circle-line"></i></div>
-          </div>
-        </div>
+  <!-- Блок с видео-инструкциями -->
+<div id="instructions-section" class="instructions-section" style="display: none;">
+  <button class="back-btn" onclick="goBack()" style="font-size: 24px; padding: 12px 30px;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c40000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"></polyline>
+    </svg>
+    Назад
+  </button>
 
-        <!-- первая таблица -->
+  <div class="video-grid">
+    <div class="video-item" data-src="/static/videos/instruction1.mp4">
+      <div class="video-box">
+        <img src="/static/previews/instruction1.jpg" alt="Превью видео 1" class="video-preview" />
+      </div>
+      <p class="video-title">Правила эвакуации</p>
+    </div>
+  
+    <div class="video-item" data-src="/static/videos/instruction2.mp4">
+      <div class="video-box">
+        <img src="/static/previews/instruction2.jpg" alt="Превью видео 2" class="video-preview" />
+      </div>
+      <p class="video-title">Обучение работе с оборудованием</p>
+    </div>
+  
+    <div class="video-item" data-src="/static/videos/instruction3.mp4">
+      <div class="video-box">
+        <img src="/static/previews/instruction3.jpg" alt="Превью видео 3" class="video-preview" />
+      </div>
+      <p class="video-title">Инструктаж по технике безопасности</p>
+    </div>
+  
+    <div class="video-item" data-src="/static/videos/instruction4.mp4">
+      <div class="video-box">
+        <img src="/static/previews/instruction4.jpg" alt="Превью видео 4" class="video-preview" />
+      </div>
+      <p class="video-title">Охрана труда на производстве</p>
+    </div>
+  </div>
+</div>
+        
+<!-- Модальное окно -->
+<div id="videoModal" class="modal hidden">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content">
+    <button class="close" aria-label="Закрыть модалку">
+      <svg width="20" height="20" viewBox="0 0 24 24" stroke="#333" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </svg>
+    </button>
+    <video id="modalVideo" controls autoplay></video>
+  </div>
+</div>
+
+       <!-- первая таблица -->
         <div class="table-container" id="first-table">
-            <table class="work-table">
-                <tr>
-                    <th>№</th>
-                    <th>Наименование работы</th>
-                    <th>Заказчик</th>
-                    <th>Номер работы</th>
-                    <th>Действие</th>
-                </tr>
-                {% for item in work_items %}
-                <tr>
-                    <td>{{ item.id }}</td>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.client }}</td>
-                    <td>{{ item.job_num }}</td>
-                    <td>
-                        <button
-                            class="btn-start"
-                            onclick="showSecondTable(this)"
-                            data-id="{{ item.id }}"
-                            data-name="{{ item.name }}"
-                            data-client="{{ item.client }}"
-                            data-jobnum="{{ item.job_num }}"
-                        >Просмотр</button>
-                    </td>
+          <table class="work-table">
+            <thead>
+              <tr>
+                <th>№</th>
+                <th>Наименование работы</th>
+                <th>Заказчик</th>
+                <th>Номер работы</th>
+                <th>Действие</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for order in orders_data %}
+              <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.description }}</td>
+                <td>{{ order.customer }}</td>
+                <td>{{ order.work_order_number }}</td>
+                <td>
+                 <button class="btn-start" onclick="showSecondTable('{{ order.id }}')">Просмотр</button>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>         
+    
+        <!-- вторая таблица: work_cards -->
+       <div class="table-container" id="second-table" style="display: none;">
+          <button class="back-btn" onclick="goBack()" style="font-size: 24px; padding: 12px 30px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c40000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            Назад
+          </button>
+          <h2>Рабочие карты заказа №<span id="order-num"></span></h2>
+
+          <table class="work-table">
+            <thead>
+              <tr>
+                <th>№</th>
+                <th>Название карты</th>
+                <th>Описание</th>
+                <th>Действие</th>
+              </tr>
+            </thead>
+            <tbody id="second-tbody">
+              {% for order in orders_data %}
+                {% for card in order.work_cards|sort(attribute="id") %}
+                <tr class="card-row" data-order-id="{{ order.id }}" data-order-code="{{ order.work_order_number }}" style="display: none;">
+                  <td class="card-index"></td>
+                  <td>{{ card.title }}</td>
+                  <td>{{ card.description }}</td>
+                  <td>
+                    <button class="btn-start" onclick="showThirdTable('{{ order.id }}, {{ card.id }}')">Открыть</button>
+                  </td>
                 </tr>
                 {% endfor %}
-            </table>
-        </div>            
-    
-        <!-- вторая таблица -->
-        <div class="table-container" id="second-table" style="display: none;">
-            <button class="back-btn" onclick="goBack()" style="font-size: 24px; padding: 12px 30px;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c40000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
-                Назад
-            </button>       
-            <table class="work-table">
-                <tr>
-                    <th colspan="2">Рабочая карта</th>
-                </tr>
-                <tr>
-                  <tr>
-                    <td>Рабочая карта №1</td>
-                    <td style="width: 220px;">
-                      <button class="btn-start" onclick="showThirdTable()">К проверке</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Рабочая карта №2</td>
-                    <td style="width: 220px;">
-                      <button class="btn-start" onclick="showThirdTable()">К проверке</button>
-                    </td>
-                  </tr>
-                  
-                </tr>
-            </table>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
 
         <!-- третья таблица -->
-<div class="table-container" id="third-table" style="display: none; position: relative;">
+      <div class="table-container" id="third-table" style="display: none; position: relative;">
+        <button class="back-btn" onclick="goBack()" style="font-size: 24px; padding: 12px 30px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c40000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          Назад
+        </button>
 
-  <button class="back-btn" onclick="goBack()" style="font-size: 24px; padding: 12px 30px;">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c40000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="15 18 9 12 15 6"></polyline>
-    </svg>
-    Назад
-</button>    
+        <table class="work-table">
+          <colgroup>
+                <col style="width: 20px;">
+                <col style="width: 350px;">
+                <col style="width: 120px;">
+                <col style="width: 230px;">
+              </colgroup>
+          <thead>
+            <tr>
+              <th>№</th>
+              <th>Описание операции работ</th>
+              <th>Инструкция</th>
+              <th>Выполнить</th>
+            </tr>
+          </thead>
+          <tbody id="third-tbody">
+            {% for order in orders_data %}
+              {% for card in order.work_cards %}
+                {% for op in card.operation_descriptions|sort(attribute="id") %}
+                <tr class="op-row" data-user-id="{{ user_id }}" data-order-id="{{ order.id }}" data-card-id="{{ card.id }}" data-operation-id="{{ op.id }}" style="display: none;">
+                  <td>ID карточки: {{ card.id }}</td>
+                  <td>ID операции: {{ op.id }}</td>
 
-<!-- Чертёж -->
-<button class="btn-drawing" onclick="window.open('pdfs/6893.00.000.pdf#page=1&view=FitH', '_blank')" style="
-    font-size: 24px;
-    padding: 12px 30px;
-    background-color: #D5C6CA;
-    color: #434343;
-    border: 2px solid #787A77;
-    border-radius: 10px;
-    cursor: pointer;
-    position: absolute;
-    top: 3px;
-    right: 50px;
-">Чертёж</button>
+                  <td>{{ op_index }}</td>
+                  <td>{{ op.operation }}</td>
+                  <td>
+                    {% if op.instruction_code and op.instruction_file_url %}
+                      <a href="{{ op.instruction_file_url }}" target="_blank">{{ op.instruction_code }}</a>
+                    {% else %}
+                      —
+                    {% endif %}
+                  </td>
+                  <td>
+                    <div class="timer-block">
+                      <div class="timer-display">00:00:00</div>
+                      <div class="button-row">
+                        <button class="btn-start start-btn">Старт</button>
+                        <button class="btn-start stop-btn" style="display: none;">Стоп</button>
+                      </div>
+                      <button class="btn-start submit-btn" style="display: none;">Отправить на проверку</button>
+                      <p class="status-message"></p>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              {% endfor %}
+            {% endfor %}
 
-    <!-- ТАБЛИЦА — ВНУТРИ блока -->
-    <!-- ТАБЛИЦА — ВНУТРИ блока -->
-<table class="work-table">
-  <colgroup>
-    <col style="width: 20px;">
-    <col style="width: 400px;">
-    <col style="width: 180px;">
-  </colgroup>
-  <thead>
-    <tr>
-      <th>№</th>
-      <th>Описание операции работ</th>
-      <th>Выполнить</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1</td>
-      <td>Списать материал</td>
-      <td>
-        <div class="action-buttons">
-          <button class="btn edit-btn">Доработка</button>
-          <button class="btn done-btn">Готово</button>
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>Отрезать материал</td>
-      <td>
-        <div class="action-buttons">
-          <button class="btn edit-btn">Доработка</button>
-          <button class="btn done-btn">Готово</button>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
-    
+          </tbody>
+        </table>
+        <!-- Чертёж -->
+            <button class="btn-drawing" onclick="window.open('/static/pdfs/6893.00.000.pdf#page=1&view=FitH', '_blank')" style="
+                font-size: 24px;
+                padding: 12px 30px;
+                background-color: #D5C6CA;
+                color: #434343;
+                border: 2px solid #787A77;
+                border-radius: 10px;
+                cursor: pointer;
+                position: absolute;
+                top: 3px;
+                right: 50px;
+            ">Чертёж</button>
+      </div>
+
       <script>
 // === Функции переключения таблиц ===
-function showSecondTable(button) {
-  resetSearch(); // Очистить фильтр
-
-  const first = document.getElementById('first-table');
-  const second = document.getElementById('second-table');
-
-  first.classList.add('fade-out');
-  setTimeout(() => {
-    first.style.display = 'none';
-    first.classList.remove('fade-out');
-    second.style.display = 'block';
-    second.classList.add('fade-in');
-    setTimeout(() => second.classList.remove('fade-in'), 200);
-  }, 200);
-
-  const name = button.dataset.name;
-  const client = button.dataset.client;
-  const jobNum = button.dataset.jobnum;
-
-  document.getElementById('job-name').textContent = name;
-  document.getElementById('job-client').textContent = client;
-  document.getElementById('job-num').textContent = jobNum;
-}
-
-function goBack() {
-  resetSearch();
-  const first = document.getElementById('first-table');
-  const second = document.getElementById('second-table');
-  const third = document.getElementById('third-table');
-
-  if (third.style.display === 'block') {
-    third.classList.add('fade-out');
-    setTimeout(() => {
-      third.style.display = 'none';
-      third.classList.remove('fade-out');
-      second.style.display = 'block';
-      second.classList.add('fade-in');
-      setTimeout(() => second.classList.remove('fade-in'), 200);
-    }, 200);
-  } else if (second.style.display === 'block') {
-    second.classList.add('fade-out');
-    setTimeout(() => {
-      second.style.display = 'none';
-      second.classList.remove('fade-out');
-      first.style.display = 'block';
-      first.classList.add('fade-in');
-      setTimeout(() => first.classList.remove('fade-in'), 200);
-    }, 200);
-  }
-}
-
-function showThirdTable() {
-  resetSearch();
-  const second = document.getElementById('second-table');
-  const third = document.getElementById('third-table');
-
-  second.classList.add('fade-out');
-  setTimeout(() => {
-    second.style.display = 'none';
-    second.classList.remove('fade-out');
-    third.style.display = 'block';
-    third.classList.add('fade-in');
-    setTimeout(() => third.classList.remove('fade-in'), 200);
-  }, 200);
-}
-
-function goBackToSecond() {
-  resetSearch();
-  const second = document.getElementById('second-table');
-  const third = document.getElementById('third-table');
-
-  third.classList.add('fade-out');
-  setTimeout(() => {
-    third.style.display = 'none';
-    third.classList.remove('fade-out');
-    second.style.display = 'block';
-    second.classList.add('fade-in');
-    setTimeout(() => second.classList.remove('fade-in'), 200);
-  }, 200);
-}
-
-
-// === Поиск ===
-function filterVisibleTable() {
-  const searchInput = document.querySelector('.search-input');
-  if (!searchInput) return;
-
-  const query = searchInput.value.toLowerCase();
-  const container = Array.from(document.querySelectorAll('.table-container'))
-    .find(c => getComputedStyle(c).display !== 'none');
-  if (!container) return;
-
-  container.querySelectorAll('tbody tr').forEach(row => {
-    row.style.display = row.innerText.toLowerCase().includes(query) ? '' : 'none';
-  });
-}
-
-function resetSearch() {
-  const inp = document.querySelector('.search-input');
-  if (inp) {
-    inp.value = '';
-    filterVisibleTable();
-  }
-}
-
-// === Переключение таблиц ===
 function showSecondTable(button) {
   resetSearch();
 
@@ -1050,9 +1153,22 @@ function showSecondTable(button) {
 
 function goBack() {
   resetSearch();
+  const instructions = document.getElementById('instructions-section');
   const first = document.getElementById('first-table');
   const second = document.getElementById('second-table');
   const third = document.getElementById('third-table');
+
+  if (instructions && instructions.style.display === 'block') {
+    instructions.classList.add('fade-out');
+    setTimeout(() => {
+      instructions.style.display = 'none';
+      instructions.classList.remove('fade-out');
+      first.style.display = 'block';
+      first.classList.add('fade-in');
+      setTimeout(() => first.classList.remove('fade-in'), 200);
+    }, 200);
+    return;
+  }
 
   if (third.style.display === 'block') {
     third.classList.add('fade-out');
@@ -1105,29 +1221,51 @@ function goBackToSecond() {
   }, 200);
 }
 
-// === Общая инициализация ===
+function filterVisibleTable() {
+  const searchInput = document.querySelector('.search-input');
+  if (!searchInput) return;
+
+  const query = searchInput.value.toLowerCase();
+  const container = Array.from(document.querySelectorAll('.table-container'))
+    .find(c => getComputedStyle(c).display !== 'none');
+  if (!container) return;
+
+  container.querySelectorAll('tbody tr').forEach(row => {
+    row.style.display = row.innerText.toLowerCase().includes(query) ? '' : 'none';
+  });
+}
+
+function resetSearch() {
+  const inp = document.querySelector('.search-input');
+  if (inp) {
+    inp.value = '';
+    filterVisibleTable();
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-  // Поиск
   const searchInput = document.querySelector('.search-input');
   if (searchInput) {
     searchInput.addEventListener('input', filterVisibleTable);
   }
 
-  // Логотип
   const logo = document.querySelector('.logo');
   if (logo) {
     logo.addEventListener('click', function () {
       this.classList.add('animate');
+
       const first = document.getElementById('first-table');
       const second = document.getElementById('second-table');
       const third = document.getElementById('third-table');
+      const instructions = document.getElementById('instructions-section');
 
-      [second, third].forEach(table => {
-        if (table.style.display === 'block') {
-          table.classList.add('fade-out');
+      [second, third, instructions].forEach(section => {
+        if (section && section.style.display === 'block') {
+          section.classList.remove('show');
+          section.classList.add('fade-out');
           setTimeout(() => {
-            table.style.display = 'none';
-            table.classList.remove('fade-out');
+            section.style.display = 'none';
+            section.classList.remove('fade-out');
           }, 200);
         }
       });
@@ -1142,7 +1280,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Логаут
   const logout = document.querySelector('.logout-button');
   if (logout) {
     logout.addEventListener('click', () => {
@@ -1153,7 +1290,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Меню
   const toggle = document.querySelector('.menu-button-wrapper');
   if (toggle) {
     toggle.addEventListener('click', () => {
@@ -1174,70 +1310,254 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Кнопки "Готово"
-  document.querySelectorAll('.done-btn').forEach(button => {
-    button.addEventListener('click', () => {
-      const parent = button.closest('.action-buttons');
-      parent.innerHTML = `
-        <span class="done-message">
-          Проверка пройдена! 
-          <img src="/static/done.gif" alt="done" class="done-icon" 
-               style="width: 40px; vertical-align: middle; margin-left: 5px; margin-top: 2px;">
-        </span>`;
+  document.querySelectorAll('.action-buttons').forEach(parent => {
+    addEventListenersToButtons(parent);
+  });
+
+  const instructionBtn = document.getElementById('btn-instruction');
+  const section = document.getElementById('instructions-section');
+  const first = document.getElementById('first-table');
+  const second = document.getElementById('second-table');
+  const third = document.getElementById('third-table');
+
+  if (instructionBtn) {
+    instructionBtn.addEventListener('click', () => {
+      resetSearch();
+
+      [first, second, third].forEach(el => {
+        el.classList.add('fade-out');
+        setTimeout(() => {
+          el.style.display = 'none';
+          el.classList.remove('fade-out');
+        }, 200);
+      });
+
       setTimeout(() => {
-        const doneIcon = parent.querySelector('.done-icon');
-        if (doneIcon) {
-          doneIcon.src = '/static/done.png';
-        }
-      }, 1400);
+        section.style.display = 'block';
+        section.scrollIntoView({ behavior: 'smooth' });
+        section.classList.add('fade-in');
+        setTimeout(() => section.classList.remove('fade-in'), 200);
+      }, 220);
+    });
+  }
+
+  const modal = document.getElementById('videoModal');
+  const video = document.getElementById('modalVideo');
+  const closeBtn = document.querySelector('#videoModal .close');
+
+  document.querySelectorAll('.video-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const src = item.getAttribute('data-src');
+      video.src = src;
+      modal.classList.remove('hidden');
     });
   });
 
-  // Кнопки "Доработка"
-  document.querySelectorAll('.edit-btn').forEach(button => {
-    button.addEventListener('click', () => {
-      const parent = button.closest('.action-buttons');
-      parent.innerHTML = `
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      modal.classList.add('hidden');
+      video.pause();
+      video.currentTime = 0;
+    });
+  }
+
+  window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.add('hidden');
+      video.pause();
+      video.currentTime = 0;
+    }
+  });
+});
+ 
+function showFirstTable() {
+  document.getElementById('first-table').style.display = 'block';
+  document.getElementById('second-table').style.display = 'none';
+  document.getElementById('third-table').style.display = 'none';
+}
+
+function showSecondTable(orderId) {
+  let orderCode = null;
+  const rows = document.querySelectorAll(".card-row");
+  let index = 1;
+
+  rows.forEach(row => {
+    const rowOrderId = row.dataset.orderId;
+    if (rowOrderId == orderId.toString()) {
+      if (!orderCode) {
+        orderCode = row.dataset.orderCode;
+      }
+      row.style.display = "table-row";
+      row.querySelector(".card-index").textContent = index++;
+    } else {
+      row.style.display = "none";
+    }
+  });
+
+  document.getElementById("order-num").textContent = orderCode || orderId;
+  document.getElementById("first-table").style.display = "none";
+  document.getElementById("second-table").style.display = "block";
+  document.getElementById("second-table").classList.add("show");
+}
+
+function formatTime(totalSeconds) {
+  const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+  const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+  const s = String(totalSeconds % 60).padStart(2, '0');
+  return `${h}:${m}:${s}`;
+}
+
+function showThirdTable(orderId, cardId) {
+  const rows = document.querySelectorAll('.op-row');
+
+  rows.forEach(row => {
+    const rowOrderId = row.getAttribute('data-order-id');
+    const rowCardId = row.getAttribute('data-card-id');
+
+    if (rowOrderId === String(orderId) && rowCardId === String(cardId)) {
+      row.style.display = 'table-row';
+    } else {
+      row.style.display = 'none';
+    }
+  });
+
+  document.getElementById('second-table').style.display = 'none';
+  document.getElementById('third-table').style.display = 'block';
+  setTimeout(() => initializeTimers(), 100);
+}
+
+function goBack() {
+  resetSearch();
+  const instructions = document.getElementById('instructions-section');
+  const first = document.getElementById('first-table');
+  const second = document.getElementById('second-table');
+  const third = document.getElementById('third-table');
+
+  if (instructions && instructions.style.display === 'block') {
+    instructions.classList.add('fade-out');
+    setTimeout(() => {
+      instructions.style.display = 'none';
+      instructions.classList.remove('fade-out');
+      first.style.display = 'block';
+      first.classList.add('fade-in');
+      setTimeout(() => first.classList.remove('fade-in'), 200);
+    }, 200);
+    return;
+  }
+
+  if (third.style.display === 'block') {
+    third.classList.add('fade-out');
+    setTimeout(() => {
+      third.style.display = 'none';
+      third.classList.remove('fade-out');
+      second.style.display = 'block';
+      second.classList.add('fade-in');
+      setTimeout(() => second.classList.remove('fade-in'), 200);
+    }, 200);
+  } else if (second.style.display === 'block') {
+    second.classList.add('fade-out');
+    setTimeout(() => {
+      second.style.display = 'none';
+      second.classList.remove('fade-out');
+      first.style.display = 'block';
+      first.classList.add('fade-in');
+      setTimeout(() => first.classList.remove('fade-in'), 200);
+    }, 200);
+  }
+}
+
+function initializeButtonHandlers(block, startTimeStr, workTimeId, timerEl, statusMessage) {
+  const startButton = block.querySelector('.start-btn');
+  const stopButton = block.querySelector('.stop-btn');
+  const doneButton = block.querySelector('.submit-btn');
+  const redoButton = block.querySelector('.redo-btn');
+
+  let interval = null;
+  const startTime = new Date(startTimeStr);
+
+  interval = setInterval(() => {
+    const now = new Date();
+    const elapsed = Math.floor((now - startTime) / 1000);
+    timerEl.textContent = formatTime(elapsed);
+  }, 1000);
+
+  doneButton.addEventListener('click', () => {
+    fetch(`/api/stop-time/?work_time_id=${workTimeId}`, { method: 'POST' })
+      .then(res => res.json())
+      .then(data => {
+        clearInterval(interval);
+        startButton.style.display = 'none';
+        stopButton.style.display = 'none';
+        doneButton.style.display = 'none';
+        if (redoButton) redoButton.style.display = 'none';
+
+        statusMessage.innerHTML = `
+          <span class="done-message">
+            Проверка пройдена! 
+            <img src="/static/done.gif" alt="done" class="done-icon" 
+                 style="width: 40px; vertical-align: middle; margin-left: 5px; margin-top: 2px;">
+          </span>
+          <button class="cancel-btn" style="position: absolute; top: 130px; right: 1px; background: none; border: none; color: #9c1d11; font-weight: bold; cursor: pointer; font-size: 18px;">
+            Отменить
+          </button>
+        `;
+
+        const cancelButton = block.querySelector('.cancel-btn');
+        cancelButton.addEventListener('click', () => {
+          startButton.style.display = 'inline-block';
+          stopButton.style.display = 'none';
+          doneButton.style.display = 'inline-block';
+          if (redoButton) redoButton.style.display = 'inline-block';
+          statusMessage.innerHTML = '';
+        });
+
+        setTimeout(() => {
+          const doneIcon = statusMessage.querySelector('.done-icon');
+          if (doneIcon) {
+            doneIcon.src = '/static/done.png';
+          }
+        }, 1400);
+      });
+  });
+
+  if (redoButton) {
+    redoButton.addEventListener('click', () => {
+      clearInterval(interval);
+      startButton.style.display = 'none';
+      stopButton.style.display = 'none';
+      doneButton.style.display = 'none';
+      redoButton.style.display = 'none';
+
+      statusMessage.innerHTML = `
         <span class="redo-message">
           Отправлено на доработку! 
           <img src="/static/done_inc.gif" alt="redo" class="done-icon" 
                style="width: 40px; vertical-align: middle; margin-left: 5px; margin-top: 2px;">
-        </span>`;
+        </span>
+        <button class="cancel-btn" style="position: absolute; top: 130px; right: 1px; background: none; border: none; color: #9c1d11; font-weight: bold; cursor: pointer; font-size: 18px;">
+          Отменить
+        </button>
+      `;
+
+      const cancelButton = block.querySelector('.cancel-btn');
+      cancelButton.addEventListener('click', () => {
+        startButton.style.display = 'inline-block';
+        stopButton.style.display = 'none';
+        doneButton.style.display = 'inline-block';
+        redoButton.style.display = 'inline-block';
+        statusMessage.innerHTML = '';
+      });
+
       setTimeout(() => {
-        const doneIcon = parent.querySelector('.done-icon');
+        const doneIcon = statusMessage.querySelector('.done-icon');
         if (doneIcon) {
           doneIcon.src = '/static/done_inc.png';
         }
       }, 1400);
     });
-  });
-});
-
-document.getElementById('btn-instruction').addEventListener('click', function () {
-    // Скрыть таблицы
-    document.getElementById('first-table').style.display = 'none';
-    document.getElementById('second-table').style.display = 'none';
-    document.getElementById('third-table').style.display = 'none';
-
-    // Показать с анимацией
-    const section = document.getElementById('instructions-section');
-    section.style.display = 'block';
-    setTimeout(() => {
-      section.classList.add('show');
-    }, 10); // чуть-чуть подождать, чтобы сработал transition
-  });
-
-  section.classList.remove('show');
-setTimeout(() => {
-  section.style.display = 'none';
-}, 400); // подождать пока исчезнет
-
+  }
+}
 </script>
 
-
-
-
-
-      
 
 

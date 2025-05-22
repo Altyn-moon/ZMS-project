@@ -22,7 +22,7 @@ def start_timer(operation_description_id: int, request: Request, db: Session = D
         operation_description_id=operation_description_id,
         start_time=start_time,
         end_time=None,
-        duration_minutes=0
+        #duration_minutes=0
     )
 
     db.add(work_time)
@@ -51,7 +51,6 @@ def stop_timer(work_time_id: int, db: Session = Depends(get_db)):
         "duration": work_time.duration_minutes
     }"""
 
-
 @router.post("/api/stop-time/")
 def stop_timer(
     work_time_id: int = Body(...),
@@ -72,7 +71,6 @@ def stop_timer(
         "work_time_id": work_time.id,
         "duration": work_time.duration_minutes
     }
-
 
 @router.get("/api/active-timer/")
 def get_active_timer(request: Request, db: Session = Depends(get_db)):
@@ -123,3 +121,4 @@ def save_time(data: dict, db: Session = Depends(get_db)):
     db.refresh(new_time)
     return {"status": "ok", "id": new_time.id}
 """
+
