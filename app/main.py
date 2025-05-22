@@ -64,6 +64,22 @@ from app.schemas import WorkOrderRead
 
 router = APIRouter()
 
+@app.get("/get-user-by-uid")
+def get_user_by_uid(uid: str, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.uid == uid).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="UID не найден")
+    return {
+        "login": user.login,
+        "password": user.password,
+        "role": user.role.value
+    }
+
+import threading
+from app.pikalka import start_reader_loop
+
+threading.Thread(target=start_reader_loop, daemon=True).start()
+
 
 @app.post("/api/workorders", response_model=schemas.WorkOrderRead)
 def create_work_order(order: schemas.WorkOrderCreate, db: Session = Depends(get_db)):
@@ -74,9 +90,17 @@ def create_work_order(order: schemas.WorkOrderCreate, db: Session = Depends(get_
         raise HTTPException(status_code=500, detail=str(e))
 
 # Маршрут для создания полной структуры WorkOrder + WorkCard + Operations + Documents
-@app.post("/api/full-workorder")
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+from app import schemas, crud
+from app.database import get_db
+
+router = APIRouter()
+
+@router.post("/api/workorder")
 def create_full_workorder(data: schemas.FullWorkOrder, db: Session = Depends(get_db)):
     return crud.create_full_workorder(db, data)
+
 
 
 # Подключение маршрутов
@@ -131,6 +155,12 @@ def create_work_order(order: schemas.WorkOrderCreate, db: Session = Depends(get_
 
     
 app.include_router(work_orders.router, prefix="/api")
+
+from app.routes import documents
+app.include_router(documents.router)
+
+from app.routes import work_orders
+app.include_router(work_orders.router)
 
 
 # altush

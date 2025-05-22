@@ -80,16 +80,7 @@ def create_full_workorder(data: schemas.FullWorkOrder, db: Session = Depends(get
 
     db.commit()
     return {"message": "Успешно сохранено"}
-from fastapi import UploadFile, File, Form
 
-@router.post("/full-workorder")
-async def create_full_workorder(
-    data: str = Form(...),
-    pdf_file: UploadFile = File(None),
-    db: Session = Depends(get_db)
-):
-    parsed = json.loads(data)
-    # Дальше логика сохранения parsed и файла pdf_file
 
 
 

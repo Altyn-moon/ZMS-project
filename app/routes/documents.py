@@ -48,3 +48,19 @@ def get_document(doc_id: int, db: Session = Depends(get_db)):
         "created_at": doc.created_at
     }
 
+ #arai admin
+from fastapi import APIRouter, UploadFile, File, HTTPException
+from fastapi.responses import JSONResponse
+
+router = APIRouter()
+
+@router.post("/documents/upload")
+async def upload_document(file: UploadFile = File(...)):
+    # Пример простой обработки
+    contents = await file.read()
+    filename = file.filename
+
+    # Здесь можно сохранить в БД или на диск
+    print(f"✅ Загружен файл: {filename}, размер: {len(contents)} байт")
+
+    return JSONResponse(content={"filename": filename, "status": "ok"})

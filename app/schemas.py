@@ -229,5 +229,4 @@ class FullWorkOrder(BaseModel):
 
     work_order: WorkOrderIn
 
-    work_order: WorkOrderIn
 
