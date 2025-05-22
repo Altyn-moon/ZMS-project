@@ -582,9 +582,20 @@ th, td {
 }
 
 .close-button {
-  position: absolute;
-  top: 15px;
-  right: 15px;
+    position: fixed; /* фиксируем относительно окна браузера */
+    top: 20px;
+    right: 20px;
+    z-index: 1001; /* убедитесь, что выше содержимого */
+    background-color: #8B0000;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    transition: transform 0.1s ease-in-out;
+
 
   /* Стиль как у кнопки «Сохранить» */
   background-color: #8B0000;
@@ -695,16 +706,35 @@ th, td {
 
 /* Кнопка «Сохранить рабочую карту» */
 .submit-btn {
-  background: #800000;
-  color: #fff;
-  padding: 12px;
-  border-radius: 8px;
-  font-size: 12px;
-  transition: background 0.2s ease;
+  font-size: 18px;
+  background-color: #800000;
+  color: white;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 500;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  width: 180px;
+  display: block; /* или inline-block, если нужна */
+  margin-left: 10px; /* или 15px, 20px — как тебе нужно */
+  margin-top: 15px;
+  margin-right: auto; /* или 0 */
+  box-sizing: border-box;
 }
+
 .submit-btn:hover {
-  background: #a00000;
+  background-color: #a00000;
+  transform: scale(1.04);
 }
+
+.submit-btn-wrapper {
+  overflow: hidden;
+  padding-bottom: 20px; /* отступ, если нужно */
+}
+
 .section-header {
   display: flex;
   align-items: center;
@@ -973,20 +1003,38 @@ textarea#modal-input {
   font-size: 14px;
 }
 
+/* Удалить лишний дубликат и сохранить финальный стиль */
 .save-btn {
-  background: #800000;
-  color: #fff;
-  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #800000;
+  color: white;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 600;
+  padding: 10px 24px;
   border: none;
-  border-radius: 6px;
-  margin-top: 15px;
+  border-radius: 25px;
   cursor: pointer;
-  width: 100%;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  width: 180px;
+  display: block; /* или inline-block, если нужна */
+  margin-left: 10px; /* или 15px, 20px — как тебе нужно */
+  margin-top: 15px;
+  margin-right: auto; /* или 0 */
+  box-sizing: border-box;
 }
 
+
 .save-btn:hover {
-  background: #a00000;
+  background-color: #a00000;
+  transform: scale(1.04);
 }
+
+.save-btn-wrapper {
+  overflow: hidden;
+  padding-bottom: 20px; /* отступ, если нужно */
+}
+
 
 
   textarea {
@@ -1555,6 +1603,71 @@ a:visited {
   
     .fixed { position: fixed; z-index: 1000; }
     .content { padding: 150px 40px 40px 250px; } /* отступы под меню и шапку */
+      #opsTable th.base-column,
+#opsTable td.base-column {
+  min-width: 150px;
+  max-width: 150px;
+  width: 150px;
+  box-sizing: border-box;
+}
+
+#opsTableWrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+
+#opsTable {
+  border-collapse: collapse;
+  width: max-content; /* таблица расширяется по содержимому */
+}
+
+button.add-row {
+  margin: 2px;
+  padding: 2px 6px;
+  font-size: 16px;
+  background-color: transparent;
+  color: #800000; /* Бордовый цвет */
+  border: 1px solid #800000;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button.add-row:hover {
+  background-color: #800000;
+  color: white;
+}
+
+.checkmark {
+  color: green;
+  font-weight: bold;
+  margin-left: 8px;
+  transition: opacity 0.3s ease;
+  display: inline-block;
+}
+
+.checkmark.show {
+  opacity: 1;
+}
+
+.invalid {
+  border: 2px solid #e74c3c; /* красная рамка */
+  background-color: #fdecea;  /* светло-красный фон */
+  transition: background-color 0.3s ease;
+}
+
+  .signature-block {
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 14px;
+    text-align: left;
+    margin-top: -1px; /* чтобы линии совпали */
+  }
+  .signature-block td, .signature-block th {
+    border: 1px solid black;
+    padding: 5px;
+  }
+
   </style>
   
 </head>
@@ -1980,7 +2093,6 @@ a:visited {
           <div class="col"></div> <!-- для кнопки удаления в шапке остаётся пусто -->
         </div>
       
-        <!-- Сюда будут добавляться строки -->
         <div id="operationsList"></div>
       </div>
       
@@ -2015,8 +2127,7 @@ a:visited {
       dateFormat: "Y-m-d",  // Формат даты
     });
   </script>
-<button type="submit" class="submit-btn">Сохранить</button>
-      <!--<div class="scroll-container">
+      <div class="scroll-container">
 
         <div id="job-cards-container">
           <h3>Job Cards</h3>
@@ -2025,11 +2136,11 @@ a:visited {
         </div>
         
 
-<!-- Модалка Job Card (без затемнения) 
+<!-- Модалка Job Card (без затемнения)--> 
 <div id="jobCardModal" class="modal" onclick="closeJobCardModal()">
   <div class="modal-content" onclick="event.stopPropagation()">
 
-    <!-- Заголовок, за который тянем 
+    <!-- Заголовок, за который тянем -->
     <div class="modal-header" id="jobCardHeader">
       
       <button type="button" class="close-button" onclick="closeJobCardModal()">×</button>
@@ -2039,35 +2150,35 @@ a:visited {
     
 
     <form id="jobCardForm" class="modal-form">
-      <!-- Здесь все поля формы 
+      <!-- Здесь все поля формы--> 
     </form>
    
 
       <div class="form-container">
         <div class="form-item">
           <label for="datepicker">Date/Дата</label>
-          <input type="text" id="datepicker" class="auto-field" style="width: 100px; padding: 10px;" readonly>
+          <input type="text" id="modalStartDate" class="auto-field" style="width: 100px; padding: 10px;" readonly>
         </div>
 
         <div class="form-item">
           <label for="workOrder">Work Order № / Заказ Наряд №</label>
-          <input type="text" id="workOrder" class="auto-field" style="width: 170px; padding: 10px;" readonly>
+          <input type="text" id="modalWorkOrderNumber" class="auto-field" style="width: 170px; padding: 10px;" readonly>
         </div>
         <div class="form-item">
           <label for="workOrder">P.O. №Grease/ P.O. № смазки</label>
-          <input type="text" id="workOrder" class="auto-field" style="width: 170px; padding: 10px;" readonly>
+          <input type="text" id="modalGreaseNumber" class="auto-field" style="width: 170px; padding: 10px;" readonly>
         </div>
         <div class="form-item">
           <label for="workOrder">P.O. protector/ P.O. № протектора</label>
-          <input type="text" id="workOrder" class="auto-field" style="width: 170px; padding: 10px;" readonly>
+          <input type="text" id="modalProtectorNumber" class="auto-field" style="width: 170px; padding: 10px;" readonly>
         </div>
         <div class="form-item">
           <label for="workOrder">Request №/ Заявка №</label>
-          <input type="text" id="workOrder" class="auto-field" style="width: 170px; padding: 10px;" readonly>
+          <input type="text" id="modalJobRequestNumber" class="auto-field" style="width: 170px; padding: 10px;" readonly>
         </div>
         <div class="form-item">
           <label for="workOrder">Cast Number / Номер Плавки:</label>
-          <input type="text" id="workOrder" style="width: 180px; padding: 10px;" placeholder="" required>
+          <input type="text" id="workOrder" style="width: 180px; padding: 10px;" placeholder="" >
         </div>
       </div>
     
@@ -2092,11 +2203,11 @@ a:visited {
 
   <div class="form-item">
     <label for="workOrder">Customer/ Заказчик</label>
-    <input type="text" id="workOrder" class="auto-field" style="width: 600px; padding: 10px;" readonly>
+    <input type="text" id="modalCustomer" class="auto-field" style="width: 600px; padding: 10px;" readonly>
   </div>
   
 
-<!-- Сертификат материала 
+<!-- Сертификат материала--> 
 <div class="form-item" onclick="event.stopPropagation()">
   <label for="certificateUpload">Mill Certificate № / Сертификат материала №</label>
   <div class="input-with-clip" onclick="event.stopPropagation()">
@@ -2119,7 +2230,7 @@ a:visited {
       onclick="event.stopPropagation()"
     >
   </div>
-  <!-- Контейнер для отображения списка выбранных файлов 
+  <!-- Контейнер для отображения списка выбранных файлов -->
   <div id="certificateFilename" class="filename"></div>
 </div>
 </div>
@@ -2131,17 +2242,26 @@ a:visited {
   </div>
   <div class="form-item">
     <label for="workOrder">Job description/ Описание работы</label>
-    <input type="text" id="workOrder" class="auto-field" style="width: 600px; padding: 10px;" readonly>
+    <input type="text" id="modalJobDescription" class="auto-field" style="width: 600px; padding: 10px;" readonly>
   </div>  
 </div>
 
-<table id="opsTable">
+<div id="opsTableWrapper">
+<table id="opsTable" onclick="event.stopPropagation()">
+  <!-- Кнопка вернуть (можно спрятать вначале) -->
+<button id="undoButton" type="button" style="display:none; margin: 10px 0;" onclick="undoDelete()">↩️ Вернуть последнюю операцию</button>
   <thead>
     <tr class="header-eng">
       <th>Item</th>
       <th>Operation Description</th>
       <th>Procedure/instructions/reference</th>
-      <th><button id="addColumnBtn">➕</button></th>
+      <th id="controlHeader" rowspan="1" style="border: 1px solid black; padding: 0; width: 50px;">
+        <div style="display: flex; flex-direction: column; height: 100%;">
+          <button id="addColumnBtn" type="button" onclick="addColumnWithSerial()" style="flex: 1; border-bottom: 1px solid black;">➕</button>
+<button id="removeColumnBtn" type="button" onclick="removeColumnWithSerial()" style="flex: 1;">➖</button>
+
+        </div>
+      </th>            
     </tr>
     <tr class="header-rus">
       <th>Пункт</th>
@@ -2157,7 +2277,10 @@ a:visited {
       <td>
         <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101</a><br>
       </td>    
-      <td><button class="delete-row">🗑️</button></td>
+      <td>
+        <button class="add-row">➕</button>
+        <button class="delete-row">🗑️</button>
+      </td>
     </tr>
     <tr>
       <td>2</td>
@@ -2166,7 +2289,10 @@ a:visited {
         <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101</a><br>
         <a href="/static/pdfs/инструкция2.pdf" target="_blank">ZMS-PN-DP-001</a>
       </td>
-      <td><button class="delete-row">🗑️</button></td>
+      <td>
+        <button class="add-row">➕</button>
+        <button class="delete-row">🗑️</button>
+      </td>
     </tr>
     <tr>
       <td>3</td>
@@ -2175,7 +2301,10 @@ a:visited {
         <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-PN-DP-003</a><br>
         <a href="/static/pdfs/инструкция2.pdf" target="_blank">ZMS-PN-DP-003-F-002</a>
       </td>
-      <td><button class="delete-row">🗑️</button></td>
+      <td>
+        <button class="add-row">➕</button>
+        <button class="delete-row">🗑️</button>
+      </td>
     </tr>
     <tr>
       <td>4</td>
@@ -2183,7 +2312,10 @@ a:visited {
       <td>
         <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-PT-KTL-001-F-002</a><br>
       </td>
-      <td><button class="delete-row">🗑️</button></td>
+      <td>
+        <button class="add-row">➕</button>
+        <button class="delete-row">🗑️</button>
+      </td>
     </tr>
     <tr>
       <td>5</td>
@@ -2191,7 +2323,10 @@ a:visited {
       <td>
         <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-PT-KTL-001-F-002</a><br>
       </td>
-      <td><button class="delete-row">🗑️</button></td>
+      <td>
+        <button class="add-row">➕</button>
+        <button class="delete-row">🗑️</button>
+      </td>
     </tr>
     <tr>
       <td>6</td>
@@ -2199,7 +2334,10 @@ a:visited {
       <td>
         <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-PT-KTL-001-F-002</a><br>
       </td>
-      <td><button class="delete-row">🗑️</button></td>
+      <td>
+        <button class="add-row">➕</button>
+        <button class="delete-row">🗑️</button>
+      </td>
     </tr>
     <tr>
       <td>7</td>
@@ -2207,7 +2345,10 @@ a:visited {
       <td>
         <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-PT-KTL-001-F-002</a><br>
       </td>
-      <td><button class="delete-row">🗑️</button></td>
+      <td>
+        <button class="add-row">➕</button>
+        <button class="delete-row">🗑️</button>
+      </td>
     </tr>
     <tr>
       <td>8</td>
@@ -2222,7 +2363,10 @@ a:visited {
       <td>
         <a href="/static/pdfs/инструкция.pdf" target="_blank">Резьбовая книга</a><br>
       </td>
-      <td><button class="delete-row">🗑️</button></td>
+      <td>
+        <button class="add-row">➕</button>
+        <button class="delete-row">🗑️</button>
+      </td>
     </tr>
     <td>9</td>
     <td>
@@ -2235,7 +2379,10 @@ a:visited {
     <td>
       <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101-WI-004</a><br>
     </td>
-    <td><button class="delete-row">🗑️</button></td>
+      <td>
+        <button class="add-row">➕</button>
+        <button class="delete-row">🗑️</button>
+      </td>
   </tr>
   <td>10</td>
     <td>
@@ -2248,7 +2395,10 @@ a:visited {
     <td>
       <a href="/static/pdfs/инструкция.pdf" target="_blank">Резьбовая книга</a><br>
     </td>
-    <td><button class="delete-row">🗑️</button></td>
+      <td>
+        <button class="add-row">➕</button>
+        <button class="delete-row">🗑️</button>
+      </td>
   </tr>
   <td>11</td>
     <td>
@@ -2261,87 +2411,160 @@ a:visited {
     <td>
       <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101-WI-004</a><br>
     </td>
-    <td><button class="delete-row">🗑️</button></td>
+      <td>
+        <button class="add-row">➕</button>
+        <button class="delete-row">🗑️</button>
+      </td>
   </tr>
   <td>12</td>
     <td>Очистить детали</td>
     <td>---</td>
-    <td><button class="delete-row">🗑️</button></td>
+      <td>
+        <button class="add-row">➕</button>
+        <button class="delete-row">🗑️</button>
+      </td>
   </tr>
   <td>13</td>
     <td>Набить серийный номер</td>
     <td>
       <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-QC-DP-008-WI-023</a><br>
     </td>
-    <td><button class="delete-row">🗑️</button></td>
+      <td>
+        <button class="add-row">➕</button>
+        <button class="delete-row">🗑️</button>
+      </td>
   </tr>
   <td>14</td>
     <td>Фосфатная обработка</td>
     <td>
       <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101-WI-002</a><br>
     </td>
-    <td><button class="delete-row">🗑️</button></td>
+      <td>
+        <button class="add-row">➕</button>
+        <button class="delete-row">🗑️</button>
+      </td>
   </tr>
   <td>15</td>
     <td>Смазать резьбовые соединения</td>
     <td>
       <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101-WI-043</a><br>
     </td>
-    <td><button class="delete-row">🗑️</button></td>
+      <td>
+        <button class="add-row">➕</button>
+        <button class="delete-row">🗑️</button>
+      </td>
   </tr>
   <td>16</td>
     <td>Накрутить защитные протектора</td>
     <td>
       <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101-WI-043</a><br>
     </td>
-    <td><button class="delete-row">🗑️</button></td>
+      <td>
+        <button class="add-row">➕</button>
+        <button class="delete-row">🗑️</button>
+      </td>
   </tr>
   <td>17</td>
     <td>Покраска готовой продукции</td>
     <td>
       <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101-WI-042</a><br>
     </td>
-    <td><button class="delete-row">🗑️</button></td>
+      <td>
+        <button class="add-row">➕</button>
+        <button class="delete-row">🗑️</button>
+      </td>
   </tr>
   <td>18</td>
     <td>Упаковка готовой продукции</td>
     <td>
       <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101-WI-043</a><br>
     </td>
-    <td><button class="delete-row">🗑️</button></td>
+      <td>
+        <button class="add-row">➕</button>
+        <button class="delete-row">🗑️</button>
+      </td>
   </tr>
   <td>19</td>
     <td>Окончательная инспекция</td>
     <td>
       <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-QC-DP-001-WI-002</a><br>
     </td>
-    <td><button class="delete-row">🗑️</button></td>
+      <td>
+        <button class="add-row">➕</button>
+        <button class="delete-row">🗑️</button>
+      </td>
   </tr>
   <td>20</td>
     <td>Комплектация документов для передачи продукции заказчику</td>
     <td>
       <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101</a><br>
     </td>
-    <td><button class="delete-row">🗑️</button></td>
+      <td>
+        <button class="add-row">➕</button>
+        <button class="delete-row">🗑️</button>
+      </td>
   </tr>
   <td>21</td>
     <td>Выпуск продукции</td>
     <td>
       <a href="/static/pdfs/инструкция.pdf" target="_blank">ZMS-TH-QP-101</a><br>
     </td>
-    <td><button class="delete-row">🗑️</button></td>
+      <td>
+        <button class="add-row">➕</button>
+        <button class="delete-row">🗑️</button>
+      </td>
+<table class="signature-block" >
+  <tr>
+    <td colspan="2"><strong>Job Card Approved<br>Утвердил Рабочую карту</strong></td>
+    <td colspan="2"><strong>Quality Inspector<br>Инспектор ОТК</strong></td>
+  </tr>
+  <tr>
+    <td><strong>Signature:<br>Подпись:</strong></td>
+    <td><strong>Date:<br>Дата:</strong></td>
+    <td><strong>Signature:<br>Подпись:</strong></td>
+    <td><strong>Date:<br>Дата:</strong></td>
+  </tr>
+  <tr>
+    <td style="height: 40px;"></td>
+    <td><span id="approvedDate"></span></td>
+
+    <td></td>
+    <td>28.01.25</td>
+  </tr>
+  <tr>
+    <td colspan="2"><strong>Prepared By Coordinator<br>Подготовлено Координатором:</strong></td>
+    <td colspan="2"><strong>Job Closed – Coordinator<br>Работа закрыта Координатор:</strong></td>
+  </tr>
+  <tr>
+    <td><strong>Signature:<br>Подпись:</strong></td>
+    <td><strong>Date:<br>Дата:</strong></td>
+    <td><strong>Signature:<br>Подпись:</strong></td>
+    <td><strong>Date:<br>Дата:</strong></td>
+  </tr>
+  <tr>
+    <td style="height: 40px;"></td>
+    <td><span id="coordinatorDate"></span></td>
+
+    <td></td>
+    <td>28.01.25</td>
+  </tr>
 
   </tbody>
 </table>
-  <div class="modal-actions">
-        <button id="saveJobCardBtn" type="button" class="modal-button">Сохранить</button>
-       <!-- Контейнер для динамически добавляемых блоков 
+<div class="save-btn-wrapper">
+<button type="button" onclick="saveDraft('jobcard-1')">Сохранить</button>
+</div>
+
+       <!-- Контейнер для динамически добавляемых блоков--> 
        <div id="operation-rows"></div>
     </div>
     </form>
   </div>
 </div>
-      <button type="submit" class="submit-btn">Сохранить</button>-->
+<form id="jobCardForm">
+  <!-- Кнопка для отправки формы -->
+  <button type="submit" class="submit-btn">Сохранить</button>
+</form>
 
 </div>
 </main>
@@ -2566,11 +2789,18 @@ function showDashboard() {
       document.getElementById('operatorsList').appendChild(div);
     });
     
-    // Отправка формы
-    document.getElementById('jobCardForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      alert('Рабочая карта сохранена!');
-    });
+    // Привязываем обработчик к кнопке отправки формы
+document.getElementById('jobCardForm').addEventListener('submit', function(e) {
+  e.preventDefault(); // Отменить стандартное отправление формы
+
+  const message = document.getElementById('jobCardSuccessMessage');
+message.style.display = 'block';
+message.classList.remove('fade');
+void message.offsetWidth; // Перезапуск анимации
+message.classList.add('fade');
+
+});
+
     </script>
 
 <!-- job card  -->
@@ -2590,10 +2820,11 @@ function showDashboard() {
     div.id = id;
 
     div.innerHTML = `
-      <span class="card-label" onclick="openJobCardModal('${id}')">Job Card ${jobCardCount}</span>
-      <span class="status" id="status-${id}"></span>
-      <button class="delete-btn" onclick="deleteJobCard('${id}')">−</button>
-    `;
+    <span class="card-label" onclick="openJobCardModal('${id}')">Job Card ${jobCardCount}</span>
+    <span class="status" id="status-${id}"></span>
+    <span class="checkmark" id="checkmark-${id}">${savedCards[id]?.saved ? '✓' : ''}</span>
+    <button class="delete-btn" onclick="deleteJobCard('${id}')">−</button>
+  `;
 
     document.getElementById("job-cards-list").appendChild(div);
     updateCardNumbers();
@@ -2616,26 +2847,77 @@ function showDashboard() {
   function updateCardNumbers() {
     const list = document.getElementById("job-cards-list");
     const entries = list.getElementsByClassName("job-card-entry");
-    jobCardCount = entries.length;
+const newSavedCards = {};
+  jobCardCount = entries.length;
 
     Array.from(entries).forEach((entry, index) => {
       const newId = `job-card-${index + 1}`;
-      const label = entry.querySelector(".card-label");
+    const oldId = entry.id;
 
-      entry.id = newId;
-      label.textContent = `Job Card ${index + 1}`;
+    // Обновить ID
+    entry.id = newId;
+
+    // Обновить onclick метки
+    const label = entry.querySelector('.card-label');
+    if (label) {
+      label.innerText = `Job Card ${index + 1}`;
       label.setAttribute("onclick", `openJobCardModal('${newId}')`);
-      entry.querySelector(".delete-btn").setAttribute("onclick", `deleteJobCard('${newId}')`);
+    }
 
-      // переносим данные, если были сохранены
-      jobCards[newId] = savedCards[newId] || {};
-    });
-  }
+    // Обновить кнопку удаления
+    const deleteBtn = entry.querySelector('.delete-btn');
+    if (deleteBtn) {
+      deleteBtn.setAttribute("onclick", `deleteJobCard('${newId}')`);
+    }
 
-  function openJobCardModal() {
-  // перед показом заполняй автополя, например:
-  // document.getElementById('datepicker').value = document.getElementById('mainDate').value;
+    // Обновить статус чекмарка
+    const checkmark = entry.querySelector('.checkmark');
+    if (savedCards[oldId]?.saved) {
+      checkmark.textContent = '✓';
+      checkmark.classList.add('show');
+      newSavedCards[newId] = savedCards[oldId]; // переносим сохранённые данные
+    } else {
+      checkmark.textContent = '';
+      checkmark.classList.remove('show');
+    }
+  });
+
+  // Перезаписываем сохранённые данные
+  Object.keys(savedCards).forEach(key => delete savedCards[key]);
+  Object.assign(savedCards, newSavedCards);
+}
+
+
+  function openJobCardModal(id) {
+  currentEditingId = id; // Устанавливаем текущую редактируемую карточку
   document.getElementById('jobCardModal').style.display = 'block';
+
+  // Если нужно — заполняем поля модалки:
+  // const saved = savedCards[id];
+  // if (saved) {
+  //   document.getElementById('inputName').value = saved.name || '';
+  // }
+}
+
+function saveJobCard() {
+  // Здесь ваша логика сохранения данных
+  
+  // После успешного сохранения:
+  if (currentEditingId) {
+    savedCards[currentEditingId] = { saved: true };
+    const checkmark = document.getElementById(`checkmark-${currentEditingId}`);
+    if (checkmark) {
+      checkmark.textContent = '✓';
+      checkmark.classList.add('show');
+    }
+    
+    // Показываем сообщение об успехе
+    const successMessage = document.getElementById('jobCardSuccessMessage');
+    successMessage.style.display = 'block';
+    setTimeout(() => {
+      successMessage.style.display = 'none';
+    }, 3000);
+  }
 }
 
 
@@ -2692,6 +2974,7 @@ function closeJobCardModal() {
     });
   }
 </script>
+
 <script>
   let operationCount = 0;
 
@@ -2811,16 +3094,16 @@ document.getElementById('addColumnBtn').addEventListener('click', function (even
   const rusHeaderRow = document.querySelector('#opsTable thead tr.header-rus');
   const bodyRows = document.querySelectorAll('#opsTable tbody tr');
 
-  const headersEng = ['Date', "Operator's name and signature", 'Time', 'Identification', 'QC Inspector signature'];
-  const headersRus = ['Дата', 'Имя оператора и подпись', 'Время', 'Идентификация', 'Подпись инспектора'];
+  // --- const headersEng = ['Date', "Operator's name and signature", 'Time', 'Identification', 'QC Inspector signature'];
+  // --- const headersRus = ['Дата', 'Имя оператора и подпись', 'Время', 'Идентификация', 'Подпись инспектора'];
 
   // --- 1. Верхний заголовок (Item N)
-  const thEngGroup = document.createElement('th');
-  thEngGroup.textContent = 'Item 1';
-  thEngGroup.colSpan = 5;
-  thEngGroup.style.border = '1px solid black';
-  thEngGroup.style.textAlign = 'center';
-  engHeaderRow.insertBefore(thEngGroup, engHeaderRow.lastElementChild); // ← Назад к нормальной позиции
+  // --- const thEngGroup = document.createElement('th');
+  // --- thEngGroup.textContent = 'Item Serial №:/Серийный №:';
+  // --- thEngGroup.colSpan = 5;
+  // --- thEngGroup.style.border = '1px solid black';
+  // --- thEngGroup.style.textAlign = 'center';
+  // --- engHeaderRow.insertBefore(thEngGroup, engHeaderRow.lastElementChild); // ← Назад к нормальной позиции
 
   for (let i = 0; i < headersEng.length; i++) {
   const th = document.createElement('th');
@@ -2828,6 +3111,7 @@ document.getElementById('addColumnBtn').addEventListener('click', function (even
   th.style.padding = '0';
   th.style.width = '150px'; // фиксированная ширина
   th.style.boxSizing = 'border-box';
+  
 
   // английский текст
   const divEng = document.createElement('div');
@@ -2864,22 +3148,106 @@ document.getElementById('addColumnBtn').addEventListener('click', function (even
   });
 });
 
-  // 3) Удаление строки + перенумерация "Пункт"
-  document.getElementById('opsTable').addEventListener('click', function (e) {
-    if (!e.target.classList.contains('delete-row')) return;
-    e.stopPropagation();
+  // Добавить плюсики ко всем строкам (если их нет)
+function addPlusButtonsToRows() {
+  const rows = document.querySelectorAll('#opsTable tbody tr');
+  rows.forEach(row => {
+    const cell = row.querySelector('td:last-child');
 
-    const row = e.target.closest('tr');
+    // Убедимся, что есть только одна пара кнопок
+    if (!cell.querySelector('.add-row')) {
+      const addBtn = document.createElement('button');
+      addBtn.className = 'add-row';
+      addBtn.textContent = '➕';
+      cell.appendChild(addBtn);
+    }
+  });
+}
+
+// Перенумеровать колонку "Пункт"
+function renumberRows() {
+  const rows = document.querySelectorAll('#opsTable tbody tr');
+  rows.forEach((tr, idx) => {
+    tr.children[0].textContent = idx + 1;
+  });
+}
+
+// Делегирование событий для удаления и добавления
+document.getElementById('opsTable').addEventListener('click', function (e) {
+  const target = e.target;
+
+  // Удаление строки
+  if (target.classList.contains('delete-row')) {
+    e.stopPropagation();
+    const row = target.closest('tr');
     row.classList.add('fade-remove');
     setTimeout(() => {
       row.remove();
-      // Перенумеруем первую ячейку (Пункт)
-      document.querySelectorAll('#opsTable tbody tr').forEach((tr, idx) => {
-        tr.children[0].textContent = idx + 1;
-      });
+      renumberRows();
     }, 300);
+    return;
+  }
+
+  // Добавление новой строки
+  if (target.classList.contains('add-row')) {
+    e.stopPropagation();
+    const currentRow = target.closest('tr');
+    const newRow = currentRow.cloneNode(true);
+
+    // Очистим содержимое ячеек, кроме "Пункт"
+    newRow.querySelectorAll('td').forEach((td, i) => {
+      if (i === 0) return; // "Пункт" пересчитается
+      td.innerHTML = (i === 3) ? `
+        <button class="delete-row">🗑️</button>
+        <button class="add-row">➕</button>
+      ` : '';
+    });
+
+    currentRow.after(newRow);
+    renumberRows();
+    addPlusButtonsToRows(); // убедимся, что новые строки тоже с кнопками
+  }
+});
+
+// При инициализации
+addPlusButtonsToRows();
+renumberRows();
+
+
+  document.getElementById('removeColumnBtn').addEventListener('click', function () {
+  event.stopPropagation(); // ⬅️ вот это нужно добавить
+  if (dynamicColCount === 0) return; // Нечего удалять
+  dynamicColCount--;
+
+  const engHeaderRow = document.querySelector('#opsTable thead tr.header-eng');
+  const rusHeaderRow = document.querySelector('#opsTable thead tr.header-rus');
+  const bodyRows = document.querySelectorAll('#opsTable tbody tr');
+
+  // 1. Удаляем последний th с colSpan=5 в header-eng (Item N)
+  // Пропускаем первый и последний — они фиксированы
+  let itemHeaders = Array.from(engHeaderRow.children).filter(th => th.colSpan === 5);
+  if (itemHeaders.length > 0) {
+    engHeaderRow.removeChild(itemHeaders[itemHeaders.length - 1]);
+  }
+
+  // 2. Удаляем последние 5 th из header-rus (тоже пропуская фиксированные)
+  let removableHeaders = Array.from(rusHeaderRow.children);
+  for (let i = 0; i < 5; i++) {
+    const thToRemove = removableHeaders[removableHeaders.length - 2 - i]; // перед последним
+    rusHeaderRow.removeChild(thToRemove);
+  }
+
+  // 3. Удаляем последние 5 td из каждой строки tbody (перед последним фиксированным td)
+  bodyRows.forEach(tr => {
+    const cells = Array.from(tr.children);
+    for (let i = 0; i < 5; i++) {
+      tr.removeChild(cells[cells.length - 2 - i]);
+    }
   });
+});
+
 </script>
+
 <script>
 document.querySelectorAll('.toggle-buttons').forEach(group => {
   const buttons = group.querySelectorAll('.option-btn');
@@ -2982,23 +3350,113 @@ if (newModal) {  // Проверяем, существует ли новая м�
 
   </script>
   <!-- скрепка чертеж и сертификат -->
- <script>
-function handleFileSelect(event, filenameDivId) {
-  const files = Array.from(event.target.files);
-  const container = document.getElementById(filenameDivId);
-  container.innerHTML = '';  // очищаем
+<script>
+    function handleFileSelect(event, filenameDivId) {
+      const files = Array.from(event.target.files);
+      const container = document.getElementById(filenameDivId);
+      container.innerHTML = ''; // очищаем
+    
+      if (!files.length) return;
+    
+      const ul = document.createElement('ul');
+      files.forEach(f => {
+        const li = document.createElement('li');
+        li.textContent = f.name;
+        ul.appendChild(li);
+      });
+      container.appendChild(ul);
+    }
+    
+    document.getElementById('jobCardForm').addEventListener('submit', function (e) {
+  e.preventDefault();
 
-  if (!files.length) return;
+  resetFormErrors();
 
-  const ul = document.createElement('ul');
-  files.forEach(f => {
-    const li = document.createElement('li');
-    li.textContent = f.name;
-    ul.appendChild(li);
+  const result = validateForm();
+
+  if (result.isValid) {
+    showJobCardFormSuccess('Рабочая карта успешно создана!');
+  } else {
+    showJobCardFormError(result.message);
+  }
+});
+
+function validateForm() {
+  const form = document.getElementById('jobCardForm');
+  const requiredFields = form.querySelectorAll('[required]');
+
+  let isAnyRequiredEmpty = false;
+  let firstInvalid = null;
+
+  // Проверка обязательных полей
+  requiredFields.forEach(field => {
+    let isEmpty = false;
+
+    if (field.type === 'file') {
+      isEmpty = field.files.length === 0;
+    } else if (field.type === 'checkbox' || field.type === 'radio') {
+      isEmpty = !field.checked;
+    } else {
+      isEmpty = field.value.trim() === '';
+    }
+
+    if (isEmpty) {
+      field.classList.add('invalid');
+      if (!firstInvalid) firstInvalid = field;
+      isAnyRequiredEmpty = true;
+    } else {
+      field.classList.remove('invalid');
+    }
   });
-  container.appendChild(ul);
+
+  if (isAnyRequiredEmpty) {
+    if (firstInvalid) {
+      firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      firstInvalid.focus();
+    }
+    return { isValid: false, message: 'Заполните все обязательные поля!' };
+  }
+
+  return { isValid: true };
 }
+
+function resetFormErrors() {
+  const inputs = document.querySelectorAll('#jobCardForm input, #jobCardForm select, #jobCardForm textarea');
+  inputs.forEach(input => input.classList.remove('invalid'));
+
+  const errorEl = document.getElementById('jobCardFormError');
+  if (errorEl) errorEl.style.display = 'none';
+}
+
+function showJobCardFormSuccess(message) {
+  const el = document.getElementById('jobCardFormSuccess');
+  if (!el) return;
+
+  el.textContent = message;
+  el.style.display = 'block';
+  el.style.opacity = '1';
+  setTimeout(() => fadeOut(el), 3000);
+}
+
+function showJobCardFormError(message) {
+  const el = document.getElementById('jobCardFormError');
+  if (!el) return;
+
+  el.textContent = message;
+  el.style.display = 'block';
+  el.style.opacity = '1';
+  setTimeout(() => fadeOut(el), 3000);
+}
+
+function fadeOut(element) {
+  element.style.opacity = '0';
+  setTimeout(() => {
+    element.style.display = 'none';
+  }, 300);
+}
+
 </script>
+
 <!-- анимация для лого при нажатии -->
 <script>
   const logo = document.getElementById("logo");
@@ -3215,7 +3673,7 @@ function renumberOperations() {
 
 
 
-<!-- дизайн прежний но не знаю работает ли база данных нужно проверить-->
+<!-- дизайн прежний -->
 <script>
   function addOperation() {
     operationCount++;
@@ -3253,6 +3711,7 @@ function renumberOperations() {
       <div class="col">
         <input type="text"
                name="serial_number"
+               id="serial_number"
                placeholder="Серийный номер"
                style="width: 215px;" required>
       </div>
@@ -3260,6 +3719,7 @@ function renumberOperations() {
       <div class="col">
         <input type="text"
                name="job_description"
+               id="job_description"
                placeholder="Описание необходимых работ..."
                style="width: 750px;" required>
       </div>
@@ -3293,6 +3753,167 @@ function renumberOperations() {
     });
   }
 </script>
+
+
+<!-- автоматическое заполнение при открытии модалки-->
+<script>
+function openJobCardModal(index) {
+  const workOrderNumber = document.getElementById("work_order_number")?.value || "";
+  const startDate = document.getElementById("start_date")?.value || "";
+  const greaseNumber = document.getElementById("grease_number")?.value || "";
+  const protectorNumber = document.getElementById("protector_number")?.value || "";
+  const jobRequestNumber = document.getElementById("job_request_number")?.value || "";
+  const customer = document.getElementById("customer")?.value || "";
+  const jobDescription = document.getElementById("job_description")?.value || "";
+
+  document.getElementById("modalWorkOrderNumber").value = workOrderNumber;
+  document.getElementById("modalStartDate").value = startDate;
+  document.getElementById("modalGreaseNumber").value = greaseNumber;
+  document.getElementById("modalProtectorNumber").value = protectorNumber;
+  document.getElementById("modalJobRequestNumber").value = jobRequestNumber;
+  document.getElementById("modalCustomer").value = customer;
+  document.getElementById("modalJobDescription").value = jobDescription;
+
+  document.getElementById("jobCardModal").style.display = "block";
+}
+</script>
+
+
+<!-- автоматическое заполнение серийного номера-->
+<script>
+let serialIndex = 0;
+let serialList = [];
+
+function initSerialsFromInput() {
+  const serialField = document.getElementById("serial_number");
+  if (!serialField) return;
+
+  const raw = serialField.value || "";
+  serialList = raw.split(",").map(s => s.trim()).filter(Boolean);
+  serialIndex = 0;
+}
+
+function addColumnWithSerial() {
+  if (serialList.length === 0) initSerialsFromInput();
+  if (serialIndex >= serialList.length) {
+    alert("Больше серийных номеров нет");
+    return;
+  }
+
+  const serial = serialList[serialIndex];
+  serialIndex++;
+
+  const headersEng = ["Date", "Operator’s name and signature", "Time", "Identification", "QC Inspector signature"];
+  const headersRus = ["Дата", "Имя оператора и подпись", "Время", "Идентификация", "Подпись инспектора"];
+  
+
+  const engHeaderRow = document.querySelector("#opsTable .header-eng");
+  const rusHeaderRow = document.querySelector("#opsTable .header-rus");
+  const rows = document.querySelectorAll("#opsTable tbody tr");
+
+  // Удалить пустой заголовок если он остался
+  const oldTh = engHeaderRow.querySelector('th[colspan="5"]');
+  if (oldTh && oldTh.textContent.trim() === "Item Serial №:/Серийный №:") {
+    engHeaderRow.removeChild(oldTh);
+  }
+
+  const oldThRus = rusHeaderRow.querySelector('th[colspan="5"]');
+  if (oldThRus) {
+    rusHeaderRow.removeChild(oldThRus);
+  }
+
+  // Заголовок группы с номером
+  const thEngGroup = document.createElement("th");
+  thEngGroup.textContent = `Item Serial №:/Серийный №: ${serial}`;
+  thEngGroup.colSpan = 5;
+  thEngGroup.style.border = "1px solid black";
+  thEngGroup.style.textAlign = "center";
+  engHeaderRow.insertBefore(thEngGroup, engHeaderRow.lastElementChild);
+
+  // Заголовки подгруппы
+  for (let i = 0; i < headersEng.length; i++) {
+    const th = document.createElement("th");
+    th.innerHTML = `
+      <div style="text-align:center;font-weight:bold;border-bottom:1px solid black">${headersEng[i]}</div>
+      <div style="text-align:center">${headersRus[i]}</div>
+    `;
+    th.style.border = "1px solid black";
+    th.style.padding = "4px";
+    th.style.width = "160px";
+    th.style.boxSizing = "border-box";
+    rusHeaderRow.insertBefore(th, rusHeaderRow.lastElementChild);
+    
+  }
+
+  // Ячейки
+  rows.forEach(tr => {
+    for (let i = 0; i < 5; i++) {
+      const td = document.createElement("td");
+      td.textContent = "-";
+      td.style.border = "1px solid black";
+      td.style.textAlign = "center";
+      tr.insertBefore(td, tr.lastElementChild);
+      
+    }
+  });
+}
+
+</script>
+
+<!-- утвердил и подготовлено автоматом выходит (внизу раб карты)-->
+<script>
+async function saveDraft(jobCardId) {
+  const modal = document.getElementById(`${jobCardId}-modal`);
+  if (!modal) {
+    console.warn(`❗ Модалка ${jobCardId}-modal не найдена`);
+    return;
+  }
+
+  // Собираем данные
+  const payload = {
+    drw_number: modal.querySelector('[name="drw_number"]')?.value || "",
+    customer: modal.querySelector('[name="customer"]')?.value || "",
+    material: modal.querySelector('[name="material"]')?.value || "",
+    job_description: modal.querySelector('[name="job_description"]')?.value || "",
+    request_number: modal.querySelector('[name="request_number"]')?.value || ""
+  };
+
+  try {
+    const response = await fetch("/api/workcards", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    if (response.ok) {
+      alert("Job Card успешно сохранен в базу");
+      modal.style.display = "none";
+    } else {
+      const errorText = await response.text();
+      alert("❌ Ошибка при сохранении:\n" + errorText);
+    }
+  } catch (err) {
+    console.error("Ошибка при отправке запроса:", err);
+    alert("Произошла ошибка при отправке данных.");
+  }
+}
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

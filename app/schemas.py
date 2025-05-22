@@ -136,7 +136,11 @@ class WorkOrderRead(WorkOrderBase):
     created_at: datetime
 
     class Config:
-        from_attributes = True
+        orm_mode = True
+
+from pydantic import BaseModel
+from typing import Optional
+from datetime import date
 
 class WorkOrderOut(BaseModel):
     id: int
@@ -146,4 +150,4 @@ class WorkOrderOut(BaseModel):
     work_cards: List[WorkCardOut] = []
 
     class Config:
-        from_attributes = True
+        orm_mode = True  # чтобы FastAPI мог конвертировать из ORM-модели SQLAlchemy
