@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Просмотр заказа</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Просмотр Work Order</h2>
+
+        <p><strong>Work Order №:</strong> {{ order.work_order_number }}</p>
+        <p><strong>Дата начала:</strong> {{ order.start_date }}</p>
+        <p><strong>Дата окончания:</strong> {{ order.end_date }}</p>
+        <p><strong>Подготовил:</strong> {{ order.prepared_by }}</p>
+        <p><strong>Клиент:</strong> {{ order.customer }}</p>
+        <p><strong>Описание:</strong> {{ order.job_description }}</p>
+        <p><strong>Заявка:</strong> {{ order.job_request_number }}</p>
+        
+        
+       
+
+        {% if card %}
+        <h3>Рабочая карта</h3>
+        <p><strong>title:</strong> {{ card.modalTitle }}</p>
+        <p><strong>Материал:</strong> {{ card.modalMaterial }}</p>
+        <p><strong>Чертеж №:</strong> {{ card.drawing_number }}</p>
+        <p><strong>Описание работы:</strong> {{ card.job_description }}</p>
+
+        {% if operations %}
+        <h3>Операции</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>№</th>
+                    <th>Описание операции</th>
+                    <th>Инструкция</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for op in operations %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ op.operation }}</td>
+                    <td>{{ op.instruction_code }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+        {% endif %}
+
+        <a href="/admin/dashboard">← Назад к списку</a>
+    </div>
+</body>
+</html>
+{% for op in operations %}
+<tr>
+  <td>{{ loop.index }}</td>
+  <td>
+    <input type="text" name="operation" value="{{ op.operation }}" readonly>
+  </td>
+  <td>
+    {% if loop.index == 1 %}
+      <a href="/static/pdfs/ZMS-TH-QP-101.pdf" target="_blank">ZMS-TH-QP-101</a>
+    {% elif loop.index == 2 %}
+      <a href="/static/pdfs/ZMS-TH-QP-101.pdf" target="_blank">ZMS-TH-QP-101</a><br>
+      <a href="/static/pdfs/ZMS-PN-DP-001.pdf" target="_blank">ZMS-PN-DP-001</a>
+    {% elif loop.index == 3 %}
+      <a href="/static/pdfs/ZMS-PN-DP-003.pdf" target="_blank">ZMS-PN-DP-003</a><br>
+      <a href="/static/pdfs/ZMS-PN-DP-003-F-002.pdf" target="_blank">ZMS-PN-DP-003-F-002</a>
+    {% elif loop.index == 4 %}
+      <a href="/static/pdfs/ZMS-PT-KTL-001-F-002.pdf" target="_blank">ZMS-PT-KTL-001-F-002</a>
+    {% if loop.index == 5 %}
+        <a href="/static/pdfs/ZMS-TH-QP-101.pdf" target="_blank">ZMS-TH-QP-101</a>
+    {% elif loop.index == 6 %}
+        <a href="/static/pdfs/ZMS-TH-QP-101.pdf" target="_blank">ZMS-TH-QP-101</a><br>
+        <a href="/static/pdfs/ZMS-PN-DP-001.pdf" target="_blank">ZMS-PN-DP-001</a>
+    {% elif loop.index == 7 %}
+        <a href="/static/pdfs/ZMS-PN-DP-003.pdf" target="_blank">ZMS-PN-DP-003</a><br>
+    {% elif loop.index == 8 %}
+        <a href="Резьбовая книга" target="_blank">ZMS-PT-KTL-001-F-002</a>
+    {% endif %}
+  </td>
+</tr>
+{% endfor %}

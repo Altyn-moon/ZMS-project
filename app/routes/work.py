@@ -5,6 +5,7 @@ from app.dependencies import get_db
 from app.schemas import WorkOrderOut, WorkCardOut, OperationDescriptionOut
 from app import crud
 from app.models import WorkTime
+from app.schemas import WorkCardCreate
 
 router = APIRouter(prefix="/api")
 #router = APIRouter(tags=["work"])
@@ -140,3 +141,5 @@ def get_work_times(operation_id: int, db: Session = Depends(get_db)):
             "duration": t.duration
         } for t in times
     ]
+
+

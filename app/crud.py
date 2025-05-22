@@ -130,3 +130,39 @@ def create_work_order(db, order: schemas.WorkOrderCreate):
     db.commit()
     db.refresh(db_order)
     return db_order
+
+# crud.py
+def create_full_workorder(db: Session, data: schemas.FullWorkOrder):
+    order_data = data.work_order
+    db_order = models.WorkOrder(**order_data.dict(exclude={"work_cards"}))
+    db.add(db_order)
+    db.commit()
+    db.refresh(db_order)
+
+    for card in order_data.work_cards:
+        db_card = models.WorkCard(
+            **card.dict(exclude={"operations"}), work_order_id=db_order.id
+        )
+        db.add(db_card)
+        db.commit()
+        db.refresh(db_card)
+
+        for op in card.operations:
+            db_op = models.OperationDescription(
+                **op.dict(exclude={"documents"}),
+                work_card_id=db_card.id
+            )
+            db.add(db_op)
+            db.commit()
+            db.refresh(db_op)
+
+            for doc in (op.documents or []):
+                db_doc = models.Document(
+                    **doc.dict(),
+                    operation_description_id=db_op.id,
+                    work_card_id=db_card.id
+                )
+                db.add(db_doc)
+        db.commit()
+    return db_order
+

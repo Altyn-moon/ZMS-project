@@ -85,6 +85,7 @@ class WorkCard(Base):
     cast_number = Column(String(50))
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     documents_id = Column(Integer, ForeignKey("documents.id"), nullable=True)
+    
 
     work_order = relationship("WorkOrder", back_populates="work_cards")
     user = relationship("User", back_populates="work_cards")
