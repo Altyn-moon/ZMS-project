@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Рабочая карта</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Manrope', sans-serif;
+    color: #111;
+    background: #f2f2f2;
+    width: 100%;
+    overflow-x: hidden; /* Убираем горизонтальную прокрутку */
+    height: 100%; /* Обеспечиваем 100% высоты для страницы */
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+        
+        .header {
+            background: linear-gradient(90deg, rgb(156, 29, 17) 0%, rgba(113, 41, 4, 0.34) 55%, rgb(87, 16, 10) 100%); 
+            height: 60px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+        }
+
+        .header .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .main-content {
+    flex: 1;
+    padding: 20px;
+    overflow-x: hidden; /* Убираем горизонтальную прокрутку */
+    width: 100%;
+    height: 100%; /* Растягиваем на 100% высоты */
+    box-sizing: border-box;
+    transition: opacity 0.3s ease;
+}
+
+/* контейнер остаётся по центру, но не влияет на ширину поля */
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+/* полностью перебиваем ширину и размер шрифта */
+.search-input {
+  width: 40% !important;       /* чуть длиннее */
+  min-width: 200px !important;
+  max-width: 500px !important;
+
+  font-size: 20px !important;
+  padding: 8px 10px 8px 40px !important;
+
+  background: url('/static/Search.png') no-repeat 10px center !important;
+  background-size: 20px 20px !important;
+
+  box-sizing: border-box !important;
+  border: 2px solid #a2a2a2 !important;
+  border-radius: 10px !important;
+  color: #111 !important;
+}
+
+/* если хотите, чтобы и placeholder был тёмным */
+.search-input::placeholder {
+  color: #666 !important;
+}
+
+.search-icon {
+    position: absolute;
+    right: 12px; /* Отступ от правой стороны */
+    top: 50%;
+    transform: translateY(-50%); /* Центрируем по вертикали */
+    width: 20px; /* Размер иконки */
+    height: 20px;
+    pointer-events: none; /* Иконка не мешает взаимодействовать с полем */
+}
+.work-table {
+    width: 100%;
+    min-width: 100%; /* Убираем min-width */
+    table-layout: auto;
+    font-size: 23px;
+    border-collapse: collapse;
+    transition: opacity 0.5s ease;
+}
+
+.work-table th {
+    background-color: #c8c8c8;  /* Темный фон */
+    color: rgb(36, 36, 36);  /* Белый текст */
+    font-weight: bold;
+}
+
+/* Для всех остальных строк */
+.work-table tr:nth-child(even) {
+    background-color: #ffffff;  /* Белый фон для четных строк */
+}
+
+.work-table tr:nth-child(odd) {
+    background-color: #ffffff;  /* Белый фон для нечетных строк */
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #161616;
+    text-align: center;
+}
+
+/* Оставляем стиль таблицы с обычным размером шрифтов */
+.table-container {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+        .work-table td:last-child, 
+        .work-table th:last-child {
+            width: 200px;
+        }
+
+        .nomer{
+            width: 60px;
+        }
+
+        .nomer-rabot{
+            width: 200px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #161616;
+            text-align: center;
+            
+        }
+
+        th {
+            background-color: #f7f7f7;
+            font-weight: 700;
+        }
+
+        .btn-start {
+            background-color: #787a77;
+            color: white;
+            padding: 10px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        .btn-start:hover {
+            background-color: #c40000;
+        }
+
+        .notification {
+            color: #8B0000;
+            padding: 5px 12px;
+            
+        }
+
+        .logout-link {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .logo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        } 
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 10px 20px;
+            border-bottom: 2px solid #ddd;
+            position: relative;
+            width: 100%;
+        }
+
+        .header-left,
+        .header-center,
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-left {
+            flex: 1;
+        }
+
+        .header-center {
+            flex: 1;
+            justify-content: center;
+        }
+
+        .header-right {
+            flex: 1;
+            justify-content: flex-end;
+            gap: 10px;
+            overflow: hidden; /* защита от переполнения */
+            flex-wrap: wrap; /* если не влезает, переносит */
+        }
+
+        .logo {
+            padding-top: 25px;
+            height: 80px;
+        }
+
+        .icon {
+            height: 30px;
+            
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .small-icon {
+            height: 30px;
+            margin-right: 5px;
+        }
+
+        .user-button {
+            background: none;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            color: #fff;
+        }
+
+        .left-button{
+            background: none;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .logout-button {
+    background-color: #a00000;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 16px; /* чуть меньше шрифт */
+    font-weight: bold;
+    max-height: 40px; /* ограничим высоту */
+    white-space: nowrap;
+}
+
+.logout-button .icon {
+    margin-right: 6px;
+    height: 20px; /* уменьшим высоту */
+    width: 20px;  /* добавим для консистентности */
+}
+ 
+        html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Manrope', sans-serif;
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    background: #f2f2f2;
+}
+
+@media (max-width: 768px) {
+    .logout-button {
+        font-size: 14px;
+        padding: 5px 10px;
+    }
+
+    .logout-button .icon {
+        height: 18px;
+        width: 18px;
+    }
+}
+
+.main-content {
+    flex: 1; /* Позволяет содержимому занимать оставшуюся высоту */
+    padding: 20px;
+    width: 100%;
+    height: 100%; /* Задаем высоту 100% экрана */
+}
+
+.table-container {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#second-table {
+    width: 100%; /* Растягиваем на всю ширину */
+    height: 100%; /* Растягиваем на всю высоту */
+    opacity: 0;
+}
+
+#second-table.show {
+    opacity: 1;
+}
+
+#second-table .work-table {
+    width: 100%;
+    table-layout: auto;
+    font-size: 23px;
+}
+
+.btn-start {
+    background-color: #777777;
+    color: white;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.btn-start:hover {
+    background-color: #c40000;
+    transform: scale(1.05);
+}
+
+/* Стиль для кнопки Назад */
+.back-btn {
+    background-color: #f2f2f2;
+    color: #c40000;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: none; /* Убираем границу */
+    box-shadow: none; /* Убираем тень */
+    outline: none; /* Убираем рамку при клике */
+    transition: transform 0.4s ease; /* Плавное перемещение */
+    margin-left: -50px; /* Для сдвига влево */
+}
+
+/* Стиль для иконки в кнопке */
+.back-btn svg {
+    width: 30px;
+    height: 30px;
+}
+
+/* Обновляем цвет обводки (стрелки) */
+.back-btn svg polyline {
+    stroke: #c40000;  /* Устанавливаем цвет обводки стрелки */
+    stroke-width: 2;   /* Убедитесь, что линия достаточно толстая */
+}
+
+/* Увеличиваем размер кнопки при наведении */
+.back-btn:hover {
+    transform: scale(1.05) translateX(-10px);  /* Двигаем кнопку влево при наведении */
+}
+
+/* Убираем анимацию и изменение фона при зажатии */
+.back-btn:active {
+    transform: none;
+    background-color: #f2f2f2;
+    box-shadow: none;
+}
+
+/* Анимация для кнопки — движение влево при первоначальной загрузке */
+@keyframes moveLeft {
+    0% {
+        transform: translateX(0);  /* Исходное положение */
+    }
+    50% {
+        transform: translateX(-10px); /* Сдвигаем влево */
+    }
+    100% {
+        transform: translateX(0); /* Возвращаем в исходное положение */
+    }
+}
+
+/* Применяем анимацию для кнопки */
+.back-btn {
+    animation: moveLeft 0.5s ease-out; /* Анимация с эффектом движения влево */
+}
+
+#third-table .work-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    font-size: 23px;
+    margin: 0 auto;
+}
+
+.timer-block .submit-btn {
+  margin-top: 8px;
+}
+
+.work-table thead th {
+  position: sticky;
+  top: 0;
+  background-color: #c8c8c8; /* <-- СЕРЫЙ фон, как надо */
+  color: rgb(36, 36, 36);     /* Чтобы не пропал цвет текста */
+  z-index: 2;
+}
+
+a {
+    color: blue; /* Синий цвет для обычных ссылок */
+}
+
+a:visited {
+    color: blue; /* Синий цвет для посещённых ссылок */
+}
+
+.submit-btn {
+    background-color: #E6E6E6; 
+    color: #A1100A; /* Белый цвет текста */
+}
+
+.stop-btn {
+    background-color: #b7b400; 
+    color: #FFFFFF; /* Белый цвет текста */
+}
+
+/*время остановлено*/
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.pause-icon {
+  width: 20px;
+  vertical-align: middle;
+  margin-right: 8px;
+  animation: pulse 1.2s infinite;
+}
+
+/* Анимация для логотипа (прыжок или махание) */
+@keyframes logoAnimation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.logo {
+  cursor: pointer; /* Устанавливаем курсор в виде руки при наведении */
+}
+
+/* Когда логотип кликнут */
+.logo.animate {
+  animation: logoAnimation 0.5s ease;
+}
+
+.fade-out {
+    animation: fadeOut 0.5s forwards;
+  }
+
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+
+.done-icon {
+  width: 40px;
+  height: 40px;
+  vertical-align: middle;
+  margin-left: 5px;
+  margin-top: -2px;
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* четко две колонки */
+  gap: 80px;
+  margin: 20px auto;
+  max-width: 1500px; /* чтобы не растягивалось */
+  padding: 0 20px;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.video-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.video-box {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #fafafa;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 60px;
+  color: #b30000;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, background 0.2s ease;
+  overflow: hidden;
+  position: relative;
+  min-height: 0; /* на всякий случай */
+}
+
+.video-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 40px;
+  display: block;
+}
+
+.video-box:hover {
+  transform: scale(1.05);
+  background: #fff0f0;
+}
+
+.video-box .video-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 40px;
+  display: block;
+}
+
+.video-title {
+  font-size: 25px;
+  text-align: center;
+  color: #333;
+  font-weight: 500;
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.fade-in.show {
+  opacity: 1;
+  transform: translateY(0);
+  display: block;
+}
+
+/* Затемнённый фон */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  z-index: 1;
+}
+
+/* Контейнер модалки */
+.modal-content {
+  position: relative;
+  z-index: 2;
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 800px;
+  animation: fadeInUp 0.35s ease;
+  pointer-events: auto;
+}
+
+/* Видео */
+.modal-content video {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.modal .close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  background: #d3d3d3d9;
+  border: none;
+  border-radius: 999px; /* капсульный стиль */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, transform 0.2s ease;
+  z-index: 10;
+}
+
+.modal .close:hover {
+  background: rgba(240, 240, 240, 1);
+  transform: scale(1.05);
+}
+
+.modal .close:before {
+
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  font-family: 'Manrope', sans-serif;
+  line-height: 1;
+}
+
+/* Скрытие */
+.modal.hidden {
+  display: none;
+}
+
+/* Анимация появления */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+</style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <button class="left-button" id="btn-instruction">
+                <img src="/static/help.png" alt="Инструкция" class="icon clickable"> 
+            </button>
+            <button class="left-button">
+                <img src="/static/notification.png" alt="Уведомления" class="icon clickable">
+            </button>
+        </div>
+
+        <div class="header-center">
+            <img src="/static/logo.png" alt="ZMS Logo" class="logo">
+        </div>
+    
+        <div class="header-right">
+            <button class="user-button">
+                <img src="/static/user-icon.png" alt="User Icon" class="icon small-icon">
+                {{ user_name }}
+            </button>
+            <button class="logout-button">
+                <img src="/static/logout.png" alt="Выход" class="icon small-icon">
+                Выйти
+            </button>
+        </div>
+    </div>
+    
+    <main class="main-content">
+        <div class="search-container">
+          <input type="text" id="search" class="search-input" name="search" placeholder="Поиск" style="padding-left: 40px; background: url('static/Search.png') no-repeat 10px center; background-size: 20px 20px;">
+        </div>
+        
+       
+        
+        <!-- первая таблица -->
+        <div class="table-container" id="first-table">
+          <table class="work-table">
+            <thead>
+              <tr>
+                <th>№</th>
+                <th>Наименование работы</th>
+                <th>Заказчик</th>
+                <th>Номер работы</th>
+                <th>Действие</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for order in orders_data %}
+              <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.description }}</td>
+                <td>{{ order.customer }}</td>
+                <td>{{ order.work_order_number }}</td>
+                <td>
+                  <button class="btn-start" onclick="showSecondTable({{ order.id }})">Просмотр</button>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>         
+    
+        <!-- вторая таблица: work_cards -->
+       <div class="table-container" id="second-table" style="display: none;">
+          <button class="back-btn" onclick="goBack()" style="font-size: 24px; padding: 12px 30px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c40000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            Назад
+          </button>
+          <h2>Рабочие карты заказа №<span id="order-num"></span></h2>
+
+          <table class="work-table">
+            <thead>
+              <tr>
+                <th>№</th>
+                <th>Название карты</th>
+                <th>Описание</th>
+                <th>Действие</th>
+              </tr>
+            </thead>
+            <tbody id="second-tbody">
+              {% for order in orders_data %}
+                {% for card in order.work_cards|sort(attribute="id") %}
+                <tr class="card-row" data-order-id="{{ order.id }}" data-order-code="{{ order.work_order_number }}" style="display: none;">
+                  <td class="card-index"></td>
+                  <td>{{ card.title }}</td>
+                  <td>{{ card.description }}</td>
+                  <td>
+                    <button class="btn-start" onclick="showThirdTable({{ order.id }}, {{ card.id }})">Открыть</button>
+                  </td>
+                </tr>
+                {% endfor %}
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- третья таблица -->
+      <div class="table-container" id="third-table" style="display: none; position: relative;">
+        <button class="back-btn" onclick="goBack()" style="font-size: 24px; padding: 12px 30px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c40000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          Назад
+        </button>
+
+        <table class="work-table">
+          <colgroup>
+                <col style="width: 20px;">
+                <col style="width: 350px;">
+                <col style="width: 120px;">
+                <col style="width: 230px;">
+              </colgroup>
+          <thead>
+            <tr>
+              <th>№</th>
+              <th>Описание операции работ</th>
+              <th>Инструкция</th>
+              <th>Выполнить</th>
+            </tr>
+          </thead>
+          <tbody id="third-tbody">
+            {% for order in orders_data %}
+              {% for card in order.work_cards %}
+                {% for op in card.operation_descriptions|sort(attribute="id") %}
+                <tr class="op-row" data-user-id="{{ user_id }}" data-order-id="{{ order.id }}" data-card-id="{{ card.id }}" data-operation-id="{{ op.id }}" style="display: none;">
+                  
+                  <td>{{ loop.index }}</td>
+                  <td>{{ op.operation }}</td>
+                  <td>
+                    {% if op.instruction_code and op.instruction_file_url %}
+                      <a href="{{ op.instruction_file_url }}" target="_blank">{{ op.instruction_code }}</a>
+                    {% else %}
+                      —
+                    {% endif %}
+                  </td>
+                  <td>
+                    <div class="timer-block">
+                      <div class="timer-display">00:00:00</div>
+                      <div class="button-row">
+                        <button class="btn-start start-btn">Старт</button>
+                        <button class="btn-start stop-btn" style="display: none;">Стоп</button>
+                      </div>
+                      <button class="btn-start submit-btn" style="display: none;">Отправить на проверку</button>
+                      <p class="status-message"></p>
+                    </div>
+                  </td>
+                </tr>
+
+                {% endfor %}
+              {% endfor %}
+            {% endfor %}
+
+          </tbody>
+        </table>
+        <!-- Чертёж -->
+            <button class="btn-drawing" onclick="window.open('/static/pdfs/6893.00.000.pdf#page=1&view=FitH', '_blank')" style="
+                font-size: 24px;
+                padding: 12px 30px;
+                background-color: #D5C6CA;
+                color: #434343;
+                border: 2px solid #787A77;
+                border-radius: 10px;
+                cursor: pointer;
+                position: absolute;
+                top: 3px;
+                right: 50px;
+            ">Чертёж</button>
+      </div>
+
+      <!-- Блок с видео-инструкциями -->
+      <div id="instructions-section" class="instructions-section" style="display: none;">
+        <button class="back-btn" onclick="goBack()" style="font-size: 24px; padding: 12px 30px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c40000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          Назад
+        </button>
+
+        <div class="video-grid">
+          <div class="video-item" data-src="/static/videos/instruction1.mp4">
+            <div class="video-box">
+              <img src="/static/previews/instruction1.jpg" alt="Превью видео 1" class="video-preview" />
+            </div>
+            <p class="video-title">Правила эвакуации</p>
+          </div>
+
+          <div class="video-item" data-src="/static/videos/instruction2.mp4">
+            <div class="video-box">
+              <img src="/static/previews/instruction2.jpg" alt="Превью видео 2" class="video-preview" />
+            </div>
+            <p class="video-title">Обучение работе с оборудованием</p>
+          </div>
+
+          <div class="video-item" data-src="/static/videos/instruction3.mp4">
+            <div class="video-box">
+              <img src="/static/previews/instruction3.jpg" alt="Превью видео 3" class="video-preview" />
+            </div>
+            <p class="video-title">Инструктаж по технике безопасности</p>
+          </div>
+
+          <div class="video-item" data-src="/static/videos/instruction4.mp4">
+            <div class="video-box">
+              <img src="/static/previews/instruction4.jpg" alt="Превью видео 4" class="video-preview" />
+            </div>
+            <p class="video-title">Охрана труда на производстве</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ✅ Модалка вынесена ВНЕ блока инструкций -->
+      <div id="videoModal" class="modal hidden">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+          <button class="close" aria-label="Закрыть модалку">
+            <svg width="20" height="20" viewBox="0 0 24 24" stroke="#333" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+          <video id="modalVideo" controls autoplay></video>
+        </div>
+      </div>
+
+
+      <script>
+      
+      
+        // === Поиск — ВНЕ других функций и обработчиков ===
+        document.querySelector('.search-input').addEventListener('input', function () {
+          const searchText = this.value.toLowerCase();
+      
+          const visibleTableContainer = Array.from(document.querySelectorAll('.table-container'))
+            .find(container => getComputedStyle(container).display !== 'none');
+      
+          if (!visibleTableContainer) return;
+      
+          const rows = visibleTableContainer.querySelectorAll('tbody tr');
+      
+          rows.forEach(row => {
+            const rowText = row.innerText.toLowerCase();
+            row.style.display = rowText.includes(searchText) ? '' : 'none';
+          });
+        });
+
+    document.addEventListener('DOMContentLoaded', function() {
+  // === Клик по логотипу для возврата на первую таблицу ===
+  document.querySelector('.logo').addEventListener('click', function () {
+    // Скрыть все таблицы
+    document.getElementById('second-table').style.display = 'none';
+    document.getElementById('third-table').style.display = 'none';
+    
+    // Показать первую таблицу
+    document.getElementById('first-table').style.display = 'block';
+  });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // === Клик по логотипу для возврата на первую таблицу ===
+  document.querySelector('.logo').addEventListener('click', function () {
+    // Добавляем анимацию к логотипу
+    this.classList.add('animate');
+    
+    // Получаем элементы таблиц
+    const firstTable = document.getElementById('first-table');
+    const secondTable = document.getElementById('second-table');
+    const thirdTable = document.getElementById('third-table');
+    
+    // Добавляем анимацию скрытия для всех таблиц
+    secondTable.classList.add('fade-out');
+    thirdTable.classList.add('fade-out');
+
+    // Даем время анимации на скрытие (500ms) перед тем, как показать первую таблицу
+    setTimeout(function() {
+      secondTable.style.display = 'none';
+      thirdTable.style.display = 'none';
+      
+      // Показать первую таблицу с анимацией
+      firstTable.style.display = 'block';
+      firstTable.classList.add('fade-in');
+      
+      // Убираем анимацию через время, чтобы она не оставалась при переключении
+      setTimeout(function() {
+        firstTable.classList.remove('fade-in');
+      }, 500); // 500ms — время анимации
+    }, 500); // 500ms — время анимации для скрытия
+    
+    // Убираем анимацию с логотипа после завершения анимации
+    setTimeout(function() {
+      document.querySelector('.logo').classList.remove('animate');
+    }, 500); // После 500ms анимация логотипа завершена
+  });
+});
+
+document.querySelector('.logout-button').addEventListener('click', function() {
+    // Перенаправление на страницу входа по URL
+    window.location.href = 'http://127.0.0.1:8000'; // Или укажите путь к странице входа, например '/login'
+});
+
+document.querySelector('.logout-button').addEventListener('click', function () {
+  // Добавляем анимацию исчезновения ко всему body
+  document.body.classList.add('fade-out');
+
+  // Ждём завершения анимации и делаем переход
+  setTimeout(function () {
+    window.location.href = 'http://127.0.0.1:8000'; // или '/login'
+  }, 500); // Время должно совпадать с длительностью анимации
+});
+document.addEventListener('DOMContentLoaded', function () {
+    // === Клик по логотипу для возврата на первую таблицу ===
+    document.querySelector('.logo').addEventListener('click', function () {
+      // Добавляем анимацию к логотипу
+      this.classList.add('animate');
+
+      const firstTable = document.getElementById('first-table');
+      const secondTable = document.getElementById('second-table');
+      const thirdTable = document.getElementById('third-table');
+
+      // Добавляем анимацию скрытия для всех таблиц
+      secondTable.classList.add('fade-out');
+      thirdTable.classList.add('fade-out');
+
+      // Скрываем вторую и третью таблицы после анимации
+      setTimeout(function () {
+        secondTable.style.display = 'none';
+        thirdTable.style.display = 'none';
+
+        // Показываем первую таблицу с анимацией
+        firstTable.style.display = 'block';
+        firstTable.classList.add('fade-in');
+
+        // Удаляем временные классы анимаций
+        setTimeout(function () {
+          firstTable.classList.remove('fade-in');
+          secondTable.classList.remove('fade-out');
+          thirdTable.classList.remove('fade-out');
+        }, 500);
+      }, 500);
+
+      // Убираем анимацию с логотипа
+      setTimeout(function () {
+        document.querySelector('.logo').classList.remove('animate');
+      }, 500);
+    });
+
+    // === Logout обработчик ===
+    document.querySelector('.logout-button').addEventListener('click', function () {
+      document.body.classList.add('fade-out');
+      setTimeout(function () {
+        window.location.href = 'http://127.0.0.1:8000';
+      }, 500);
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+
+  // 1. Фильтрация видимой таблицы
+  function filterVisibleTable() {
+    const q = document.querySelector('.search-input').value.toLowerCase();
+    const container = Array.from(document.querySelectorAll('.table-container'))
+      .find(c => getComputedStyle(c).display !== 'none');
+    if (!container) return;
+    container.querySelectorAll('tbody tr').forEach(r => {
+      r.style.display = r.innerText.toLowerCase().includes(q) ? '' : 'none';
+    });
+  }
+
+  // 2. Сброс поиска
+  function resetSearch() {
+    const inp = document.querySelector('.search-input');
+    inp.value = '';
+    filterVisibleTable();
+  }
+
+  // 3. Подключаем фильтрацию к полю
+  const searchInput = document.querySelector('.search-input');
+  if (searchInput) {
+    searchInput.addEventListener('input', filterVisibleTable);
+  }
+
+  window.goBack = function() {
+    resetSearch();
+    const second = document.getElementById('second-table');
+    const third  = document.getElementById('third-table');
+
+    if (second.style.display === 'block') {
+      second.classList.remove('show');
+      second.style.display = 'none';
+      document.getElementById('first-table').style.display = 'block';
+    } else if (third.style.display === 'block') {
+      third.style.display  = 'none';
+      second.style.display = 'block';
+    }
+  };
+});
+</script>
+
+
+
+
+<script>
+function showFirstTable() {
+  document.getElementById('first-table').style.display = 'block';
+  document.getElementById('second-table').style.display = 'none';
+  document.getElementById('third-table').style.display = 'none';
+}
+
+</script>
+
+<script>
+function showSecondTable(orderId) {
+  let orderCode = null;
+  const rows = document.querySelectorAll(".card-row");
+  let index = 1;
+
+  rows.forEach(row => {
+    const rowOrderId = row.dataset.orderId;
+    if (rowOrderId == orderId.toString()) {
+      if (!orderCode) {
+        orderCode = row.dataset.orderCode;
+      }
+      row.style.display = "table-row";
+      row.querySelector(".card-index").textContent = index++;
+    } else {
+      row.style.display = "none";
+    }
+  });
+
+  document.getElementById("order-num").textContent = orderCode || orderId;
+  document.getElementById("first-table").style.display = "none";
+  document.getElementById("second-table").style.display = "block";
+  document.getElementById("second-table").classList.add("show");
+}
+</script>
+<script>
+  function showThirdTable(orderId, cardId) {
+    const rows = document.querySelectorAll('.op-row');
+    
+    rows.forEach(row => {
+      const rowOrderId = row.getAttribute('data-order-id');
+      const rowCardId = row.getAttribute('data-card-id');
+
+      if (rowOrderId === String(orderId) && rowCardId === String(cardId)) {
+        row.style.display = 'table-row';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+
+    document.getElementById('second-table').style.display = 'none';
+    document.getElementById('third-table').style.display = 'block';
+
+    setTimeout(() => initializeTimers(), 100);
+  }
+</script>
+
+
+
+
+<script>
+function formatTime(totalSeconds) {
+  const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+  const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+  const s = String(totalSeconds % 60).padStart(2, '0');
+  return `${h}:${m}:${s}`;
+}
+
+function initializeTimers() {
+  document.querySelectorAll('.timer-block').forEach((block) => {
+    const timer = block.querySelector('.timer-display');
+    const startButton = block.querySelector('.start-btn');
+    const stopButton = block.querySelector('.stop-btn');
+    const submitButton = block.querySelector('.submit-btn');
+    const statusMessage = block.querySelector('.status-message');
+    const row = block.closest('tr');
+
+    const operationId = row.dataset.operationId;
+    const userId = row.dataset.userId;
+
+    let interval = null;
+    let elapsedTime = parseInt(localStorage.getItem(`elapsedTime-${operationId}`)) || 0;
+    let isPaused = localStorage.getItem(`paused-${operationId}`) === 'true';
+    let isStarted = localStorage.getItem(`started-${operationId}`) === 'true';
+    let isSubmitted = localStorage.getItem(`submitted-${operationId}`) === 'true';
+    let storedStartTime = parseInt(localStorage.getItem(`startTime-${operationId}`)) || null;
+    let startTime = storedStartTime ? new Date(storedStartTime) : null;
+
+    if (!window.timerStates) window.timerStates = {};
+    window.timerStates[operationId] = { interval: null };
+
+    const updateTimer = () => {
+      const now = Date.now();
+      const elapsed = Math.floor((now - startTime) / 1000) + elapsedTime;
+      timer.textContent = formatTime(elapsed);
+    };
+
+    if (isSubmitted) {
+      const submittedTime = parseInt(localStorage.getItem(`submitted-elapsedTime-${operationId}`)) || 0;
+      timer.textContent = formatTime(submittedTime);
+      startButton.style.display = 'none';
+      stopButton.style.display = 'none';
+      submitButton.style.display = 'none';
+      statusMessage.innerHTML = `Отправлено на проверку <img src="/static/done.png" class="done-icon">`;
+      return;
+    }
+
+    if (isStarted) {
+      if (!isPaused && startTime) {
+        interval = setInterval(updateTimer, 1000);
+        window.timerStates[operationId].interval = interval;
+        startButton.style.display = 'none';
+        stopButton.style.display = 'inline-block';
+        submitButton.style.display = 'inline-block';
+      } else {
+        timer.textContent = formatTime(elapsedTime);
+        startButton.style.display = 'inline-block';
+        stopButton.style.display = 'none';
+        submitButton.style.display = 'inline-block';
+      }
+    }
+
+    startButton.addEventListener('click', () => {
+      if (isPaused && isStarted) {
+        isPaused = false;
+        isStarted = true;
+        localStorage.setItem(`paused-${operationId}`, 'false');
+        localStorage.setItem(`started-${operationId}`, 'true');
+        startTime = new Date();
+        localStorage.setItem(`startTime-${operationId}`, startTime.getTime());
+        interval = setInterval(updateTimer, 1000);
+        window.timerStates[operationId].interval = interval;
+
+        startButton.style.display = 'none';
+        stopButton.style.display = 'inline-block';
+        submitButton.style.display = 'inline-block';
+        statusMessage.textContent = '';
+        return;
+      }
+
+      fetch(`/api/start-time/?operation_description_id=${operationId}`, { method: 'POST' })
+        .then(res => res.json())
+        .then(data => {
+          block.dataset.workTimeId = data.work_time_id;
+          startTime = new Date(data.start_time);
+          isStarted = true;
+          isPaused = false;
+
+          localStorage.setItem(`elapsedTime-${operationId}`, '0');
+          localStorage.setItem(`paused-${operationId}`, 'false');
+          localStorage.setItem(`started-${operationId}`, 'true');
+          localStorage.setItem(`startTime-${operationId}`, startTime.getTime());
+
+          interval = setInterval(() => {
+            const now = Date.now();
+            const elapsed = Math.floor((now - startTime.getTime()) / 1000) + elapsedTime;
+            timer.textContent = formatTime(elapsed);
+          }, 1000);
+
+          window.timerStates[operationId].interval = interval;
+
+          startButton.style.display = 'none';
+          stopButton.style.display = 'inline-block';
+          submitButton.style.display = 'inline-block';
+          statusMessage.textContent = '';
+        });
+    });
+
+    stopButton.addEventListener('click', () => {
+      clearInterval(window.timerStates[operationId].interval);
+      const currentTime = Date.now();
+      if (startTime) {
+        elapsedTime += Math.floor((currentTime - startTime.getTime()) / 1000);
+        localStorage.setItem(`elapsedTime-${operationId}`, elapsedTime);
+        localStorage.setItem(`paused-${operationId}`, 'true');
+        localStorage.setItem(`startTime-${operationId}`, '');
+      }
+
+      stopButton.style.display = 'none';
+      startButton.style.display = 'inline-block';
+      statusMessage.innerHTML = `Время остановлено <img src="/static/pause.png" class="pause-icon">`;
+    });
+
+    submitButton.addEventListener('click', () => {
+      const workTimeId = block.dataset.workTimeId;
+      if (!workTimeId) {
+        alert("Таймер не запущен");
+        return;
+      }
+
+      clearInterval(window.timerStates[operationId].interval);
+      startButton.style.display = 'none';
+      stopButton.style.display = 'none';
+      submitButton.style.display = 'none';
+
+      const finalElapsed = startTime ? elapsedTime + Math.floor((Date.now() - startTime.getTime()) / 1000) : elapsedTime;
+
+      // Отправка в БД через API
+      fetch(`/api/stop-time/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          work_time_id: workTimeId,
+          duration_seconds: finalElapsed
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        block.dataset.workTimeId = "";
+
+        localStorage.setItem(`submitted-${operationId}`, 'true');
+        localStorage.setItem(`submitted-elapsedTime-${operationId}`, finalElapsed);
+        localStorage.removeItem(`elapsedTime-${operationId}`);
+        localStorage.removeItem(`paused-${operationId}`);
+        localStorage.removeItem(`started-${operationId}`);
+        localStorage.removeItem(`startTime-${operationId}`);
+
+        statusMessage.innerHTML = `
+          Отправлено на проверку
+          <img src="/static/done.gif" alt="done" class="done-icon" style="width: 25px; height: 25px; vertical-align: middle;">
+        `;
+        setTimeout(() => {
+          const doneIcon = statusMessage.querySelector('.done-icon');
+          if (doneIcon) doneIcon.src = '/static/done.png';
+        }, 1400);
+      });
+    });
+
+  });
+}
+</script>
+
+
+
+
+
+
+
+
+
+<script>
+// === Единый DOMContentLoaded для инициализации ===
+document.addEventListener('DOMContentLoaded', function () {
+  // Показываем только первую таблицу, скрываем вторую и третью
+  document.getElementById('first-table').style.display = 'block';
+  document.getElementById('second-table').style.display = 'none';
+  document.getElementById('third-table').style.display = 'none';
+
+  // Убедимся, что вторая таблица скрыта (даже если где-то установлено display: block)
+  document.getElementById('second-table').classList.remove('show');
+
+  // Скрываем все строки карточек и операций
+  document.querySelectorAll('.card-row').forEach(row => {
+    row.style.display = 'none';
+  });
+  document.querySelectorAll('.op-row').forEach(row => {
+    row.style.display = 'none';
+  });
+
+// Поиск
+  const searchInput = document.querySelector('.search-input');
+  if (searchInput) {
+    searchInput.addEventListener('input', function () {
+      const searchText = this.value.toLowerCase();
+      const visibleTableContainer = Array.from(document.querySelectorAll('.table-container'))
+        .find(container => getComputedStyle(container).display !== 'none');
+      if (!visibleTableContainer) return;
+      const rows = visibleTableContainer.querySelectorAll('tbody tr');
+      rows.forEach(row => {
+        row.style.display = row.innerText.toLowerCase().includes(searchText) ? '' : 'none';
+      });
+    });
+  }
+
+// Кнопка назад
+  window.goBack = function () {
+    const second = document.getElementById('second-table');
+    const third = document.getElementById('third-table');
+    if (third.style.display === 'block') {
+      third.style.display = 'none';
+      second.style.display = 'block';
+    } else {
+      second.style.display = 'none';
+      document.getElementById('first-table').style.display = 'block';
+    }
+  };
+
+// Logout
+  const logout = document.querySelector('.logout-button');
+  if (logout) {
+    logout.addEventListener('click', function () {
+      document.body.classList.add('fade-out');
+      setTimeout(() => window.location.href = 'http://127.0.0.1:8000', 500);
+    });
+  }
+// остальные функции showFirstTable, showSecondTable, showThirdTable, formatTime, initializeTimers остаются без изменений...
+</script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const instructionBtn = document.getElementById('btn-instruction');
+  const section = document.getElementById('instructions-section');
+  const first = document.getElementById('first-table');
+  const second = document.getElementById('second-table');
+  const third = document.getElementById('third-table');
+
+  const modal = document.getElementById('videoModal');
+  const video = document.getElementById('modalVideo');
+  const closeBtn = modal.querySelector('.close');
+
+  // Показываем раздел инструкций
+  if (instructionBtn) {
+    instructionBtn.addEventListener('click', () => {
+      [first, second, third].forEach(el => {
+        if (el) {
+          el.classList.add('fade-out');
+          setTimeout(() => {
+            el.style.display = 'none';
+            el.classList.remove('fade-out');
+          }, 200);
+        }
+      });
+
+      setTimeout(() => {
+        section.style.display = 'block';
+        section.scrollIntoView({ behavior: 'smooth' });
+        section.classList.add('fade-in');
+        setTimeout(() => section.classList.remove('fade-in'), 200);
+      }, 220);
+    });
+  }
+
+  // Видео открытие
+  document.querySelectorAll('.video-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const src = item.getAttribute('data-src');
+      video.src = src;
+      modal.classList.remove('hidden');
+    });
+  });
+
+  // Закрытие видео
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeModal);
+  }
+
+  window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
+
+  function closeModal() {
+    modal.classList.add('hidden');
+    video.pause();
+    video.currentTime = 0;
+    video.src = ""; // для перезапуска
+  }
+
+  // Кнопка "Назад" в блоке инструкций
+  window.goBack = function() {
+    section.classList.add('fade-out');
+    setTimeout(() => {
+      section.style.display = 'none';
+      section.classList.remove('fade-out');
+      first.style.display = 'block';
+      first.classList.add('fade-in');
+      setTimeout(() => first.classList.remove('fade-in'), 200);
+    }, 200);
+  };
+});
+
+</script>
+
+
+
+
+
+</body>
+</html>    
+

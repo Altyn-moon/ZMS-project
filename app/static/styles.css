@@ -1,0 +1,303 @@
+@keyframes slide {
+    0% { transform: translateY(-50%) translateX(0); opacity: 0.8; }
+    100% { transform: translateY(-50%) translateX(10px); opacity: 1; }
+}
+
+@keyframes fade {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes button-press {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+}
+
+.login-btn:active, .back-btn:active, .login-submit:active {
+    animation: button-press 0.2s ease-out;
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1; /* Глаз видим */
+    }
+    50% {
+        opacity: 0; /* Глаз скрывается */
+    }
+}
+
+.blink-animation {
+    animation: blink 1.5s infinite;
+    transform-origin: center center;
+}
+
+* {
+    font-family: 'Manrope', sans-serif;
+    box-sizing: border-box; /* <--- добавил здесь для всех! */
+}
+
+body {
+    background: linear-gradient(180deg, rgb(156, 29, 17) 0%, rgba(113, 41, 4, 0.34) 55%, rgb(87, 16, 10) 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    font-weight: 700;
+    color: white;
+}
+
+.logo {
+    margin-bottom: 20px;
+}
+
+.content,
+.login-container {
+    display: none;
+    animation: fade 0.3s ease-in-out;
+}
+
+.content.active,
+.login-container.active {
+    display: flex;
+}
+
+.content {
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card {
+    background: hsla(0, 0%, 45%, 0.522);
+    padding: 60px 80px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 42px;
+    font-weight: bold;
+    width: 800px;
+    height: 400px;
+    position: relative;
+    left: -85px;
+}
+
+.card-text {
+    margin-bottom: 10px;
+    transform: translateY(-30px);
+}
+
+.card img {
+    margin-top: 7px;
+    width: 100px;
+}
+
+.arrow {
+    position: absolute;
+    top: 40%;
+    right: -230px;
+    animation: slide 0.5s infinite alternate;
+    will-change: transform;
+}
+
+.arrow img {
+    width: 180px;
+    height: auto;
+}
+
+.login-btn {
+    padding: 16px 36px; /* было меньше — теперь чуть больше */
+    font-size: 20px; /* увеличим текст */
+    width: 85%; /* была 80% — увеличиваем */
+    max-width: 420px; /* было 400px — чуть шире */
+    background-color: #c40000;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 30px;
+    text-align: center;
+    transition: transform 0.1s ease, background-color 0.2s ease;
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.25); /* чуть больше тень */
+}
+
+.login-btn:hover {
+    background-color: #a10202;
+}
+
+.login-btn:active {
+    transform: scale(0.95);
+}
+
+.login-submit, .back-btn {
+    margin-top: 15px;
+    padding: 14px 28px;
+    font-size: 18px;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 260px; /* БОЛЬШЕ ширина */
+    text-align: center;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Кнопка Войти */
+.login-submit {
+    background-color: #a10202;
+}
+
+/* Кнопка Назад */
+.back-btn {
+    background-color: transparent;
+    border: 2px solid white;
+    box-shadow: none;
+    }
+
+.first-page-back-btn {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Пример тени */
+}
+
+/* Наведение на Войти */
+.login-submit:hover {
+    background-color: #770000;
+}
+
+/* Наведение на Назад */
+.back-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Нажатие на обе */
+.login-submit:active, .back-btn:active {
+    animation: button-press 0.2s ease-out;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.back-btn svg {
+    stroke: white;
+}
+
+.login-container {
+    flex-direction: column;
+    align-items: center;
+    background: rgba(100, 100, 100, 0.5);
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 480px;  /* Максимальная ширина для всего контейнера */
+    text-align: center;
+    margin: 0 auto; /* Центрируем контейнер на экране */
+}
+
+/* 2. Растягиваем форму внутри */
+form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+form label {
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: white;
+}
+
+input[type="text"],
+input[type="password"] {
+    padding-right: 35px;
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 1px solid white;
+    background: transparent;
+    color: white;
+    font-size: 16px;
+}
+
+/* 4. Правим контейнер для пароля и глазика */
+.password-container {
+    width: 100%;
+    position: relative;
+}
+
+.password-container input {
+    width: 100%;
+    padding-right: 40px; /* Место для иконки */
+    padding-left: 10px;  /* Чуть-чуть для симметрии */
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 35px;
+    transform: translateY(-70%); /* Центрируем по вертикали */
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.toggle-password img {
+    width: 24px;
+    height: 24px;
+}
+
+.forgot-password {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #fff;
+    text-align: right;
+    width: 100%;
+    cursor: pointer;
+}
+
+.task-table {
+    width: 100%;
+    margin-top: 30px;
+    border-collapse: collapse;
+    color: white;
+    font-size: 18px;
+    animation: fade 0.3s ease-in-out;
+}
+
+.task-table th, .task-table td {
+    padding: 12px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    text-align: left;
+}
+
+.task-table th {
+    background-color: rgba(255, 255, 255, 0.1);
+    font-size: 20px;
+}
+
+.task-table tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.task-table td button {
+    padding: 8px 18px;
+    border: none;
+    border-radius: 8px;
+    background-color: #a00000;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.task-table td button:hover {
+    background-color: #c80000;
+}

@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Инспектор</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Manrope', sans-serif;
+    color: #111;
+    background: #f2f2f2;
+    width: 100%;
+    overflow-x: hidden; /* Убираем горизонтальную прокрутку */
+    height: 100%; /* Обеспечиваем 100% высоты для страницы */
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+        
+        .header {
+            background: linear-gradient(90deg, rgb(156, 29, 17) 0%, rgba(113, 41, 4, 0.34) 55%, rgb(87, 16, 10) 100%); 
+            height: 60px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+        }
+
+        .header .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .main-content {
+    flex: 1;
+    padding: 20px;
+    overflow-x: hidden; /* Убираем горизонтальную прокрутку */
+    width: 100%;
+    height: 100%; /* Растягиваем на 100% высоты */
+    box-sizing: border-box;
+    transition: opacity 0.3s ease;
+}
+
+/* контейнер остаётся по центру, но не влияет на ширину поля */
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+  margin-bottom: 0; /* если раньше было что-то типа 40px */
+  padding-bottom: 0;
+}
+
+/* полностью перебиваем ширину и размер шрифта */
+.search-input {
+  width: 40% !important;       /* чуть длиннее */
+  min-width: 200px !important;
+  max-width: 500px !important;
+
+  font-size: 20px !important;
+  padding: 8px 10px 8px 40px !important;
+
+  background: url('/static/Search.png') no-repeat 10px center !important;
+  background-size: 20px 20px !important;
+
+  box-sizing: border-box !important;
+  border: 2px solid #a2a2a2 !important;
+  border-radius: 10px !important;
+  color: #111 !important;
+}
+
+/* если хотите, чтобы и placeholder был тёмным */
+.search-input::placeholder {
+  color: #666 !important;
+}
+
+.search-icon {
+    position: absolute;
+    right: 12px; /* Отступ от правой стороны */
+    top: 50%;
+    transform: translateY(-50%); /* Центрируем по вертикали */
+    width: 20px; /* Размер иконки */
+    height: 20px;
+    pointer-events: none; /* Иконка не мешает взаимодействовать с полем */
+}
+.work-table {
+    width: 100%;
+    min-width: 100%; /* Убираем min-width */
+    table-layout: auto;
+    font-size: 23px;
+    border-collapse: collapse;
+    transition: opacity 0.5s ease;
+}
+
+.work-table th {
+    background-color: #c8c8c8;  /* Темный фон */
+    color: rgb(36, 36, 36);  /* Белый текст */
+    font-weight: bold;
+}
+
+/* Для всех остальных строк */
+.work-table tr:nth-child(even) {
+    background-color: #ffffff;  /* Белый фон для четных строк */
+}
+
+.work-table tr:nth-child(odd) {
+    background-color: #ffffff;  /* Белый фон для нечетных строк */
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #161616;
+    text-align: center;
+}
+
+/* Оставляем стиль таблицы с обычным размером шрифтов */
+.table-container {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+        .work-table td:last-child, 
+        .work-table th:last-child {
+            width: 200px;
+        }
+
+        .nomer{
+            width: 60px;
+        }
+
+        .nomer-rabot{
+            width: 200px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #161616;
+            text-align: center;
+            
+        }
+
+        th {
+            background-color: #f7f7f7;
+            font-weight: 700;
+        }
+
+        .btn-start {
+            background-color: #787a77;
+            color: white;
+            padding: 10px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        .btn-start:hover {
+            background-color: #c40000;
+        }
+
+        .notification {
+            color: #8B0000;
+            padding: 5px 12px;
+            
+        }
+
+        .logout-link {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .logo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        } 
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 10px 20px;
+            border-bottom: 2px solid #ddd;
+            position: relative;
+            width: 100%;
+        }
+
+        .header-left,
+        .header-center,
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-left {
+            flex: 1;
+        }
+
+        .header-center {
+            flex: 1;
+            justify-content: center;
+        }
+
+        .header-right {
+    flex: 1;
+    justify-content: flex-end;
+    gap: 10px;
+    overflow: hidden; /* защита от переполнения */
+    flex-wrap: wrap; /* если не влезает, переносит */
+}
+
+        .logo {
+            padding-top: 25px;
+            height: 80px;
+        }
+
+        .icon {
+            height: 30px;
+            
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .small-icon {
+            height: 30px;
+            margin-right: 5px;
+        }
+
+        .user-button {
+            background: none;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            color: #fff;
+        }
+
+        .left-button{
+            background: none;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .logout-button {
+    background-color: #a00000;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 16px; /* чуть меньше шрифт */
+    font-weight: bold;
+    max-height: 40px; /* ограничим высоту */
+    white-space: nowrap;
+}
+
+.logout-button .icon {
+    margin-right: 6px;
+    height: 20px; /* уменьшим высоту */
+    width: 20px;  /* добавим для консистентности */
+}
+ 
+        html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Manrope', sans-serif;
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    background: #f2f2f2;
+}
+
+@media (max-width: 768px) {
+    .logout-button {
+        font-size: 14px;
+        padding: 5px 10px;
+    }
+
+    .logout-button .icon {
+        height: 18px;
+        width: 18px;
+    }
+}
+
+.main-content {
+    flex: 1; /* Позволяет содержимому занимать оставшуюся высоту */
+    padding: 20px;
+    width: 100%;
+    height: 100%; /* Задаем высоту 100% экрана */
+}
+
+.table-container {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#second-table {
+    width: 100%; /* Растягиваем на всю ширину */
+    height: 100%; /* Растягиваем на всю высоту */
+    display: block;
+}
+
+#second-table.show {
+    opacity: 1;
+}
+
+#second-table .work-table {
+    width: 100%;
+    table-layout: auto;
+    font-size: 23px;
+}
+
+.btn-start {
+    background-color: #777777;
+    color: white;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.btn-start:hover {
+    background-color: #c40000;
+    transform: scale(1.05);
+}
+
+/* Стиль для кнопки Назад */
+.back-btn {
+    background-color: #f2f2f2;
+    color: #c40000;
+    padding: 6px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: none; /* Убираем границу */
+    box-shadow: none; /* Убираем тень */
+    outline: none; /* Убираем рамку при клике */
+    transition: transform 0.4s ease; /* Плавное перемещение */
+    margin-left: -50px; /* Для сдвига влево */
+}
+
+/* Стиль для иконки в кнопке */
+.back-btn svg {
+    width: 30px;
+    height: 30px;
+}
+
+/* Обновляем цвет обводки (стрелки) */
+.back-btn svg polyline {
+    stroke: #c40000;  /* Устанавливаем цвет обводки стрелки */
+    stroke-width: 2;   /* Убедитесь, что линия достаточно толстая */
+}
+
+/* Увеличиваем размер кнопки при наведении */
+.back-btn:hover {
+    transform: scale(1.05) translateX(-10px);  /* Двигаем кнопку влево при наведении */
+}
+
+/* Убираем анимацию и изменение фона при зажатии */
+.back-btn:active {
+    transform: none;
+    background-color: #f2f2f2;
+    box-shadow: none;
+}
+
+/* Анимация для кнопки — движение влево при первоначальной загрузке */
+@keyframes moveLeft {
+    0% {
+        transform: translateX(0);  /* Исходное положение */
+    }
+    50% {
+        transform: translateX(-10px); /* Сдвигаем влево */
+    }
+    100% {
+        transform: translateX(0); /* Возвращаем в исходное положение */
+    }
+}
+
+/* Применяем анимацию для кнопки */
+.back-btn {
+    animation: moveLeft 0.5s ease-out; /* Анимация с эффектом движения влево */
+}
+
+#third-table .work-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    font-size: 23px;
+    margin: 0 auto;
+}
+
+.timer-block .submit-btn {
+  margin-top: 8px;
+}
+
+.work-table thead th {
+  position: sticky;
+  top: 0;
+  background-color: #c8c8c8; /* <-- СЕРЫЙ фон, как надо */
+  color: rgb(36, 36, 36);     /* Чтобы не пропал цвет текста */
+  z-index: 2;
+}
+
+a {
+    color: blue; /* Синий цвет для обычных ссылок */
+}
+
+a:visited {
+    color: blue; /* Синий цвет для посещённых ссылок */
+}
+
+.submit-btn {
+    background-color: #E6E6E6; 
+    color: #A1100A; /* Белый цвет текста */
+}
+
+.stop-btn {
+    background-color: #b7b400; 
+    color: #FFFFFF; /* Белый цвет текста */
+}
+
+/*время остановлено*/
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.pause-icon {
+  width: 20px;
+  vertical-align: middle;
+  margin-right: 8px;
+  animation: pulse 1.2s infinite;
+}
+
+/* Анимация для логотипа (прыжок или махание) */
+@keyframes logoAnimation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.logo {
+  cursor: pointer; /* Устанавливаем курсор в виде руки при наведении */
+}
+
+/* Когда логотип кликнут */
+.logo.animate {
+  animation: logoAnimation 0.5s ease;
+}
+
+.fade-out {
+    animation: fadeOut 0.5s forwards;
+  }
+
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+
+  .menu-button-wrapper {
+  position: absolute;
+  top: 88px;
+  left: 30px;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.menu-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.menu-icon {
+  width: 30px;
+  height: auto; /* <-- сохраняет оригинальные пропорции */
+  display: block;
+}
+
+.menu-label {
+  font-family: 'Manrope', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #9C1D11;
+}
+
+.menu-block {
+  background-color: #ccb3b2;
+  border-radius: 25px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.menu-item {
+  background-color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 16px;
+  color: #111;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.menu-item:hover {
+  background-color: #e6e6e6;
+}
+
+.menu-header {
+  background-color: #ccb3b2;
+  border-radius: 36px;
+  padding: 8px 16px; /* слегка больше, было 6px 14px */
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.menu-header:hover {
+  transform: scale(1.04);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+}
+
+.menu-header:active {
+  transform: scale(0.96);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Начальное состояние (скрытое меню) */
+.dropdown-menu {
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Показанное меню */
+.dropdown-menu.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.menu-toggle,
+.menu-label {
+  user-select: none;
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.2s forwards;
+}
+.fade-out {
+  animation: fadeOut 0.2s forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+.action-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+.btn {
+  font-size: 23px;
+  padding: 10px 28px;
+  border-radius: 10px;
+  font-family: Manrope, sans-serif;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  min-width: 120px;
+  font-weight: bold;
+}
+
+.edit-btn {
+  background-color: #777777;
+  color: white;
+}
+
+.edit-btn:hover {
+    background-color: #c40000;
+    transform: scale(1.05);
+}
+
+.edit-btn:hover {
+  background-color: #cc0000;
+  transform: scale(1.05);
+}
+
+.done-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+.done-btn:hover {
+  background-color: #2e7d32;
+  transform: scale(1.05);
+}
+
+.redo-message {
+  color: #c40000;
+  font-weight: bold;
+  font-size: 23px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.done-message {
+  color: #2e7d32;
+  font-weight: bold;
+  font-size: 23px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.done-icon {
+  width: 40px;
+  vertical-align: middle;
+  margin-left: 5px;
+  margin-top: 2px;
+}
+
+/* Стили для блока инструкций */
+.instruction-block {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 колонки */
+  gap: 16px; /* расстояние между карточками */
+  padding: 20px;
+  background-color: #f1eaea; /* как на скрине */
+  max-width: 600px;
+  margin: 0 auto;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.instruction-item {
+  background-color: white;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 9;
+}
+
+#first-table,
+#second-table,
+#third-table {
+  position: relative;
+  z-index: 1;
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* четко две колонки */
+  gap: 80px;
+  margin: 20px auto;
+  max-width: 1500px; /* чтобы не растягивалось */
+  padding: 0 20px;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.video-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.video-box {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #fafafa;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 60px;
+  color: #b30000;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, background 0.2s ease;
+  overflow: hidden;
+  position: relative;
+  min-height: 0; /* на всякий случай */
+}
+
+.video-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 40px;
+  display: block;
+}
+
+.video-box:hover {
+  transform: scale(1.05);
+  background: #fff0f0;
+}
+
+.video-box .video-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 40px;
+  display: block;
+}
+
+.video-title {
+  font-size: 25px;
+  text-align: center;
+  color: #333;
+  font-weight: 500;
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.fade-in.show {
+  opacity: 1;
+  transform: translateY(0);
+  display: block;
+}
+
+/* Затемнённый фон */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  z-index: 1;
+}
+
+/* Контейнер модалки */
+.modal-content {
+  position: relative;
+  z-index: 2;
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 800px;
+  animation: fadeInUp 0.35s ease;
+  pointer-events: auto;
+}
+
+/* Видео */
+.modal-content video {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.modal .close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  background: #d3d3d3d9;
+  border: none;
+  border-radius: 999px; /* капсульный стиль */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, transform 0.2s ease;
+  z-index: 10;
+}
+
+.modal .close:hover {
+  background: rgba(240, 240, 240, 1);
+  transform: scale(1.05);
+}
+
+.modal .close:before {
+
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  font-family: 'Manrope', sans-serif;
+  line-height: 1;
+}
+
+/* Скрытие */
+.modal.hidden {
+  display: none;
+}
+
+/* Анимация появления */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+</style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <button class="left-button">
+            </button>
+            <button class="left-button">
+                <img src="/static/notification.png" alt="Уведомления" class="icon clickable">
+            </button>
+        </div>
+    
+        <div class="header-center">
+            <img src="/static/logo.png" alt="ZMS Logo" class="logo">
+        </div>
+    
+        <div class="header-right">
+            <button class="user-button">
+                <img src="/static/user-icon.png" alt="User Icon" class="icon small-icon">
+                {{ user_name }}
+            </button>
+            <button class="logout-button">
+                <img src="/static/logout.png" alt="Выход" class="icon small-icon">
+                Выйти
+            </button>
+        </div>
+    </div>
+    
+    <div class="menu-button-wrapper">
+      <!-- Шапка с фоном -->
+      <div class="menu-toggle menu-header" onclick="toggleDropdownMenu()">
+        <img src="/static/hambur.png" alt="меню" class="menu-icon">
+        <span class="menu-label">Меню</span>
+      </div>
+    
+      <!-- Выпадающее меню -->
+      <div id="dropdown-menu" class="dropdown-menu">
+        <div class="menu-block">
+          <button class="menu-item"><i class="ri-notification-3-line"></i> Уведомления</button>
+          <button class="menu-item"><i class="ri-map-line"></i> Work Orders</button>
+          <button class="menu-item"><i class="ri-user-3-line"></i> Сотрудники</button>
+        </div>
+        <div class="menu-block">
+          <button class="menu-item" id="btn-instruction">
+            <i class="ri-book-open-line"></i> Инструкция
+          </button>          
+          <button class="menu-item"><i class="ri-settings-3-line"></i> Настройки</button>
+        </div>
+      </div>
+    </div>
+
+    <main class="main-content">
+        <div class="search-container">
+          <input type="text" class="search-input" placeholder="Поиск" style="padding-left: 40px; background: url('/static/Search.png') no-repeat 10px center; background-size: 20px 20px;">
+        </div>     
+        
+  <!-- Блок с видео-инструкциями -->
+<div id="instructions-section" class="instructions-section" style="display: none;">
+  <button class="back-btn" onclick="goBack()" style="font-size: 24px; padding: 12px 30px;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c40000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"></polyline>
+    </svg>
+    Назад
+  </button>
+
+  <div class="video-grid">
+    <div class="video-item" data-src="/static/videos/instruction1.mp4">
+      <div class="video-box">
+        <img src="/static/previews/instruction1.jpg" alt="Превью видео 1" class="video-preview" />
+      </div>
+      <p class="video-title">Правила эвакуации</p>
+    </div>
+  
+    <div class="video-item" data-src="/static/videos/instruction2.mp4">
+      <div class="video-box">
+        <img src="/static/previews/instruction2.jpg" alt="Превью видео 2" class="video-preview" />
+      </div>
+      <p class="video-title">Обучение работе с оборудованием</p>
+    </div>
+  
+    <div class="video-item" data-src="/static/videos/instruction3.mp4">
+      <div class="video-box">
+        <img src="/static/previews/instruction3.jpg" alt="Превью видео 3" class="video-preview" />
+      </div>
+      <p class="video-title">Инструктаж по технике безопасности</p>
+    </div>
+  
+    <div class="video-item" data-src="/static/videos/instruction4.mp4">
+      <div class="video-box">
+        <img src="/static/previews/instruction4.jpg" alt="Превью видео 4" class="video-preview" />
+      </div>
+      <p class="video-title">Охрана труда на производстве</p>
+    </div>
+  </div>
+</div>
+        
+<!-- Модальное окно -->
+<div id="videoModal" class="modal hidden">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content">
+    <button class="close" aria-label="Закрыть модалку">
+      <svg width="20" height="20" viewBox="0 0 24 24" stroke="#333" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </svg>
+    </button>
+    <video id="modalVideo" controls autoplay></video>
+  </div>
+</div>
+
+       <!-- первая таблица -->
+        <div class="table-container" id="first-table">
+          <table class="work-table">
+            <thead>
+              <tr>
+                <th>№</th>
+                <th>Наименование работы</th>
+                <th>Заказчик</th>
+                <th>Номер работы</th>
+                <th>Действие</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for order in orders_data %}
+              <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.description }}</td>
+                <td>{{ order.customer }}</td>
+                <td>{{ order.work_order_number }}</td>
+                <td>
+                 <button class="btn-start" onclick="showSecondTable('{{ order.id }}')">Просмотр</button>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>         
+    
+        <!-- вторая таблица: work_cards -->
+       <div class="table-container" id="second-table" style="display: none;">
+          <button class="back-btn" onclick="goBack()" style="font-size: 24px; padding: 12px 30px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c40000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            Назад
+          </button>
+          <h2>Рабочие карты заказа №<span id="order-num"></span></h2>
+
+          <table class="work-table">
+            <thead>
+              <tr>
+                <th>№</th>
+                <th>Название карты</th>
+                <th>Описание</th>
+                <th>Действие</th>
+              </tr>
+            </thead>
+            <tbody id="second-tbody">
+              {% for order in orders_data %}
+                {% for card in order.work_cards|sort(attribute="id") %}
+                <tr class="card-row" data-order-id="{{ order.id }}" data-order-code="{{ order.work_order_number }}" style="display: none;">
+                  <td class="card-index"></td>
+                  <td>{{ card.title }}</td>
+                  <td>{{ card.description }}</td>
+                  <td>
+                    <button class="btn-start" onclick="showThirdTable('{{ order.id }}, {{ card.id }}')">Открыть</button>
+                  </td>
+                </tr>
+                {% endfor %}
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- третья таблица -->
+      <div class="table-container" id="third-table" style="display: none; position: relative;">
+        <button class="back-btn" onclick="goBack()" style="font-size: 24px; padding: 12px 30px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c40000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          Назад
+        </button>
+
+        <table class="work-table">
+          <colgroup>
+                <col style="width: 20px;">
+                <col style="width: 350px;">
+                <col style="width: 120px;">
+                <col style="width: 230px;">
+              </colgroup>
+          <thead>
+            <tr>
+              <th>№</th>
+              <th>Описание операции работ</th>
+              <th>Инструкция</th>
+              <th>Выполнить</th>
+            </tr>
+          </thead>
+          <tbody id="third-tbody">
+            {% for order in orders_data %}
+              {% for card in order.work_cards %}
+                {% for op in card.operation_descriptions|sort(attribute="id") %}
+                <tr class="op-row" data-user-id="{{ user_id }}" data-order-id="{{ order.id }}" data-card-id="{{ card.id }}" data-operation-id="{{ op.id }}" style="display: none;">
+                  <td>ID карточки: {{ card.id }}</td>
+                  <td>ID операции: {{ op.id }}</td>
+
+                  <td>{{ op_index }}</td>
+                  <td>{{ op.operation }}</td>
+                  <td>
+                    {% if op.instruction_code and op.instruction_file_url %}
+                      <a href="{{ op.instruction_file_url }}" target="_blank">{{ op.instruction_code }}</a>
+                    {% else %}
+                      —
+                    {% endif %}
+                  </td>
+                  <td>
+                    <div class="timer-block">
+                      <div class="timer-display">00:00:00</div>
+                      <div class="button-row">
+                        <button class="btn-start start-btn">Старт</button>
+                        <button class="btn-start stop-btn" style="display: none;">Стоп</button>
+                      </div>
+                      <button class="btn-start submit-btn" style="display: none;">Отправить на проверку</button>
+                      <p class="status-message"></p>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              {% endfor %}
+            {% endfor %}
+
+          </tbody>
+        </table>
+        <!-- Чертёж -->
+            <button class="btn-drawing" onclick="window.open('/static/pdfs/6893.00.000.pdf#page=1&view=FitH', '_blank')" style="
+                font-size: 24px;
+                padding: 12px 30px;
+                background-color: #D5C6CA;
+                color: #434343;
+                border: 2px solid #787A77;
+                border-radius: 10px;
+                cursor: pointer;
+                position: absolute;
+                top: 3px;
+                right: 50px;
+            ">Чертёж</button>
+      </div>
+
+      <script>
+// === Функции переключения таблиц ===
+function showSecondTable(button) {
+  resetSearch();
+
+  const first = document.getElementById('first-table');
+  const second = document.getElementById('second-table');
+
+  first.classList.add('fade-out');
+  setTimeout(() => {
+    first.style.display = 'none';
+    first.classList.remove('fade-out');
+    second.style.display = 'block';
+    second.classList.add('fade-in');
+    setTimeout(() => second.classList.remove('fade-in'), 200);
+  }, 200);
+
+  document.getElementById('job-name').textContent = button.dataset.name;
+  document.getElementById('job-client').textContent = button.dataset.client;
+  document.getElementById('job-num').textContent = button.dataset.jobnum;
+}
+
+function goBack() {
+  resetSearch();
+  const instructions = document.getElementById('instructions-section');
+  const first = document.getElementById('first-table');
+  const second = document.getElementById('second-table');
+  const third = document.getElementById('third-table');
+
+  if (instructions && instructions.style.display === 'block') {
+    instructions.classList.add('fade-out');
+    setTimeout(() => {
+      instructions.style.display = 'none';
+      instructions.classList.remove('fade-out');
+      first.style.display = 'block';
+      first.classList.add('fade-in');
+      setTimeout(() => first.classList.remove('fade-in'), 200);
+    }, 200);
+    return;
+  }
+
+  if (third.style.display === 'block') {
+    third.classList.add('fade-out');
+    setTimeout(() => {
+      third.style.display = 'none';
+      third.classList.remove('fade-out');
+      second.style.display = 'block';
+      second.classList.add('fade-in');
+      setTimeout(() => second.classList.remove('fade-in'), 200);
+    }, 200);
+  } else if (second.style.display === 'block') {
+    second.classList.add('fade-out');
+    setTimeout(() => {
+      second.style.display = 'none';
+      second.classList.remove('fade-out');
+      first.style.display = 'block';
+      first.classList.add('fade-in');
+      setTimeout(() => first.classList.remove('fade-in'), 200);
+    }, 200);
+  }
+}
+
+function showThirdTable() {
+  resetSearch();
+  const second = document.getElementById('second-table');
+  const third = document.getElementById('third-table');
+
+  second.classList.add('fade-out');
+  setTimeout(() => {
+    second.style.display = 'none';
+    second.classList.remove('fade-out');
+    third.style.display = 'block';
+    third.classList.add('fade-in');
+    setTimeout(() => third.classList.remove('fade-in'), 200);
+  }, 200);
+}
+
+function goBackToSecond() {
+  resetSearch();
+  const second = document.getElementById('second-table');
+  const third = document.getElementById('third-table');
+
+  third.classList.add('fade-out');
+  setTimeout(() => {
+    third.style.display = 'none';
+    third.classList.remove('fade-out');
+    second.style.display = 'block';
+    second.classList.add('fade-in');
+    setTimeout(() => second.classList.remove('fade-in'), 200);
+  }, 200);
+}
+
+function filterVisibleTable() {
+  const searchInput = document.querySelector('.search-input');
+  if (!searchInput) return;
+
+  const query = searchInput.value.toLowerCase();
+  const container = Array.from(document.querySelectorAll('.table-container'))
+    .find(c => getComputedStyle(c).display !== 'none');
+  if (!container) return;
+
+  container.querySelectorAll('tbody tr').forEach(row => {
+    row.style.display = row.innerText.toLowerCase().includes(query) ? '' : 'none';
+  });
+}
+
+function resetSearch() {
+  const inp = document.querySelector('.search-input');
+  if (inp) {
+    inp.value = '';
+    filterVisibleTable();
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const searchInput = document.querySelector('.search-input');
+  if (searchInput) {
+    searchInput.addEventListener('input', filterVisibleTable);
+  }
+
+  const logo = document.querySelector('.logo');
+  if (logo) {
+    logo.addEventListener('click', function () {
+      this.classList.add('animate');
+
+      const first = document.getElementById('first-table');
+      const second = document.getElementById('second-table');
+      const third = document.getElementById('third-table');
+      const instructions = document.getElementById('instructions-section');
+
+      [second, third, instructions].forEach(section => {
+        if (section && section.style.display === 'block') {
+          section.classList.remove('show');
+          section.classList.add('fade-out');
+          setTimeout(() => {
+            section.style.display = 'none';
+            section.classList.remove('fade-out');
+          }, 200);
+        }
+      });
+
+      setTimeout(() => {
+        first.style.display = 'block';
+        first.classList.add('fade-in');
+        setTimeout(() => first.classList.remove('fade-in'), 200);
+      }, 200);
+
+      setTimeout(() => this.classList.remove('animate'), 300);
+    });
+  }
+
+  const logout = document.querySelector('.logout-button');
+  if (logout) {
+    logout.addEventListener('click', () => {
+      document.body.classList.add('fade-out');
+      setTimeout(() => {
+        window.location.href = 'http://127.0.0.1:8000/inspector/login';
+      }, 300);
+    });
+  }
+
+  const toggle = document.querySelector('.menu-button-wrapper');
+  if (toggle) {
+    toggle.addEventListener('click', () => {
+      const menu = document.getElementById('dropdown-menu');
+      if (menu) {
+        menu.classList.toggle('show');
+        menu.classList.remove('hidden');
+      }
+    });
+  }
+
+  document.addEventListener('click', function (event) {
+    const menu = document.getElementById('dropdown-menu');
+    const toggle = document.querySelector('.menu-button-wrapper');
+    if (menu && !menu.contains(event.target) && !toggle.contains(event.target)) {
+      menu.classList.add('hidden');
+      menu.classList.remove('show');
+    }
+  });
+
+  document.querySelectorAll('.action-buttons').forEach(parent => {
+    addEventListenersToButtons(parent);
+  });
+
+  const instructionBtn = document.getElementById('btn-instruction');
+  const section = document.getElementById('instructions-section');
+  const first = document.getElementById('first-table');
+  const second = document.getElementById('second-table');
+  const third = document.getElementById('third-table');
+
+  if (instructionBtn) {
+    instructionBtn.addEventListener('click', () => {
+      resetSearch();
+
+      [first, second, third].forEach(el => {
+        el.classList.add('fade-out');
+        setTimeout(() => {
+          el.style.display = 'none';
+          el.classList.remove('fade-out');
+        }, 200);
+      });
+
+      setTimeout(() => {
+        section.style.display = 'block';
+        section.scrollIntoView({ behavior: 'smooth' });
+        section.classList.add('fade-in');
+        setTimeout(() => section.classList.remove('fade-in'), 200);
+      }, 220);
+    });
+  }
+
+  const modal = document.getElementById('videoModal');
+  const video = document.getElementById('modalVideo');
+  const closeBtn = document.querySelector('#videoModal .close');
+
+  document.querySelectorAll('.video-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const src = item.getAttribute('data-src');
+      video.src = src;
+      modal.classList.remove('hidden');
+    });
+  });
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      modal.classList.add('hidden');
+      video.pause();
+      video.currentTime = 0;
+    });
+  }
+
+  window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.add('hidden');
+      video.pause();
+      video.currentTime = 0;
+    }
+  });
+});
+ 
+function showFirstTable() {
+  document.getElementById('first-table').style.display = 'block';
+  document.getElementById('second-table').style.display = 'none';
+  document.getElementById('third-table').style.display = 'none';
+}
+
+function showSecondTable(orderId) {
+  let orderCode = null;
+  const rows = document.querySelectorAll(".card-row");
+  let index = 1;
+
+  rows.forEach(row => {
+    const rowOrderId = row.dataset.orderId;
+    if (rowOrderId == orderId.toString()) {
+      if (!orderCode) {
+        orderCode = row.dataset.orderCode;
+      }
+      row.style.display = "table-row";
+      row.querySelector(".card-index").textContent = index++;
+    } else {
+      row.style.display = "none";
+    }
+  });
+
+  document.getElementById("order-num").textContent = orderCode || orderId;
+  document.getElementById("first-table").style.display = "none";
+  document.getElementById("second-table").style.display = "block";
+  document.getElementById("second-table").classList.add("show");
+}
+
+function formatTime(totalSeconds) {
+  const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+  const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+  const s = String(totalSeconds % 60).padStart(2, '0');
+  return `${h}:${m}:${s}`;
+}
+
+function showThirdTable(orderId, cardId) {
+  const rows = document.querySelectorAll('.op-row');
+
+  rows.forEach(row => {
+    const rowOrderId = row.getAttribute('data-order-id');
+    const rowCardId = row.getAttribute('data-card-id');
+
+    if (rowOrderId === String(orderId) && rowCardId === String(cardId)) {
+      row.style.display = 'table-row';
+    } else {
+      row.style.display = 'none';
+    }
+  });
+
+  document.getElementById('second-table').style.display = 'none';
+  document.getElementById('third-table').style.display = 'block';
+  setTimeout(() => initializeTimers(), 100);
+}
+
+function goBack() {
+  resetSearch();
+  const instructions = document.getElementById('instructions-section');
+  const first = document.getElementById('first-table');
+  const second = document.getElementById('second-table');
+  const third = document.getElementById('third-table');
+
+  if (instructions && instructions.style.display === 'block') {
+    instructions.classList.add('fade-out');
+    setTimeout(() => {
+      instructions.style.display = 'none';
+      instructions.classList.remove('fade-out');
+      first.style.display = 'block';
+      first.classList.add('fade-in');
+      setTimeout(() => first.classList.remove('fade-in'), 200);
+    }, 200);
+    return;
+  }
+
+  if (third.style.display === 'block') {
+    third.classList.add('fade-out');
+    setTimeout(() => {
+      third.style.display = 'none';
+      third.classList.remove('fade-out');
+      second.style.display = 'block';
+      second.classList.add('fade-in');
+      setTimeout(() => second.classList.remove('fade-in'), 200);
+    }, 200);
+  } else if (second.style.display === 'block') {
+    second.classList.add('fade-out');
+    setTimeout(() => {
+      second.style.display = 'none';
+      second.classList.remove('fade-out');
+      first.style.display = 'block';
+      first.classList.add('fade-in');
+      setTimeout(() => first.classList.remove('fade-in'), 200);
+    }, 200);
+  }
+}
+
+function initializeButtonHandlers(block, startTimeStr, workTimeId, timerEl, statusMessage) {
+  const startButton = block.querySelector('.start-btn');
+  const stopButton = block.querySelector('.stop-btn');
+  const doneButton = block.querySelector('.submit-btn');
+  const redoButton = block.querySelector('.redo-btn');
+
+  let interval = null;
+  const startTime = new Date(startTimeStr);
+
+  interval = setInterval(() => {
+    const now = new Date();
+    const elapsed = Math.floor((now - startTime) / 1000);
+    timerEl.textContent = formatTime(elapsed);
+  }, 1000);
+
+  doneButton.addEventListener('click', () => {
+    fetch(`/api/stop-time/?work_time_id=${workTimeId}`, { method: 'POST' })
+      .then(res => res.json())
+      .then(data => {
+        clearInterval(interval);
+        startButton.style.display = 'none';
+        stopButton.style.display = 'none';
+        doneButton.style.display = 'none';
+        if (redoButton) redoButton.style.display = 'none';
+
+        statusMessage.innerHTML = `
+          <span class="done-message">
+            Проверка пройдена! 
+            <img src="/static/done.gif" alt="done" class="done-icon" 
+                 style="width: 40px; vertical-align: middle; margin-left: 5px; margin-top: 2px;">
+          </span>
+          <button class="cancel-btn" style="position: absolute; top: 130px; right: 1px; background: none; border: none; color: #9c1d11; font-weight: bold; cursor: pointer; font-size: 18px;">
+            Отменить
+          </button>
+        `;
+
+        const cancelButton = block.querySelector('.cancel-btn');
+        cancelButton.addEventListener('click', () => {
+          startButton.style.display = 'inline-block';
+          stopButton.style.display = 'none';
+          doneButton.style.display = 'inline-block';
+          if (redoButton) redoButton.style.display = 'inline-block';
+          statusMessage.innerHTML = '';
+        });
+
+        setTimeout(() => {
+          const doneIcon = statusMessage.querySelector('.done-icon');
+          if (doneIcon) {
+            doneIcon.src = '/static/done.png';
+          }
+        }, 1400);
+      });
+  });
+
+  if (redoButton) {
+    redoButton.addEventListener('click', () => {
+      clearInterval(interval);
+      startButton.style.display = 'none';
+      stopButton.style.display = 'none';
+      doneButton.style.display = 'none';
+      redoButton.style.display = 'none';
+
+      statusMessage.innerHTML = `
+        <span class="redo-message">
+          Отправлено на доработку! 
+          <img src="/static/done_inc.gif" alt="redo" class="done-icon" 
+               style="width: 40px; vertical-align: middle; margin-left: 5px; margin-top: 2px;">
+        </span>
+        <button class="cancel-btn" style="position: absolute; top: 130px; right: 1px; background: none; border: none; color: #9c1d11; font-weight: bold; cursor: pointer; font-size: 18px;">
+          Отменить
+        </button>
+      `;
+
+      const cancelButton = block.querySelector('.cancel-btn');
+      cancelButton.addEventListener('click', () => {
+        startButton.style.display = 'inline-block';
+        stopButton.style.display = 'none';
+        doneButton.style.display = 'inline-block';
+        redoButton.style.display = 'inline-block';
+        statusMessage.innerHTML = '';
+      });
+
+      setTimeout(() => {
+        const doneIcon = statusMessage.querySelector('.done-icon');
+        if (doneIcon) {
+          doneIcon.src = '/static/done_inc.png';
+        }
+      }, 1400);
+    });
+  }
+}
+</script>
+
+
+
